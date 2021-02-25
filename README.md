@@ -10,3 +10,8 @@
 pip3 install flask
 pip3 install mysql-connector-python
 ```
+4. To run the flask program
+```
+export FLASK_APP=main.py
+python3 -m flask run
+```

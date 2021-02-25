@@ -15,3 +15,4 @@ pip3 install mysql-connector-python
 export FLASK_APP=main.py
 python3 -m flask run
 ```
+Make sure this is done in the root directory where main.py is located.

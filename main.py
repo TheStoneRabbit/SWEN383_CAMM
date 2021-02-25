@@ -17,8 +17,9 @@ import time
 app = Flask(__name__)
 app.secret_key = 'cammgroup'
 # Successful login page
+# this redirects to the homepage
+# Do login tasks here
 @app.route('/success')
-
 def login_success():
     if session['logged_in'] != 'false':
         return redirect(url_for("home"))

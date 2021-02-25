@@ -1,0 +1,70 @@
+
+DROP DATABASE IF EXISTS myPLS;
+
+CREATE DATABASE myPLS;
+
+USE myPLS;
+
+/* Creation of the superclass table with basics for login and identification */
+CREATE TABLE user (
+    firstName   varchar(30) NOT NULL,
+    lastName    varchar(30) NOT NULL,
+    userID      int, 
+    email       varchar(50) NOT NULL,
+    hashPassword    varchar(30) NOT NULL,
+    /* typeU where adminU = 0, professorU = 1, and learnerU = 2*/
+    typeU       tinyint NOT NULL,
+    CONSTRAINT user_pk PRIMARY KEY (userID)
+);
+
+
+/* subclass of user*/
+CREATE TABLE adminU ();
+
+
+/* subclass of user*/
+CREATE TABLE professorU ();
+
+
+/* subclass of user*/
+CREATE TABLE learnerU ();
+
+
+/* 
+A course needs to be created by an admin before: 
+    a professor can add course material via courseMaterial
+    an admin can add professors and learners to said course via enrollment
+*/
+CREATE TABLE course (
+    courseID    varchar(7),
+    courseName  varchar(50) NOT NULL,
+    capacity    tinyint,
+    CONSTRAINT course_pk PRIMARY KEY (courseID)
+);
+
+
+/* Only professors have access to edit the courseMaterial table */
+CREATE TABLE courseMaterial (
+    courseID    varchar(7),
+    /* content will hold some type of file, not varchar */
+    content     varchar(100),
+    /* course must exist before material can be added to it */
+    CONSTRAINT courseMaterial_fk FOREIGN KEY (courseID) REFERENCES course(courseID),
+    CONSTRAINT courseMaterial_pk PRIMARY KEY (courseID, content)
+);
+
+
+/* Only admins have access to edit the enrollment table */
+CREATE TABLE enrollment (
+    courseID    varchar(7),
+    userID      int,
+    /* Grade can be null since a user can be a professor */
+    grade       char(2), 
+    /* A given course has a learner rating */
+    rating      tinyint, 
+    /* course must be added before material can be added to it */
+    CONSTRAINT enrollment_course_fk FOREIGN KEY (courseID) REFERENCES course(courseID),
+    /* user must exist to be added to a course */
+    CONSTRAINT enrollment_user_fk FOREIGN KEY (userID) REFERENCES user(userID),
+    CONSTRAINT enrollment_pk PRIMARY KEY (courseID, userID)
+);

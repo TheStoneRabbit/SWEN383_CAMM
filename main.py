@@ -21,7 +21,7 @@ app.secret_key = 'cammgroup'
 
 def login_success():
     if session['logged_in'] != 'false':
-        return render_template("success.html")
+        return redirect(url_for("home"))
     else:
         return redirect(url_for("login"))
 
@@ -29,6 +29,13 @@ def login_success():
 @app.route('/invalidcredentials')
 def failure():
     return render_template("failure.html")
+# Home Page
+@app.route('/home',  methods=['GET', 'POST'])
+def home():
+    if session['logged_in'] != 'false':
+        return render_template('index.html')
+    else:
+        return redirect(url_for("login"))
 
 # Login page
 @app.route('/login',  methods=['GET', 'POST'])

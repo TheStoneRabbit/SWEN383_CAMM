@@ -9,7 +9,7 @@ from mysql.connector.cursor import MySQLCursor
 
 # Enter the password for your MySQL database below
 # Username SHOULD be 'root'
-MySQL_PASSWORD = "yourpasswordhere"
+MySQL_PASSWORD = "yourPasswordHere"
 
 mydb = mysql.connector.connect(
   host="localhost",
@@ -22,6 +22,47 @@ mycursor = mydb.cursor(buffered=True)
 
 app = Flask(__name__)
 app.secret_key = 'cammgroup'
+
+# Main admin page
+@app.route('/adminpanelindex',  methods=['GET', 'POST'])
+def admin_panel_index():
+    if session["permission_level"] == "(0)":
+        return render_template("index_admin.html")
+    else:
+        return render_template("failure")
+
+#admin add user page
+@app.route('/adminpaneladd',  methods=['GET', 'POST'])
+def admin_panel_add():
+    if session["permission_level"] == "(0)":
+        if request.method == 'POST':
+            insertinto = mydb.cursor(buffered=True)
+            sql = "INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values (%s, %s, %s, %s, %s, %s)"
+            req_pass = str(request.form['password'])
+            pass_encode = hashlib.sha256(req_pass.encode())
+            values = (request.form["firstname"], request.form["lastname"],int(request.form["userID"]), request.form["email"], pass_encode.hexdigest(), int(request.form["type"]))
+            insertinto.execute(sql, values)
+            mydb.commit()
+            return render_template("entries_added.html")
+        return render_template("adminpaneladd.html")
+    else: 
+        return redirect(url_for("failure"))
+
+#admin remove user page 
+@app.route('/adminpanelremove',  methods=['GET', 'POST'])
+def admin_panel_remove():
+    if session["permission_level"] == "(0)":
+        if request.method == 'POST':
+            deletefrom = mydb.cursor(buffered=True)
+            sql = "delete from user where userID = " + str(int(request.form["username"]))
+            values = int(request.form["username"])
+            deletefrom.execute(sql)
+            mydb.commit()
+            return render_template("entries_removed.html")
+        return render_template("adminpanelremove.html")
+    else: 
+        return redirect(url_for("failure"))
+
 # Successful login page
 # this redirects to the homepage
 # Do login tasks here
@@ -63,6 +104,7 @@ def login():
         # newCursor.close()
         # These for loops test if username and password is in db.
         pos = 0
+        subbed_one = ""
         for x in rowsUser:
             subbed_one = re.sub("(|)|,|'", "", str(x))
             pos += 1
@@ -90,6 +132,13 @@ def login():
         if cred_pass_one == True and cred_pass_two == True:
             print("Login Success!") 
             session['logged_in'] = 'true'
+            user_type = mydb.cursor(buffered=True)
+            user_type.execute("select typeU from user where userID = " + subbed_one)
+            permission_level = user_type.fetchall()
+            subbed_permission = re.sub("(|)|,|'", "", str(permission_level[0]))
+            session["permission_level"] = subbed_permission
+            if subbed_permission == "(0)":
+                return redirect(url_for("admin_panel_index"))
             return redirect(url_for('login_success'))
         else:
             print("User not Authenticated.  Login Failure")
@@ -103,4 +152,5 @@ def login():
 def start():
     session['logged_in'] = 'false'
     return redirect(url_for("login"))
+
 

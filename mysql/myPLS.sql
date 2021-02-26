@@ -1,3 +1,5 @@
+/*  */
+
 
 DROP DATABASE IF EXISTS myPLS;
 
@@ -11,7 +13,7 @@ CREATE TABLE user (
     lastName    varchar(30) NOT NULL,
     userID      int, 
     email       varchar(50) NOT NULL,
-    hashPassword    varchar(30) NOT NULL,
+    hashPassword    varchar(200) NOT NULL,
     /* typeU where adminU = 0, professorU = 1, and learnerU = 2*/
     typeU       tinyint NOT NULL,
     CONSTRAINT user_pk PRIMARY KEY (userID)
@@ -68,3 +70,8 @@ CREATE TABLE enrollment (
     CONSTRAINT enrollment_user_fk FOREIGN KEY (userID) REFERENCES user(userID),
     CONSTRAINT enrollment_pk PRIMARY KEY (courseID, userID)
 );
+
+/* User test cases */
+INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values ("Mason", "Lapine", 4263, "mwl4263@rit.edu", "d64dfa6e3c81910d0267c38b158690cf50722b8c4b259f1bc8ea77ea180d6451", 2);
+INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values ("Johnny", "Appleseed", 1001, "js1001@rit.edu", "f5903f51e341a783e69ffc2d9b335048716f5f040a782a2764cd4e728b0f74d9", 2);
+INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values ("Robert", "Smalls", 6969, "rws6969@rit.edu", "9f280e9535116563c84ba9135f7b44ef95fd13e68d8d6e8488af0d79445a7f45", 2);

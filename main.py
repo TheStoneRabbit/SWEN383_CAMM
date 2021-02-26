@@ -9,7 +9,7 @@ from mysql.connector.cursor import MySQLCursor
 
 # Enter the password for your MySQL database below
 # Username SHOULD be 'root'
-MySQL_PASSWORD = "yourpasswordhere"
+MySQL_PASSWORD = "what4k1ll3r"
 
 mydb = mysql.connector.connect(
   host="localhost",
@@ -19,9 +19,15 @@ mydb = mysql.connector.connect(
 )
 mycursor = mydb.cursor(buffered=True)
 # End MySQL code
-
+userID = ""
 app = Flask(__name__)
 app.secret_key = 'cammgroup'
+
+@app.route('/logout',  methods=['GET', 'POST'])
+def logout():
+    session['logged_in'] = 'false'
+    return redirect(url_for("login"))
+
 
 # Main admin page
 @app.route('/adminpanelindex',  methods=['GET', 'POST'])
@@ -81,10 +87,15 @@ def failure():
 # Home Page
 @app.route('/home',  methods=['GET', 'POST'])
 def home():
+    name = mydb.cursor(buffered=True)
+    name.execute("select firstName from user where userID = "+ userID)
+    firstName = name.fetchall()
+    firstName = re.sub("[()]|,|'", "", str(firstName[0])) #Removes extra characters
     if session['logged_in'] != 'false':
-        return render_template('index.html')
+        return "<h1 style='text-align:center;'>Welcome " + firstName + "</h1><br>" +render_template('index.html')
     else:
         return redirect(url_for("login"))
+
 
 # Login page
 @app.route('/login',  methods=['GET', 'POST'])
@@ -110,6 +121,8 @@ def login():
             pos += 1
             if "(" + request.form['username']+ ")" == subbed_one :
                 print("User Found: "+ subbed_one)
+                global userID
+                userID = subbed_one
                 cred_pass_one = True
                 break
             else:

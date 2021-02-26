@@ -9,7 +9,7 @@ from mysql.connector.cursor import MySQLCursor
 
 # Enter the password for your MySQL database below
 # Username SHOULD be 'root'
-MySQL_PASSWORD = "what4k1ll3r"
+MySQL_PASSWORD = "yourpasswordhere"
 
 mydb = mysql.connector.connect(
   host="localhost",

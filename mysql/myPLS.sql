@@ -21,15 +21,15 @@ CREATE TABLE user (
 
 
 /* subclass of user*/
-CREATE TABLE adminU ();
+/* CREATE TABLE adminU (); */
 
 
 /* subclass of user*/
-CREATE TABLE professorU ();
+/* CREATE TABLE professorU (); */
 
 
 /* subclass of user*/
-CREATE TABLE learnerU ();
+/* CREATE TABLE learnerU (); */
 
 
 /* 
@@ -63,13 +63,37 @@ CREATE TABLE enrollment (
     /* Grade can be null since a user can be a professor */
     grade       char(2), 
     /* A given course has a learner rating */
-    rating      tinyint, 
+    courseRating      tinyint, 
+
     /* course must be added before material can be added to it */
     CONSTRAINT enrollment_course_fk FOREIGN KEY (courseID) REFERENCES course(courseID),
     /* user must exist to be added to a course */
     CONSTRAINT enrollment_user_fk FOREIGN KEY (userID) REFERENCES user(userID),
     CONSTRAINT enrollment_pk PRIMARY KEY (courseID, userID)
 );
+
+
+/* Rating Table User-on-User */ 
+CREATE TABLE rating (
+    /*
+    If the rateeID is a learner, the raterID will be a professor from the given course
+
+    If the rateeID is a professor, the raterID will be a learner from the given course
+
+    The rateeID and raterID are userID from the user table
+    */
+
+    rateeID      int,
+    raterID     int,
+    courseID    varchar(7),
+    rating      tinyint,
+    CONSTRAINT courseID_rating_fk FOREIGN KEY (courseID) REFERENCES course(courseID),
+    CONSTRAINT rateeID_rating_fk FOREIGN KEY (rateeID) REFERENCES user(userID),
+    CONSTRAINT raterID_rating_fk FOREIGN KEY (raterID) REFERENCES user(userID),
+    CONSTRAINT rating_pk PRIMARY KEY (rateeID, raterID, courseID)
+);
+
+
 
 /* User test cases */
 INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values ("Mason", "Lapine", 4263, "mwl4263@rit.edu", "d64dfa6e3c81910d0267c38b158690cf50722b8c4b259f1bc8ea77ea180d6451", 2);

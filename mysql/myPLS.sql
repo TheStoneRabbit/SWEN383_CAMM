@@ -11,7 +11,7 @@ USE myPLS;
 CREATE TABLE user (
     firstName   varchar(30) NOT NULL,
     lastName    varchar(30) NOT NULL,
-    userID      int, 
+    userID      int,
     email       varchar(50) NOT NULL,
     hashPassword    varchar(200) NOT NULL,
     /* typeU where adminU = 0, professorU = 1, and learnerU = 2*/

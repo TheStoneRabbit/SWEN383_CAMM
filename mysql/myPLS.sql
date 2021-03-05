@@ -34,38 +34,27 @@ CREATE TABLE user (
 
 /* 
 A course needs to be created by an admin before: 
-    a professor can add course material via courseMaterial
+    a professor can add and edit via the lesson table
     an admin can add professors and learners to said course via enrollment
 */
 CREATE TABLE course (
     courseID    varchar(7),
-    courseName  varchar(50) NOT NULL,
+    courseName  varchar(50) NOT NULL,   
     capacity    tinyint,
     CONSTRAINT course_pk PRIMARY KEY (courseID)
-);
-
-
-/* Only professors have access to edit the courseMaterial table */
-CREATE TABLE courseMaterial (
-    courseID    varchar(7),
-    /* content will hold some type of file, not varchar */
-    content     varchar(100),
-    /* course must exist before material can be added to it */
-    CONSTRAINT courseMaterial_fk FOREIGN KEY (courseID) REFERENCES course(courseID),
-    CONSTRAINT courseMaterial_pk PRIMARY KEY (courseID, content)
 );
 
 
 /* Only admins have access to edit the enrollment table */
 CREATE TABLE enrollment (
     courseID    varchar(7),
+    /* Either a learner or a professor */
     userID      int,
-    /* Grade can be null since a user can be a professor */
+    /* Grade, professorRatiing, and courseRating can be null since they are only applicable to a learner user type */
     grade       char(2), 
-    /* A given course has a learner rating */
-    courseRating      tinyint, 
-
-    /* course must be added before material can be added to it */
+    professorRating     tinyint,
+    courseRating        tinyint,
+    /* course must be added before lessons can be added to it */
     CONSTRAINT enrollment_course_fk FOREIGN KEY (courseID) REFERENCES course(courseID),
     /* user must exist to be added to a course */
     CONSTRAINT enrollment_user_fk FOREIGN KEY (userID) REFERENCES user(userID),
@@ -73,24 +62,17 @@ CREATE TABLE enrollment (
 );
 
 
-/* Rating Table User-on-User */ 
-CREATE TABLE rating (
-    /*
-    If the rateeID is a learner, the raterID will be a professor from the given course
-
-    If the rateeID is a professor, the raterID will be a learner from the given course
-
-    The rateeID and raterID are userID from the user table
-    */
-
-    rateeID      int,
-    raterID     int,
+/* Only professors have access to edit and add */
+CREATE TABLE lesson (
     courseID    varchar(7),
-    rating      tinyint,
-    CONSTRAINT courseID_rating_fk FOREIGN KEY (courseID) REFERENCES course(courseID),
-    CONSTRAINT rateeID_rating_fk FOREIGN KEY (rateeID) REFERENCES user(userID),
-    CONSTRAINT raterID_rating_fk FOREIGN KEY (raterID) REFERENCES user(userID),
-    CONSTRAINT rating_pk PRIMARY KEY (rateeID, raterID, courseID)
+    lessonNum   tinyint,
+    /* quiz will hold multiple choice questions, not varchar */
+    quiz    varchar(100),
+    /* need to add extensions */
+    multimedia  varchar(100),
+    /* course must exist before material can be added to it */
+    CONSTRAINT courseMaterial_fk FOREIGN KEY (courseID) REFERENCES course(courseID),
+    CONSTRAINT courseMaterial_pk PRIMARY KEY (courseID, lessonNum)
 );
 
 

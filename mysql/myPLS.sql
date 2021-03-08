@@ -52,6 +52,7 @@ CREATE TABLE enrollment (
     userID      int,
     /* Grade, professorRatiing, and courseRating can be null since they are only applicable to a learner user type */
     grade       char(2), 
+    /* Learner can rate the associated course and professor teaching the course */
     professorRating     tinyint,
     courseRating        tinyint,
     /* course must be added before lessons can be added to it */
@@ -62,17 +63,29 @@ CREATE TABLE enrollment (
 );
 
 
-/* Only professors have access to edit and add */
+/* Only professors have access to edit and add lessons to a course */
 CREATE TABLE lesson (
     courseID    varchar(7),
     lessonNum   tinyint,
     /* quiz will hold multiple choice questions, not varchar */
-    quiz    varchar(100),
-    /* need to add extensions */
-    multimedia  varchar(100),
-    /* course must exist before material can be added to it */
+    quiz    varchar(100) NOT NULL,
+    /* course must exist before a lesson can be added to it */
     CONSTRAINT courseMaterial_fk FOREIGN KEY (courseID) REFERENCES course(courseID),
     CONSTRAINT courseMaterial_pk PRIMARY KEY (courseID, lessonNum)
+);
+
+
+/* Only professors have access to edit and add multimedia to lessons */
+/* Adds multimedia files (names) to a lesson for a given course */
+CREATE TABLE multimedia (
+    courseID    varchar(7),
+    lessonNum   tinyint,
+    multimediaFile  varchar(50),
+    /* typeU where document/written = 0, video = 1, and audio = 2*/
+    fileType    tinyint    NOT NULL,
+    /* course and lesson must exist before multimedia can be added to it */
+    CONSTRAINT multimedia_fk FOREIGN KEY (courseID, lessonNum) REFERENCES lesson(courseID, lessonNum),
+    CONSTRAINT multimedia_pk PRIMARY KEY (courseID, lessonNum, multimediaFile)
 );
 
 

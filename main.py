@@ -10,7 +10,7 @@ from flask_table import Table, Col
 
 # Enter the password for your MySQL database below
 # Username SHOULD be 'root'
-MySQL_PASSWORD = "yourpasswordhere"
+MySQL_PASSWORD = "what4k1ll3r"
 
 mydb = mysql.connector.connect(
   host="localhost",

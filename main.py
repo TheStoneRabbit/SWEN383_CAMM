@@ -4,6 +4,7 @@ import hashlib
 import re
 import mysql.connector
 from mysql.connector.cursor import MySQLCursor
+from flask_table import Table, Col
 # Below is MySQL code once database is created
 
 
@@ -165,5 +166,25 @@ def login():
 def start():
     session['logged_in'] = 'false'
     return redirect(url_for("login"))
+
+# View Format for Tables 
+
+@app.route('/adminview')
+def aView():
+    if session["permission_level"] == "(0)":
+        allData = mydb.cursor(buffered=True)
+        allData.execute("select * from user")
+        items = allData.fetchall()
+        htmlRender = []
+        numOfItems = len(items)
+        lenX = 6
+        for x in items:
+            for i in x:
+                htmlRender.append(i)
+        
+    else: 
+        return redirect(url_for("failure"))
+    return render_template("adminpanelview.html", htmlRender=htmlRender, items=items, x=lenX)
+
 
 

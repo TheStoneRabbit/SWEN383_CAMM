@@ -11,25 +11,29 @@ from mysql.connector.cursor import MySQLCursor
 # Username SHOULD be 'root'
 MySQL_PASSWORD = "Madison4@"
 
+# Sets up connection to database
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
   password=MySQL_PASSWORD,
   database="myPLS"
 )
+# Assigns cursor to traverse through database values
 mycursor = mydb.cursor(buffered=True)
 # End MySQL code
 userID = ""
 app = Flask(__name__)
 app.secret_key = 'cammgroup'
 
+# Logs a user out
 @app.route('/logout',  methods=['GET', 'POST'])
 def logout():
     session['logged_in'] = 'false'
     return redirect(url_for("login"))
 
 
-# Main admin page
+# Main admin page. Checks if user is admin and returns admin page, 
+# otherwise returns failure page
 @app.route('/adminpanelindex',  methods=['GET', 'POST'])
 def admin_panel_index():
     if session["permission_level"] == "(0)":
@@ -37,10 +41,12 @@ def admin_panel_index():
     else:
         return render_template("failure")
 
-#admin add user page
+#admin add user page. Checks permission of user and returns admin add page if admin,
+# otherwise returns failure page
 @app.route('/adminpaneladd',  methods=['GET', 'POST'])
 def admin_panel_add():
     if session["permission_level"] == "(0)":
+        # Fires when admin has added a user
         if request.method == 'POST':
             insertinto = mydb.cursor(buffered=True)
             sql = "INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values (%s, %s, %s, %s, %s, %s)"
@@ -58,6 +64,7 @@ def admin_panel_add():
 @app.route('/adminpanelremove',  methods=['GET', 'POST'])
 def admin_panel_remove():
     if session["permission_level"] == "(0)":
+        # Fires when admin has removed a user
         if request.method == 'POST':
             deletefrom = mydb.cursor(buffered=True)
             sql = "delete from user where userID = " + str(int(request.form["username"]))
@@ -84,6 +91,7 @@ def login_success():
 def failure():
     session['logged_in'] = 'false'
     return render_template("failure.html")
+    
 # Home Page
 @app.route('/home',  methods=['GET', 'POST'])
 def home():
@@ -91,11 +99,11 @@ def home():
     name.execute("select firstName from user where userID = "+ userID)
     firstName = name.fetchall()
     firstName = re.sub("[()]|,|'", "", str(firstName[0])) #Removes extra characters
+    print(type(render_template("index.html")))
     if session['logged_in'] != 'false':
         return "<h1 style='text-align:center;'>Welcome " + firstName + "</h1><br>" +render_template('index.html')
     else:
         return redirect(url_for("login"))
-
 
 # Login page
 @app.route('/login',  methods=['GET', 'POST'])

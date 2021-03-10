@@ -10,9 +10,9 @@ from flask_table import Table, Col
 
 # Enter the password for your MySQL database below
 # Username SHOULD be 'root'
-MySQL_PASSWORD = "yourpassword"
-
-# Sets up connection to database
+print("=================")
+MySQL_PASSWORD = input("MYSQL DB PASSWORD> ")
+print("=================")
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
@@ -38,26 +38,31 @@ def logout():
 @app.route('/adminpanelindex',  methods=['GET', 'POST'])
 def admin_panel_index():
     if session["permission_level"] == "(0)":
-        return render_template("index_admin.html")
+        if session["logged_in"] != 'false':
+            return render_template("index_admin.html")
+        else: 
+            return redirect(url_for("failure"))
     else:
-        return render_template("failure")
+        return redirect(url_for("failure"))
 
 #admin add user page. Checks permission of user and returns admin add page if admin,
 # otherwise returns failure page
 @app.route('/adminpaneladd',  methods=['GET', 'POST'])
 def admin_panel_add():
     if session["permission_level"] == "(0)":
-        # Fires when admin has added a user
-        if request.method == 'POST':
-            insertinto = mydb.cursor(buffered=True)
-            sql = "INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values (%s, %s, %s, %s, %s, %s)"
-            req_pass = str(request.form['password'])
-            pass_encode = hashlib.sha256(req_pass.encode())
-            values = (request.form["firstname"], request.form["lastname"],int(request.form["userID"]), request.form["email"], pass_encode.hexdigest(), int(request.form["type"]))
-            insertinto.execute(sql, values)
-            mydb.commit()
-            return render_template("entries_added.html")
-        return render_template("adminpaneladd.html")
+        if session["logged_in"] != 'false':
+            if request.method == 'POST':
+                insertinto = mydb.cursor(buffered=True)
+                sql = "INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values (%s, %s, %s, %s, %s, %s)"
+                req_pass = str(request.form['password'])
+                pass_encode = hashlib.sha256(req_pass.encode())
+                values = (request.form["firstname"], request.form["lastname"],int(request.form["userID"]), request.form["email"], pass_encode.hexdigest(), int(request.form["type"]))
+                insertinto.execute(sql, values)
+                mydb.commit()
+                return render_template("entries_added.html")
+            return render_template("adminpaneladd.html")
+        else: 
+            return redirect(url_for("failure"))
     else: 
         return redirect(url_for("failure"))
 
@@ -65,15 +70,17 @@ def admin_panel_add():
 @app.route('/adminpanelremove',  methods=['GET', 'POST'])
 def admin_panel_remove():
     if session["permission_level"] == "(0)":
-        # Fires when admin has removed a user
-        if request.method == 'POST':
-            deletefrom = mydb.cursor(buffered=True)
-            sql = "delete from user where userID = " + str(int(request.form["username"]))
-            values = int(request.form["username"])
-            deletefrom.execute(sql)
-            mydb.commit()
-            return render_template("entries_removed.html")
-        return render_template("adminpanelremove.html")
+        if session["logged_in"] != 'false':
+            if request.method == 'POST':
+                deletefrom = mydb.cursor(buffered=True)
+                sql = "delete from user where userID = " + "'" + str(request.form["username"]) + "'"
+                # values = int(request.form["username"])
+                deletefrom.execute(sql)
+                mydb.commit()
+                return render_template("entries_removed.html")
+            return render_template("adminpanelremove.html")
+        else: 
+            return redirect(url_for("failure"))
     else: 
         return redirect(url_for("failure"))
 
@@ -97,10 +104,11 @@ def failure():
 @app.route('/home',  methods=['GET', 'POST'])
 def home():
     name = mydb.cursor(buffered=True)
-    name.execute("select firstName from user where userID = "+ userID)
+    #print(userID)
+    name.execute("select firstName from user where email = "+ "'" + userID + "'")
     firstName = name.fetchall()
-    firstName = re.sub("[()]|,|'", "", str(firstName[0])) #Removes extra characters
-    print(type(render_template("index.html")))
+    #print(firstName)
+    firstName = re.sub("[()]|,|'", "", str(userID)) #Removes extra characters
     if session['logged_in'] != 'false':
         return "<h1 style='text-align:center;'>Welcome " + firstName + "</h1><br>" +render_template('index.html')
     else:
@@ -109,7 +117,7 @@ def home():
 # Login page
 @app.route('/login',  methods=['GET', 'POST'])
 def login():
-    mycursor.execute("select userID from user")
+    mycursor.execute("select email from user")
     numRows = mycursor.rowcount
 
     bad_chars = ["(", ")", ",", "\'"]
@@ -125,6 +133,7 @@ def login():
         # These for loops test if username and password is in db.
         pos = 0
         subbed_one = ""
+     #   print(rowsUser)
         for x in rowsUser:
             subbed_one = re.sub("(|)|,|'", "", str(x))
             pos += 1
@@ -138,10 +147,15 @@ def login():
         second_pos = 0
         for y in rowsPass:
             req_pass = str(request.form['password'])
+            #print(req_pass)
             pass_encode = hashlib.sha256(req_pass.encode())
             subbed_two = re.sub("(|)|,|'", "", str(y))
+            y = re.sub("(|)|,|'", "", str(y))
             second_pos += 1
-            # print("("+str(pass_encode.hexdigest()) + ")")
+            #print("("+str(pass_encode.hexdigest()) + ")")
+            #print(str(second_pos) + " :: " + str(pos))
+            #print(y)
+            #print(subbed_two)
             if "(" + str(pass_encode.hexdigest())+ ")"  ==  subbed_two and second_pos == pos:
                 cred_pass_two = True
                 break
@@ -152,11 +166,15 @@ def login():
         if cred_pass_one == True and cred_pass_two == True:
             session['logged_in'] = 'true'
             user_type = mydb.cursor(buffered=True)
-            user_type.execute("select typeU from user where userID = " + subbed_one)
+            subbed_one = re.sub("[()]|,|'", "", str(subbed_one))
+            #print(subbed_one)
+            user_type.execute("select typeU from user where email=" + "'" +subbed_one + "'")
             permission_level = user_type.fetchall()
+            #print(permission_level)
             subbed_permission = re.sub("(|)|,|'", "", str(permission_level[0]))
+            #print(subbed_permission)
             session["permission_level"] = subbed_permission
-            if subbed_permission == "(0)":
+            if session["permission_level"] == "(0)":
                 return redirect(url_for("admin_panel_index"))
             return redirect(url_for('login_success'))
         else:
@@ -171,21 +189,23 @@ def start():
     session['logged_in'] = 'false'
     return redirect(url_for("login"))
 
-# View Format for Tables 
+# View Format for user table 
 
 @app.route('/adminview')
 def aView():
     if session["permission_level"] == "(0)":
-        allData = mydb.cursor(buffered=True)
-        allData.execute("select * from user")
-        items = allData.fetchall()
-        htmlRender = []
-        numOfItems = len(items)
-        lenX = 6
-        for x in items:
-            for i in x:
-                htmlRender.append(i)
-        
+        if session["logged_in"] != 'false':
+            allData = mydb.cursor(buffered=True)
+            allData.execute("select * from user")
+            items = allData.fetchall()
+            htmlRender = []
+            numOfItems = len(items)
+            lenX = 6
+            for x in items:
+                for i in x:
+                    htmlRender.append(i)
+        else:
+            return redirect(url_for("failure"))  
     else: 
         return redirect(url_for("failure"))
     return render_template("adminpanelview.html", htmlRender=htmlRender, items=items, x=lenX)

@@ -10,7 +10,7 @@ from flask_table import Table, Col
 
 # Enter the password for your MySQL database below
 # Username SHOULD be 'root'
-MySQL_PASSWORD = "Madison4@"
+MySQL_PASSWORD = "yourpassword"
 
 # Sets up connection to database
 mydb = mysql.connector.connect(
@@ -129,7 +129,6 @@ def login():
             subbed_one = re.sub("(|)|,|'", "", str(x))
             pos += 1
             if "(" + request.form['username']+ ")" == subbed_one :
-                print("User Found: "+ subbed_one)
                 global userID
                 userID = subbed_one
                 cred_pass_one = True
@@ -144,7 +143,6 @@ def login():
             second_pos += 1
             # print("("+str(pass_encode.hexdigest()) + ")")
             if "(" + str(pass_encode.hexdigest())+ ")"  ==  subbed_two and second_pos == pos:
-                print("Password Hashes Match!")
                 cred_pass_two = True
                 break
             else: 
@@ -152,7 +150,6 @@ def login():
         #print(str(cred_pass_one) + " " + str(cred_pass_two))
         # If the password is in and the password matches then log in
         if cred_pass_one == True and cred_pass_two == True:
-            print("Login Success!") 
             session['logged_in'] = 'true'
             user_type = mydb.cursor(buffered=True)
             user_type.execute("select typeU from user where userID = " + subbed_one)
@@ -163,7 +160,6 @@ def login():
                 return redirect(url_for("admin_panel_index"))
             return redirect(url_for('login_success'))
         else:
-            print("User not Authenticated.  Login Failure")
             return redirect(url_for('failure'))
                 
     return render_template("sign_in.html")

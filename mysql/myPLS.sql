@@ -81,11 +81,30 @@ CREATE TABLE multimedia (
     courseID    varchar(7),
     lessonNum   tinyint,
     multimediaFile  varchar(50),
-    /* typeU where document/written = 0, video = 1, and audio = 2*/
+    /* fileType where document/written = 0, video = 1, and audio = 2 */
     fileType    tinyint    NOT NULL,
     /* course and lesson must exist before multimedia can be added to it */
     CONSTRAINT multimedia_fk FOREIGN KEY (courseID, lessonNum) REFERENCES lesson(courseID, lessonNum),
     CONSTRAINT multimedia_pk PRIMARY KEY (courseID, lessonNum, multimediaFile)
+);
+
+
+
+/* CREATE TABLE group (); */
+
+
+
+/* Dicsussion Area */
+CREATE TABLE discussionArea (
+    groupID     int,
+    /* groupType where public = 0 and private = 1 */
+    groupType   tinyint,
+    courseID    varchar(7),
+    /* group must exist before it can be added to the discussion area */
+    CONSTRAINT discussionArea_group_fk FOREIGN KEY (groupID) REFERENCES group(groupID),
+    /* course must exist before a group can be created for it */
+    CONSTRAINT discussionArea_fk FOREIGN KEY (courseID) REFERENCES course(courseID),
+    CONSTRAINT discussionArea_pk PRIMARY KEY (groupID)
 );
 
 

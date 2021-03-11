@@ -37,6 +37,11 @@ CREATE TABLE course (
 
 
 
+/* 
+    Holds all groups 
+    Public groups are populated in the publicGroup table
+    Private groups are populated during enrollment since membership is dependent on course
+*/
 CREATE TABLE discussionArea (
     groupID     int,
     /* groupType where public = 0 and private = 1 */
@@ -100,13 +105,19 @@ CREATE TABLE multimedia (
 
 
 
-CREATE TABLE discussionUsers (
-     /* course must exist before a private group can be created for it */
-    CONSTRAINT discussionArea_fk FOREIGN KEY (courseID) REFERENCES course(courseID),
+/* 
+    Needed for public groups as anyone can enter and leave at any time 
+    Private Groups already handled during enrollment automatically
+*/
+CREATE TABLE publicGroup (
+    groupID     int,
+    userID      int,
+     /* group must exist before a user can be added to it */
+    CONSTRAINT discussionArea_fk FOREIGN KEY (groupID) REFERENCES discussionArea(groupID),
+    /* user must exist before it can be added to a group */
+    CONSTRAINT enrollment_user_fk FOREIGN KEY (userID) REFERENCES user(userID),
     CONSTRAINT discussionArea_pk PRIMARY KEY (groupID, userID)
 );
-
-
 
 
 

@@ -7,6 +7,8 @@ CREATE DATABASE myPLS;
 
 USE myPLS;
 
+
+
 /* Creation of the superclass table with basics for login and identification */
 CREATE TABLE user (
     firstName   varchar(30) NOT NULL,
@@ -19,17 +21,6 @@ CREATE TABLE user (
     CONSTRAINT user_pk PRIMARY KEY (userID)
 );
 
-
-/* subclass of user*/
-/* CREATE TABLE adminU (); */
-
-
-/* subclass of user*/
-/* CREATE TABLE professorU (); */
-
-
-/* subclass of user*/
-/* CREATE TABLE learnerU (); */
 
 
 /* 
@@ -45,11 +36,28 @@ CREATE TABLE course (
 );
 
 
+
+CREATE TABLE discussionArea (
+    groupID     int,
+    /* groupType where public = 0 and private = 1 */
+    groupType   tinyint NOT NULL,
+    /* PUBLIC GROUP will have attached discussionUsers list to keep track of users */
+    /* PRIVATE GROUP only so can be null */
+    hashPassword    varchar(200),
+    /* course must exist before a private group can be created for it */
+    CONSTRAINT discussionArea_pk PRIMARY KEY (groupID)
+);
+
+
+
 /* Only admins have access to edit the enrollment table */
 CREATE TABLE enrollment (
     courseID    varchar(7),
     /* Either a learner or a professor */
     userID      int,
+    /* Automatic enrollment in private group for the course */
+    groupID     int,
+
     /* Grade, professorRatiing, and courseRating can be null since they are only applicable to a learner user type */
     grade       char(2), 
     /* Learner can rate the associated course and professor teaching the course */
@@ -63,6 +71,7 @@ CREATE TABLE enrollment (
 );
 
 
+
 /* Only professors have access to edit and add lessons to a course */
 CREATE TABLE lesson (
     courseID    varchar(7),
@@ -73,6 +82,7 @@ CREATE TABLE lesson (
     CONSTRAINT courseMaterial_fk FOREIGN KEY (courseID) REFERENCES course(courseID),
     CONSTRAINT courseMaterial_pk PRIMARY KEY (courseID, lessonNum)
 );
+
 
 
 /* Only professors have access to edit and add multimedia to lessons */
@@ -90,22 +100,13 @@ CREATE TABLE multimedia (
 
 
 
-/* CREATE TABLE group (); */
-
-
-
-/* Dicsussion Area */
-CREATE TABLE discussionArea (
-    groupID     int,
-    /* groupType where public = 0 and private = 1 */
-    groupType   tinyint,
-    courseID    varchar(7),
-    /* group must exist before it can be added to the discussion area */
-    CONSTRAINT discussionArea_group_fk FOREIGN KEY (groupID) REFERENCES group(groupID),
-    /* course must exist before a group can be created for it */
+CREATE TABLE discussionUsers (
+     /* course must exist before a private group can be created for it */
     CONSTRAINT discussionArea_fk FOREIGN KEY (courseID) REFERENCES course(courseID),
-    CONSTRAINT discussionArea_pk PRIMARY KEY (groupID)
+    CONSTRAINT discussionArea_pk PRIMARY KEY (groupID, userID)
 );
+
+
 
 
 

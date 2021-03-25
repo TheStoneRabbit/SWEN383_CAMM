@@ -5,8 +5,9 @@
 #courses {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    column-gap: 8vw;
-    padding: 8vw;
+    column-gap: 6vw;
+    row-gap: 8vh;
+    padding: 6vw;
 }
 
 .course {
@@ -16,4 +17,17 @@
 
 .course img {
     width: 100%;
+}
+
+.courseName {
+    text-align: center;
+}
+
+.items {
+    list-style-type: none;
+}
+
+.boldHeader {
+    font-weight: bold;
+    margin: 0;
 }

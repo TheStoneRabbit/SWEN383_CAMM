@@ -6,8 +6,14 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 8vw;
+    padding: 8vw;
 }
 
 .course {
-    color: gray;
+    background-color: lightgray;
+    padding: 12px;
+}
+
+.course img {
+    width: 100%;
 }

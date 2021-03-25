@@ -1,0 +1,13 @@
+#studentName {
+    text-align: center;
+}
+
+#courses {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 8vw;
+}
+
+.course {
+    color: gray;
+}

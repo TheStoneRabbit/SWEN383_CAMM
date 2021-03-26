@@ -32,6 +32,9 @@ CREATE TABLE course (
     courseID    varchar(7),
     courseName  varchar(50) NOT NULL,   
     capacity    tinyint,
+    /* Assumed courseLoc and courseTimes format is "Teusday 5:30pm - 6:45pm, Thursday 2:00pm - 4:15pm" */
+    courseLoc   varchar(100) NOT NULL,
+    courseTimes   varchar(100) NOT NULL,  
     CONSTRAINT course_pk PRIMARY KEY (courseID)
 );
 
@@ -126,3 +129,10 @@ INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) value
 INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values ("Johnny", "Appleseed", 1001, "js1001@rit.edu", "f5903f51e341a783e69ffc2d9b335048716f5f040a782a2764cd4e728b0f74d9", 2);
 INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values ("Robert", "Smalls", 6969, "rws6969@rit.edu", "9f280e9535116563c84ba9135f7b44ef95fd13e68d8d6e8488af0d79445a7f45", 2);
 INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values ("Admin", "Admin", 1111, "admin@rit.edu", "713bfda78870bf9d1b261f565286f85e97ee614efe5f0faf7c34e7ca4f65baca", 0);
+
+
+/* Course test cases */
+INSERT INTO course (courseID, courseName, capacity, courseLoc, courseTimes) values ('ISTE330', 'Database and Connectivity', 30, 'GOL 2620', 'Monday 12:20pm - 1:10pm, Wednesday 12:20pm - 1:10pm, Friday 12:20pm - 1:10pm');
+INSERT INTO course (courseID, courseName, capacity, courseLoc, courseTimes) values ('ISTE252', 'Foundations of Mobile Computing', 28, 'GOL 3510', 'Tuesday 2pm - 3:15pm, Thursday 2pm - 3:15pm');
+INSERT INTO course (courseID, courseName, capacity, courseLoc, courseTimes) values ('ISTE264', 'Prototyping and Usability Testing', 34, 'GOL 3510', 'Monday 11:15am - 12:05pm, Wednesday 11:15am - 12:05pm, Friday 11:15am - 12:05pm');
+INSERT INTO course (courseID, courseName, capacity, courseLoc, courseTimes) values ('SWEN383', 'Software Design Principles & Patterns', 24, 'Tuesday GOL 1550, Thursday ONLINE', 'Tuesday 8:00am - 9:15am, Thursday 8:00am - 9:15am');

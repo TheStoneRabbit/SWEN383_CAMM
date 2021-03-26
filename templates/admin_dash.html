@@ -2,7 +2,7 @@
     <head>
         <title></title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"/>
-        <link href="../style/main.css" rel="stylesheet" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     </head>
     <body>
@@ -23,23 +23,22 @@
                 });
             });
         </script>
-        <h1 id='adminName'> Admin Name </h1>
+        <h1 id='adminName' class="text-center"> Admin Name </h1>
 
-        <div class="filter">
+        <div class="filter text-center">
             <input id="myInput" type="text" placeholder="Filter Courses...">
         </div>
-<<<<<<< HEAD
-        <div class="Buttons">
-            <a href="/adminpaneladd"><input type="button" class="btn btn-primary m-2" value=Add></a> 
-            <a href="/adminpanelremove"><input type="button" class="btn btn-primary m-2" value=Remove></a> 
-            <a href="/adminview"><input type="button" class="btn btn-primary m-2" value=View></a> 
+        <div class="Buttons text-center">
+            <a href="/adminpaneladd"><input type="button" class="btn btn-primary m-2" value="Add User"></a> 
+            <a href="/adminpanelremove"><input type="button" class="btn btn-primary m-2" value="Remove User"></a> 
+            <a href="/adminview"><input type="button" class="btn btn-primary m-2" value="View Users"></a> 
+            <a href="/logout"><input type="button" class="btn btn-primary m-2" value="Logout"></a> 
         </div>
 
-=======
 
         <div id='courses'>
             <div class='course'>
-                <img src="../assets/studentExample.jpg"/>
+                <img src="{{ url_for('static', filename='assets/studentExample.jpg') }}"/>
                 <h3 class='courseName'> ISTE 252: Foundations of Mobile Design </h3>
 
                 <p class='boldHeader'> Professor Name </p>
@@ -60,7 +59,7 @@
             </div>
 
             <div class='course'>
-                <img src="../assets/studentExample.jpg"/>
+                <img src="{{ url_for('static', filename='assets/studentExample.jpg') }}"/>
                 <h3 class='courseName'> ISTE 330: Database and Connectivity </h3>
 
                 <p class='boldHeader'> Professor Name </p>
@@ -82,7 +81,7 @@
             </div>
 
             <div class='course'>
-                <img src="../assets/studentExample.jpg"/>
+                <img src="{{ url_for('static', filename='assets/studentExample.jpg') }}"/>
                 <h3 class='courseName'> ISTE 264: Prototyping and Usability Testing </h3>
 
                 <p class='boldHeader'> Professor Name </p>
@@ -104,7 +103,7 @@
             </div>
 
             <div class='course'>
-                <img src="../assets/studentExample.jpg"/>
+                <img src="{{ url_for('static', filename='assets/studentExample.jpg') }}"/>
                 <h3 class='courseName'> SWEN 383: Software Design Principles & Patterns </h3>
 
                 <p class='boldHeader'> Professor Name </p>
@@ -125,6 +124,6 @@
                 </ul>
             </div>
         </div>
-        <a href="/logout"><input type="button" class="btn btn-primary m-2" value=Logout></a> 
+        
     </body>
 </html>

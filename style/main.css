@@ -1,5 +1,5 @@
-/* student dash */
-#studentName {
+/* learner dash */
+#learnerName {
     text-align: center;
 }
 
@@ -32,3 +32,5 @@
     font-weight: bold;
     margin: 0;
 }
+
+/* admin dash (same as learner with one change) */

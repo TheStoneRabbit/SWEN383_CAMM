@@ -18,7 +18,7 @@
 }
 
 #nav img {
-    width: 30px;
+    width: 60px;
 }
 
 #nav a {
@@ -41,7 +41,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 3em;
+    margin-top: 3.5em;
 }
 
 #adminName {

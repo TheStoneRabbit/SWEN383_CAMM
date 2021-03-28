@@ -26,9 +26,9 @@
 
         <div id='nav'>
             <img src="{{ url_for('static', filename='assets/logo.svg') }}"/>
-            <a href="user_dash.html"> Users </a>
+            <a href="{{ url_for('templates', filename='admin_dash_user.html') }}"> Users </a>
             <a class='active' href="#"> Courses </a>
-            <a href="group_dash.html"> Groups </a>
+            <a href="{{ url_for('templates', filename='admin_dash_group.html') }}"> Groups </a>
         </div>
 
         <div class='header'>
@@ -40,14 +40,6 @@
         </div>
 
         <h1 id='title'> Course Management </h1>
-        
-        <div class="Buttons text-center">
-            <a href="/adminpaneladd"><input type="button" class="btn btn-primary m-2" value="Add User"></a> 
-            <a href="/adminpanelremove"><input type="button" class="btn btn-primary m-2" value="Remove User"></a> 
-            <a href="/adminview"><input type="button" class="btn btn-primary m-2" value="View Users"></a> 
-            <a href="/logout"><input type="button" class="btn btn-primary m-2" value="Logout"></a> 
-        </div>
-
 
         <div id='courses'>
             <div class='course'>

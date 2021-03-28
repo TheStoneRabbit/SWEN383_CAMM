@@ -73,7 +73,7 @@ def admin_panel_remove():
         if session["logged_in"] != 'false':
             if request.method == 'POST':
                 deletefrom = mydb.cursor(buffered=True)
-                sql = "delete from user where userID = " + "'" + str(request.form["username"]) + "'"
+                sql = "delete from user where userID = " + str(int(request.form["username"]))
                 # values = int(request.form["username"])
                 deletefrom.execute(sql)
                 mydb.commit()

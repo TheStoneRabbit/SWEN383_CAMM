@@ -1,0 +1,87 @@
+/* learner dash */
+#learnerName {
+    text-align: center;
+}
+
+/* admin dash */
+/* Navigation */
+#nav {
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+    background-color: black;
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+}
+
+#nav img {
+    width: 60px;
+}
+
+#nav a {
+    color: white;
+    text-decoration: none;
+    padding: 12px 0;
+}
+
+#nav a:hover {
+    color: #0d6efd;
+    font-weight: bold;
+}
+
+#nav a.active {
+    color: rgb(255, 255, 79);
+    font-weight: bold;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3.5em;
+}
+
+#adminName {
+    margin-left: 6vw;
+}
+
+#filter {
+    margin-right: 6vw;
+}
+
+#title {
+    text-align: center;
+}
+
+#courses {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 6vw;
+    row-gap: 8vh;
+    padding: 6vw;
+}
+
+.course {
+    background-color: lightgray;
+    padding: 12px;
+}
+
+.course img {
+    width: 100%;
+}
+
+.courseName {
+    text-align: center;
+}
+
+.items {
+    list-style-type: none;
+}
+
+.boldHeader {
+    font-weight: bold;
+    margin: 0;
+}

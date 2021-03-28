@@ -2,7 +2,7 @@
     <head>
         <title></title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"/>
-        <link href="../style/main.css" rel="stylesheet" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     </head>
     <body>
@@ -24,22 +24,27 @@
             });
         </script>
 
-        <h1 id='adminName'> Admin Name </h1>
-
-        <div class="filter">
-            <input id="myInput" type="text" placeholder="Filter Courses...">
+        <div id='nav'>
+            <img src="{{ url_for('static', filename='assets/logo.svg') }}"/>
+            <a href="{{ url_for('templates', filename='admin_dash_user.html') }}"> Users </a>
+            <a class='active' href="#"> Courses </a>
+            <a href="{{ url_for('templates', filename='admin_dash_group.html') }}"> Groups </a>
         </div>
-        
+
+        <div class='header'>
+            <h4 id='adminName'> Admin Name </h4>
+
+            <div id="filter">
+                <input id="myInput" type="text" placeholder="Filter Courses...">
+            </div>
+        </div>
+
+        <h1 id='title'> Course Management </h1>
 
         <div id='courses'>
             <div class='course'>
-                <img src="../assets/studentExample.jpg"/>
+                <img src="{{ url_for('static', filename='assets/studentExample.jpg') }}"/>
                 <h3 class='courseName'> ISTE 252: Foundations of Mobile Design </h3>
-
-                <p class='boldHeader'> Professor Name </p>
-                <ul class='items'>
-                    <li> Stephen Cady </li>
-                </ul>
 
                 <p class='boldHeader'> Days and Times </p>
                 <ul class='items'>
@@ -54,13 +59,8 @@
             </div>
 
             <div class='course'>
-                <img src="../assets/studentExample.jpg"/>
+                <img src="{{ url_for('static', filename='assets/studentExample.jpg') }}"/>
                 <h3 class='courseName'> ISTE 330: Database and Connectivity </h3>
-
-                <p class='boldHeader'> Professor Name </p>
-                <ul class='items'>
-                    <li> Jim Habermas </li>
-                </ul>
 
                 <p class='boldHeader'> Days and Times </p>
                 <ul class='items'>
@@ -76,13 +76,8 @@
             </div>
 
             <div class='course'>
-                <img src="../assets/studentExample.jpg"/>
+                <img src="{{ url_for('static', filename='assets/studentExample.jpg') }}"/>
                 <h3 class='courseName'> ISTE 264: Prototyping and Usability Testing </h3>
-
-                <p class='boldHeader'> Professor Name </p>
-                <ul class='items'>
-                    <li> Mick McQuaid </li>
-                </ul>
 
                 <p class='boldHeader'> Days and Times </p>
                 <ul class='items'>
@@ -98,13 +93,8 @@
             </div>
 
             <div class='course'>
-                <img src="../assets/studentExample.jpg"/>
+                <img src="{{ url_for('static', filename='assets/studentExample.jpg') }}"/>
                 <h3 class='courseName'> SWEN 383: Software Design Principles & Patterns </h3>
-
-                <p class='boldHeader'> Professor Name </p>
-                <ul class='items'>
-                    <li> AbdulMutalib Wahaishi </li>
-                </ul>
 
                 <p class='boldHeader'> Days and Times </p>
                 <ul class='items'>
@@ -119,5 +109,6 @@
                 </ul>
             </div>
         </div>
+        
     </body>
 </html>

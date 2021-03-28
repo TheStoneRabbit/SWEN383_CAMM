@@ -39,7 +39,7 @@ def logout():
 def admin_panel_index():
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
-            return render_template("index_admin.html")
+            return render_template("admin_dash.html")
         else: 
             return redirect(url_for("failure"))
     else:
@@ -209,6 +209,3 @@ def aView():
     else: 
         return redirect(url_for("failure"))
     return render_template("adminpanelview.html", htmlRender=htmlRender, items=items, x=lenX)
-
-
-

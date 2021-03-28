@@ -24,14 +24,15 @@
             });
         </script>
 
-        <div id='nav'>
+        <nav>
+            <img src="{{ url_for('static', filename='assets/logo.svg') }}"/>
             <a href="user_dash.html"> Users </a>
             <a class='active' href="#"> Courses </a>
             <a href="group_dash.html"> Groups </a>
-        </div>
+        </nav>
 
         <div class='header'>
-            <h3 id='adminName' class="text-center"> Admin Name </h3>
+            <h4 id='adminName'> Admin Name </h4>
 
             <div id="filter">
                 <input id="myInput" type="text" placeholder="Filter Courses...">

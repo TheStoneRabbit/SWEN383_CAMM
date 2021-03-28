@@ -5,7 +5,7 @@
 
 /* admin dash */
 /* Navigation */
-nav {
+#nav {
     overflow: hidden;
     position: fixed;
     top: 0;
@@ -17,17 +17,17 @@ nav {
     align-items: center;
 }
 
-nav a {
+#nav a {
     color: white;
     text-decoration: none;
 }
 
-nav a:hover {
+#nav a:hover {
     color: #0d6efd;
     font-weight: bold;
 }
 
-nav a.active {
+#nav a.active {
     color: rgb(255, 255, 79);
     font-weight: bold;
 }
@@ -44,6 +44,10 @@ nav a.active {
 
 #filter {
     margin-right: 6vw;
+}
+
+#title {
+    text-align: center;
 }
 
 #courses {

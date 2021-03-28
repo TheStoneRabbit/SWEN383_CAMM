@@ -5,7 +5,7 @@
 
 /* admin dash */
 /* Navigation */
-nav {
+#nav {
     overflow: hidden;
     position: fixed;
     top: 0;
@@ -17,22 +17,22 @@ nav {
     align-items: center;
 }
 
-nav img {
+#nav img {
     width: 30px;
 }
 
-nav a {
+#nav a {
     color: white;
     text-decoration: none;
     padding: 12px 0;
 }
 
-nav a:hover {
+#nav a:hover {
     color: #0d6efd;
     font-weight: bold;
 }
 
-nav a.active {
+#nav a.active {
     color: rgb(255, 255, 79);
     font-weight: bold;
 }

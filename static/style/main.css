@@ -86,9 +86,10 @@ body {
     width: 100%;
 }
 
-.course #exit a img {
+.course #exit img {
     position: absolute;
-    width: 5%;
+    width: 3%;
+    right: 0;
 }
 
 .courseName {

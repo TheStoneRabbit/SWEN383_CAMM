@@ -12,5 +12,19 @@
             <a href="/adminpanelindex"> Courses </a>
             <a class="active" href="#"> Groups </a>
         </div>
+
+        <div class='header'>
+            <h4 id='adminName'> Admin Name </h4>
+
+            <div id='right'>
+                <div id="filter">
+                    <input id="myInput" type="text" placeholder="Filter Courses...">
+                </div>
+    
+                <a href='/logout'><img src="{{ url_for('static', filename='assets/profileIcon.svg') }}"/></a>
+            </div>
+        </div>
+
+        <h1 id='title'> Group Management </h1>
     </body>
 </html>

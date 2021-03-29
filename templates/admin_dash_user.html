@@ -34,8 +34,12 @@
         <div class='header'>
             <h4 id='adminName'> Admin Name </h4>
 
-            <div id="filter">
-                <input id="myInput" type="text" placeholder="Find a User...">
+            <div id='right'>
+                <div id="filter">
+                    <input id="myInput" type="text" placeholder="Filter Courses...">
+                </div>
+    
+                <a href='/logout'><img src="{{ url_for('static', filename='assets/profileIcon.svg') }}"/></a>
             </div>
         </div>
 

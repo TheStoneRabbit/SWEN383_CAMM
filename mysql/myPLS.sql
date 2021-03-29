@@ -112,9 +112,12 @@ CREATE TABLE multimedia (
     Needed for public groups as anyone can enter and leave at any time 
     Private Groups already handled during enrollment automatically
 */
-CREATE TABLE publicGroup (
+CREATE TABLE group (
     groupID     int,
     userID      int,
+    capacity    int,
+    title       varchar(30),
+    group_description   varchar(200)
      /* group must exist before a user can be added to it */
     CONSTRAINT discussionArea_fk FOREIGN KEY (groupID) REFERENCES discussionArea(groupID),
     /* user must exist before it can be added to a group */

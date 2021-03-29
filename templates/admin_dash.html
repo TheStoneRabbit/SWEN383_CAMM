@@ -50,7 +50,12 @@
         <div id='courses'>
             {%for x in listy%}
             <div class='course'>
-                <img src="{{ url_for('static', filename='assets/studentExample.jpg') }}"/>
+                <img src="{{ url_for('static', filename='assets/studentExample.jpg') }}" />
+                
+                <div id='exit'>
+                    <a href='/removecourse'><img src="{{ url_for('static', filename='assets/delete.svg') }}" /></a>
+                </div>
+
                 <h3 class='courseName'>{{x[0]}}: {{x[1]}}</h3>
 
                 <p class='boldHeader'> Days and Times </p>

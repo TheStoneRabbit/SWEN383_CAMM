@@ -86,6 +86,10 @@ body {
     width: 100%;
 }
 
+.course #exit a img {
+    position: relative;
+}
+
 .courseName {
     text-align: center;
 }

@@ -24,6 +24,7 @@ mydb = mysql.connector.connect(
 mycursor = mydb.cursor(buffered=True)
 # End MySQL code
 userID = ""
+email = ""
 app = Flask(__name__)
 app.secret_key = 'cammgroup'
 
@@ -66,8 +67,14 @@ def admin_panel_index():
                 htmlRender.append(piece)
                 piece = []
                 count = 0
-                
-            return render_template("admin_dash.html", listy=htmlRender)
+            userName = mydb.cursor(buffered=True)
+            userName.execute("select firstName, lastName from user where email='"+ email+ "'")
+            names = userName.fetchall()
+            nameRender = []
+            for x in names:
+                for i in x:
+                    nameRender.append(i)
+            return render_template("admin_dash.html", listy=htmlRender, first=nameRender[0], last=nameRender[1])
             
         else: 
             return redirect(url_for("failure"))
@@ -167,8 +174,10 @@ def login():
             subbed_one = re.sub("(|)|,|'", "", str(x))
             pos += 1
             if "(" + request.form['username']+ ")" == subbed_one :
+                global email
                 global userID
                 userID = subbed_one
+                email = request.form['username']
                 cred_pass_one = True
                 break
             else:

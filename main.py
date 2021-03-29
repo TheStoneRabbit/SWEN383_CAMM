@@ -218,6 +218,14 @@ def aView():
 def admin_user_dash():
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
+            courseData = mydb.cursor(buffered=True)
+            courseData.execute("select * from course")
+            items = courseData.fetchall()
+            htmlRender = [] 
+            for x in items:
+                for i in x:
+                    print(i)
+                print("change")
             return render_template("admin_dash_user.html")
         else: 
             return redirect(url_for("failure"))

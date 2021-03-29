@@ -235,15 +235,18 @@ def admin_user_dash():
     else:
         return redirect(url_for("failure"))
 
-# @app.route("/admin_group_dash")
-# def admin_user_dash():
-#     if session["permission_level"] == "(0)":
-#         if session["logged_in"] != 'false':
-#             return render_template("admin_dash_group.html")
-#         else: 
-#             return redirect(url_for("failure"))
-#     else:
-#         return redirect(url_for("failure"))
+
+
+# for the group page
+@app.route("/admin_group_dash")
+def admin_group_dash():
+    if session["permission_level"] == "(0)":
+        if session["logged_in"] != 'false':
+            return render_template("admin_dash_group.html")
+        else: 
+            return redirect(url_for("failure"))
+    else:
+        return redirect(url_for("failure"))
     
 
 # myPLS Start page

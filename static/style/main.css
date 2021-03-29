@@ -76,6 +76,13 @@ body {
     color: white;
 }
 
+#add button {
+    display: flex;
+    justify-content:flex-end;
+    background-color: rgb(58, 184, 58);
+    color: white;
+}
+
 .hiddenTrue {
     display: none;
 }

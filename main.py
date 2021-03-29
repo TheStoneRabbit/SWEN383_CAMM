@@ -264,7 +264,22 @@ def start():
     session['logged_in'] = 'false'
     return redirect(url_for("login"))
 
-
+#admin remove course 
+@app.route('/removecourse',  methods=['GET', 'POST'])
+def remove_course():
+    if session["permission_level"] == "(0)":
+        if session["logged_in"] != 'false':
+            if request.method == 'POST':
+                deletefrom = mydb.cursor(buffered=True)
+                sql = "delete from course where courseID = " + str(int(request.form["username"]))
+                deletefrom.execute(sql)
+                mydb.commit()
+                return render_template("entries_removed.html")
+            return render_template("admin_dash.html")
+        else: 
+            return redirect(url_for("failure"))
+    else: 
+        return redirect(url_for("failure"))
 
 
 # Discussions Page - Conor

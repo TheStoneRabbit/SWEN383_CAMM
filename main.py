@@ -34,17 +34,6 @@ def logout():
     session['logged_in'] = 'false'
     return redirect(url_for("login"))
 
-# # Main admin page for user management
-# @app.route('/admindashuser',  methods=['GET', 'POST'])
-# def admin_dash_user():
-#     if session["permission_level"] == "(0)":
-#         if session["logged_in"] != 'false':
-#             return render_template("admin_dash_user.html")
-#         else: 
-#             return redirect(url_for("failure"))
-#     else:
-#         return redirect(url_for("failure"))
-
 # Main admin page. Checks if user is admin and returns admin page, 
 # otherwise returns failure page
 @app.route('/adminpanelindex',  methods=['GET', 'POST'])
@@ -74,6 +63,12 @@ def admin_panel_index():
             for x in names:
                 for i in x:
                     nameRender.append(i)
+            if request.method == 'POST':
+                deletefrom = mydb.cursor(buffered=True)
+                sql = "delete from course where courseID='" + request.form.get("course")+ "'"
+                deletefrom.execute(sql)
+                mydb.commit()
+                return redirect(url_for("admin_panel_index"))
             return render_template("admin_dash.html", listy=htmlRender, first=nameRender[0], last=nameRender[1])
             
         else: 
@@ -222,7 +217,7 @@ def login():
 
     # View Format for user table 
 
-@app.route('/adminview')
+@app.route('/adminview', methods=['GET', 'POST'])
 def aView():
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
@@ -278,13 +273,8 @@ def start():
 def remove_course():
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
-            if request.method == 'POST':
-                deletefrom = mydb.cursor(buffered=True)
-                sql = "delete from course where courseID = " + str(int(request.form["username"]))
-                deletefrom.execute(sql)
-                mydb.commit()
-                return render_template("entries_removed.html")
-            return render_template("admin_dash.html")
+            
+            return render_template("entries_removed.html")
         else: 
             return redirect(url_for("failure"))
     else: 

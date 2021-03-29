@@ -87,13 +87,12 @@ body {
     width: 100%;
 }
 .course form {
-    position: absolute;
-    
+    position: absolute;  
+    width: 100%;
 }
 
-.course #exit img {
-    width: 5%;
-    right: 12px;
+.course .exit {
+    width: 6%;
 }
 
 .courseName {

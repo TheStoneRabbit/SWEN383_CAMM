@@ -3,5 +3,5 @@ DIRNAME=`dirname "$0"`
 cd $DIRNAME
 export FLASK_APP=main.py
 pip3 install -r requirements.txt
-python3 -m flask run
+python3 -m flask run --host=0.0.0.0
 

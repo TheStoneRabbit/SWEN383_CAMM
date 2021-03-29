@@ -89,8 +89,8 @@ body {
 
 .course #exit img {
     position: absolute;
-    width: 3%;
-    right: 0;
+    width: 5%;
+    right: 12px;
 }
 
 .courseName {

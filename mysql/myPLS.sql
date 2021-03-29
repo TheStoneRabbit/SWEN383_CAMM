@@ -136,3 +136,5 @@ INSERT INTO course (courseID, courseName, capacity, courseLoc, courseTimes) valu
 INSERT INTO course (courseID, courseName, capacity, courseLoc, courseTimes) values ('ISTE252', 'Foundations of Mobile Computing', 28, 'GOL 3510', 'Tuesday 2pm - 3:15pm, Thursday 2pm - 3:15pm');
 INSERT INTO course (courseID, courseName, capacity, courseLoc, courseTimes) values ('ISTE264', 'Prototyping and Usability Testing', 34, 'GOL 3510', 'Monday 11:15am - 12:05pm, Wednesday 11:15am - 12:05pm, Friday 11:15am - 12:05pm');
 INSERT INTO course (courseID, courseName, capacity, courseLoc, courseTimes) values ('SWEN383', 'Software Design Principles & Patterns', 24, 'Tuesday GOL 1550, Thursday ONLINE', 'Tuesday 8:00am - 9:15am, Thursday 8:00am - 9:15am');
+INSERT INTO course (courseID, courseName, capacity, courseLoc, courseTimes) values ('ISTE340', 'Client Programming', 24, 'ONLINE', 'Tuesday 9:30am - 10:45am, Thursday 9:30am - 10:45am');
+INSERT INTO course (courseID, courseName, capacity, courseLoc, courseTimes) values ('PSYC251', 'Research Methods II', 28, 'Tuesday ONLINE, Thursday LBR 3244', 'Tuesday 12:30pm - 1:45pm, Thursday 12:30pm - 1:45pm');

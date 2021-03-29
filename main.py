@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, session
 import time 
 import hashlib 
+import getpass
 import re
 import mysql.connector
 from mysql.connector.cursor import MySQLCursor
@@ -11,7 +12,7 @@ from flask_table import Table, Col
 # Enter the password for your MySQL database below
 # Username SHOULD be 'root'
 print("=================")
-MySQL_PASSWORD = input("MYSQL DB PASSWORD> ")
+MySQL_PASSWORD = getpass.getpass(prompt='MYSQL DB PASSWORD> ')
 print("=================")
 mydb = mysql.connector.connect(
   host="localhost",

@@ -182,14 +182,7 @@ def login():
                 
     return render_template("sign_in.html")
 
-# myPLS Start page
-# As of right now this just redirects to login
-@app.route('/')
-def start():
-    session['logged_in'] = 'false'
-    return redirect(url_for("login"))
-
-# View Format for user table 
+    # View Format for user table 
 
 @app.route('/adminview')
 def aView():
@@ -210,13 +203,36 @@ def aView():
         return redirect(url_for("failure"))
     return render_template("adminpanelview.html", htmlRender=htmlRender, items=items, x=lenX)
 
+
+@app.route("/admin_user_dash")
+def admin_user_dash():
+    if session["permission_level"] == "(0)":
+        if session["logged_in"] != 'false':
+            return render_template("admin_dash_user.html")
+        else: 
+            return redirect(url_for("failure"))
+    else:
+        return redirect(url_for("failure"))
+
+            
+# myPLS Start page
+# As of right now this just redirects to login
+@app.route('/')
+def start():
+    session['logged_in'] = 'false'
+    return redirect(url_for("login"))
+
+
+
+
+# Discussions Page - Conor
 @app.route('/discussions')
 def discussions():
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
-            allData = mydb.cursor(buffered=True)
+            return render_template("discussions.html")
+            # This line is not necessary -> allData = mydb.cursor(buffered=True)
         else:
             return redirect(url_for("failure"))  
     else: 
         return redirect(url_for("failure"))
-    return render_template("discussions.html")

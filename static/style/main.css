@@ -52,8 +52,12 @@ body {
     margin-left: 6vw;
 }
 
-#filter {
+#right {
     margin-right: 6vw;
+}
+
+.header div a img {
+    width: 40px;
 }
 
 #title {

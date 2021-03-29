@@ -54,11 +54,19 @@ def admin_panel_index():
             items = courseData.fetchall()
             htmlRender = [] 
             piece = []
+            count  = 0
             for x in items:
                 for i in x:
+                    print(i)
+                    if count == 4 or count == 3:
+                        i = str(i)
+                        i = i.split(", ")
                     piece.append(i)
+                    count += 1
                 htmlRender.append(piece)
                 piece = []
+                count = 0
+                
             return render_template("admin_dash.html", listy=htmlRender)
             
         else: 

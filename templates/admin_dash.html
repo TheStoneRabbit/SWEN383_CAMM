@@ -53,12 +53,16 @@
 
                 <p class='boldHeader'> Days and Times </p>
                 <ul class='items'>
-                    <li> {{x[4]}} </li>
+                    {%for y in x[4]%}
+                    <li> {{y}} </li>
+                    {%endfor%}
                 </ul>
 
                 <p class='boldHeader'> Location </p>
                 <ul class='items'>
-                    <li> {{x[3]}} </li>
+                    {%for l in x[3]%}
+                    <li> {{l}} </li>
+                    {%endfor%}
                 </ul>
             </div>
             {%endfor%}

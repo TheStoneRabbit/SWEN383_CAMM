@@ -29,7 +29,7 @@
 
             <a href='/admin_user_dash'> Users </a>
             <a class='active' href="#"> Courses </a>
-            <a href='admin_dash_group.html'> Groups </a>
+            <a href='/admin_group_dash'> Groups </a>
         </div>
 
         <div class='header'>
@@ -44,8 +44,9 @@
 
         <h1 id='title'> Course Management </h1>
 
-        {%for x in listy%}
+        
         <div id='courses'>
+            {%for x in listy%}
             <div class='course'>
                 <img src="{{ url_for('static', filename='assets/studentExample.jpg') }}"/>
                 <h3 class='courseName'>{{x[0]}}: {{x[1]}}</h3>
@@ -60,8 +61,9 @@
                     <li> {{x[3]}} </li>
                 </ul>
             </div>
+            {%endfor%}
         
         </div>
-        {%endfor%}
+        
     </body>
 </html>

@@ -58,7 +58,6 @@ def admin_panel_index():
             count  = 0
             for x in items:
                 for i in x:
-                    print(i)
                     if count == 4 or count == 3:
                         i = str(i)
                         i = i.split(", ")

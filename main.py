@@ -32,6 +32,16 @@ def logout():
     session['logged_in'] = 'false'
     return redirect(url_for("login"))
 
+# Main admin page for user management
+@app.route('/admindashuser',  methods=['GET', 'POST'])
+def admin_dash_user():
+    if session["permission_level"] == "(0)":
+        if session["logged_in"] != 'false':
+            return render_template("admin_dash_user.html")
+        else: 
+            return redirect(url_for("failure"))
+    else:
+        return redirect(url_for("failure"))
 
 # Main admin page. Checks if user is admin and returns admin page, 
 # otherwise returns failure page

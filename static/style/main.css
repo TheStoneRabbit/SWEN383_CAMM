@@ -55,11 +55,13 @@ body {
 #right {
     display: flex;
     flex-direction: row;
+    align-items: center;
     margin-right: 6vw;
 }
 
 .header div a img {
     width: 40px;
+    margin-left: 12px;
 }
 
 #title {

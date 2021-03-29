@@ -87,7 +87,8 @@ body {
 }
 
 .course #exit a img {
-    position: relative;
+    position: absolute;
+    width: 5%;
 }
 
 .courseName {

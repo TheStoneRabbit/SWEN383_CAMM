@@ -5,6 +5,10 @@
 
 /* admin dash */
 /* Navigation */
+body {
+    background-color: lightgrey;
+}
+
 #nav {
     overflow: hidden;
     position: fixed;
@@ -17,9 +21,8 @@
     align-items: center;
 }
 
-#logo {
-    width: 60px;
-    height: auto;
+#nav img {
+    width: 80px;
 }
 
 #nav a {
@@ -55,6 +58,7 @@
 
 #title {
     text-align: center;
+    font-weight: bold;
 }
 
 #courses {
@@ -66,8 +70,9 @@
 }
 
 .course {
-    background-color: lightgray;
+    background-color: #0d6efd;
     padding: 12px;
+    color: white;
 }
 
 .course img {

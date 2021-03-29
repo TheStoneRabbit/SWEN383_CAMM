@@ -112,13 +112,11 @@ CREATE TABLE multimedia (
     Needed for public groups as anyone can enter and leave at any time 
     Private Groups already handled during enrollment automatically
 */
-CREATE TABLE group (
-    groupID     int AUTO_INCREMENT,
-    userID      int,
+CREATE TABLE userGroup (
+    groupID     int,
+    userID      varchar(15),
     title       varchar(30),
-    group_description   varchar(200),
-     /* group must exist before a user can be added to it */
-    CONSTRAINT discussionArea_fk FOREIGN KEY (groupID) REFERENCES discussionArea(groupID),
+    groupDescription   varchar(200),
     /* user must exist before it can be added to a group */
     CONSTRAINT enrollment_user_fk FOREIGN KEY (userID) REFERENCES user(userID),
     CONSTRAINT discussionArea_pk PRIMARY KEY (groupID, userID)
@@ -141,12 +139,12 @@ INSERT INTO course (courseID, courseName, capacity, courseLoc, courseTimes) valu
 INSERT INTO course (courseID, courseName, capacity, courseLoc, courseTimes) values ('ISTE340', 'Client Programming', 24, 'ONLINE', 'Tuesday 9:30am - 10:45am, Thursday 9:30am - 10:45am');
 INSERT INTO course (courseID, courseName, capacity, courseLoc, courseTimes) values ('PSYC251', 'Research Methods II', 28, 'Tuesday ONLINE, Thursday LBR 3244', 'Tuesday 12:30pm - 1:45pm, Thursday 12:30pm - 1:45pm');
 
-INSERT INTO group (userID, title, group_description) VALUES ("mwl4263", "Group 1 Title", "This is Group 1's description and this describes the group's contents and group members.");
-INSERT INTO group (userID, title, group_description) VALUES ("js1001", "Group 1 Title", "This is Group 1's description and this describes the group's contents and group members.");
-INSERT INTO group (userID, title, group_description) VALUES ("rws6969", "Group 1 Title", "This is Group 1's description and this describes the group's contents and group members.");
-INSERT INTO group (userID, title, group_description) VALUES ("mwl4263", "Group 2 Title", "This is Group 2's description and this describes the group's contents and group members.");
-INSERT INTO group (userID, title, group_description) VALUES ("js1001", "Group 2 Title", "This is Group 2's description and this describes the group's contents and group members.");
-INSERT INTO group (userID, title, group_description) VALUES ("rws6969", "Group 2 Title", "This is Group 2's description and this describes the group's contents and group members.");
-INSERT INTO group (userID, title, group_description) VALUES ("mwl4263", "Group 3 Title", "This is Group 3's description and this describes the group's contents and group members.");
-INSERT INTO group (userID, title, group_description) VALUES ("js1001", "Group 3 Title", "This is Group 3's description and this describes the group's contents and group members.");
-INSERT INTO group (userID, title, group_description) VALUES ("rws6969", "Group 3 Title", "This is Group 3's description and this describes the group's contents and group members.");
+INSERT INTO userGroup (groupID, userID, title, groupDescription) VALUES (1, 4263, "Group 1 Title", "This is Group 1's description and this describes the group's contents and group members.");
+INSERT INTO userGroup (groupID, userID, title, groupDescription) VALUES (2, 1001, "Group 1 Title", "This is Group 1's description and this describes the group's contents and group members.");
+INSERT INTO userGroup (groupID, userID, title, groupDescription) VALUES (3, 6969, "Group 1 Title", "This is Group 1's description and this describes the group's contents and group members.");
+INSERT INTO userGroup (groupID, userID, title, groupDescription) VALUES (4, 4263, "Group 2 Title", "This is Group 2's description and this describes the group's contents and group members.");
+INSERT INTO userGroup (groupID, userID, title, groupDescription) VALUES (5, 1001, "Group 2 Title", "This is Group 2's description and this describes the group's contents and group members.");
+INSERT INTO userGroup (groupID, userID, title, groupDescription) VALUES (6, 6969, "Group 2 Title", "This is Group 2's description and this describes the group's contents and group members.");
+INSERT INTO userGroup (groupID, userID, title, groupDescription) VALUES (7, 4263, "Group 3 Title", "This is Group 3's description and this describes the group's contents and group members.");
+INSERT INTO userGroup (groupID, userID, title, groupDescription) VALUES (8, 1001, "Group 3 Title", "This is Group 3's description and this describes the group's contents and group members.");
+INSERT INTO userGroup (groupID, userID, title, groupDescription) VALUES (9, 6969, "Group 3 Title", "This is Group 3's description and this describes the group's contents and group members.");

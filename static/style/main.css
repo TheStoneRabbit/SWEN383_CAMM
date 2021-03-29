@@ -70,9 +70,8 @@ body {
 }
 
 .course {
-    background-color: #0d6efd;
+    background-color: white;
     padding: 12px;
-    color: white;
 }
 
 .course img {
@@ -90,4 +89,5 @@ body {
 .boldHeader {
     font-weight: bold;
     margin: 0;
+    color: #0d6efd;
 }

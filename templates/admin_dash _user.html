@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <title></title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <script>   
+            //filtering courses
+            $(document).ready(function(){
+               jQuery.expr[':'].containi = function(a, i, m) {
+                    return jQuery(a).text().toUpperCase()
+                        .indexOf(m[3].toUpperCase()) >= 0;
+                };
+
+                $("#myInput").keyup(function() {
+                    //retrieve input target value
+                    var value = $(this).val();
+                
+                    //filter by course
+                    $(document.getElementsByClassName('course')).hide().filter(':containi("' + value + '")').show();
+                });
+            });
+        </script>
+
+        <div id='nav'>
+            <img src="{{ url_for('static', filename='assets/logo.svg') }}"/>
+            <a class='active' href="#"> Users </a>
+            <a class='active' href="admin_dash.html"> Courses </a>
+            <a href="admin_dash_group.html"> Groups </a>
+        </div>
+
+        <div class='header'>
+            <h4 id='adminName'> Admin Name </h4>
+
+            <div id="filter">
+                <input id="myInput" type="text" placeholder="Find a User...">
+            </div>
+        </div>
+
+        <h1 id='title'> User Management </h1>
+        
+        <div class="Buttons text-center">
+            <a href="/adminpaneladd"><input type="button" class="btn btn-primary m-2" value="Add User"></a> 
+            <a href="/adminpanelremove"><input type="button" class="btn btn-primary m-2" value="Remove User"></a> 
+            <a href="/adminview"><input type="button" class="btn btn-primary m-2" value="View Users"></a> 
+            <a href="/logout"><input type="button" class="btn btn-primary m-2" value="Logout"></a> 
+        </div> 
+    </body>
+</html>

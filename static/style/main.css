@@ -80,10 +80,17 @@ body {
 .course {
     background-color: white;
     padding: 12px;
+    position: relative;
 }
 
 .course img {
     width: 100%;
+}
+
+.course #exit img {
+    position: absolute;
+    width: 5%;
+    right: 12px;
 }
 
 .courseName {

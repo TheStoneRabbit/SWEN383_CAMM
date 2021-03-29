@@ -209,3 +209,14 @@ def aView():
     else: 
         return redirect(url_for("failure"))
     return render_template("adminpanelview.html", htmlRender=htmlRender, items=items, x=lenX)
+
+@app.route('/discussions')
+def discussions():
+    if session["permission_level"] == "(0)":
+        if session["logged_in"] != 'false':
+            allData = mydb.cursor(buffered=True)
+        else:
+            return redirect(url_for("failure"))  
+    else: 
+        return redirect(url_for("failure"))
+    return render_template("discussions.html")

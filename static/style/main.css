@@ -80,6 +80,7 @@ body {
 .course {
     background-color: white;
     padding: 12px;
+    position: relative;
 }
 
 .course img {

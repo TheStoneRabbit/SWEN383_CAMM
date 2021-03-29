@@ -87,8 +87,9 @@ body {
     width: 100%;
 }
 .course form {
+    text-align: right;
     position: absolute;
-    
+
 }
 
 .course #exit img {

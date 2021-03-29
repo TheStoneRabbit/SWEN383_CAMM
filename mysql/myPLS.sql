@@ -116,7 +116,7 @@ CREATE TABLE group (
     groupID     int AUTO_INCREMENT,
     userID      int,
     title       varchar(30),
-    group_description   varchar(200)
+    group_description   varchar(200),
      /* group must exist before a user can be added to it */
     CONSTRAINT discussionArea_fk FOREIGN KEY (groupID) REFERENCES discussionArea(groupID),
     /* user must exist before it can be added to a group */

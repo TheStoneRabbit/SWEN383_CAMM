@@ -59,7 +59,6 @@ def admin_panel_index():
                     piece.append(i)
                 htmlRender.append(piece)
                 piece = []
-            print(htmlRender)
             return render_template("admin_dash.html", listy=htmlRender)
             
         else: 

@@ -247,7 +247,7 @@ def admin_user_dash():
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
             allData = mydb.cursor(buffered=True)
-            allData.execute("select * from user")
+            allData.execute("select firstName, lastName, userID, email, typeU from user")
             items = allData.fetchall()
             htmlRender = []
             numOfItems = len(items)

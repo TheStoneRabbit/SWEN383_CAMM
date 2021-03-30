@@ -19,7 +19,7 @@
                     var value = $(this).val();
                 
                     //filter by course
-                    $(document.getElementsByClassName('course')).hide().filter(':containi("' + value + '")').show();
+                    $(document.getElementsByClassName('userName')).hide().filter(':containi("' + value + '")').show();
                 });
             });
         </script>
@@ -62,7 +62,7 @@
         <tbody>
             {%for i in items%} 
 
-            <tr>
+            <tr class='userName'>
                 {%for l in i%}    
                 <td>{{l}}</td>
                 {%endfor%}

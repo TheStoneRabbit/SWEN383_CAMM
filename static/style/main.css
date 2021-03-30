@@ -85,10 +85,12 @@ body {
     justify-content:flex-end;
 }
 
-#add button {
-    background-color: rgb(58, 184, 58);
-    color: white;
+#add a {
     margin-right: 6vw;
+}
+
+#add a img {
+    width: 6vw;
 }
 
 .hiddenTrue {

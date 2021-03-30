@@ -32,7 +32,7 @@
             <a href='/admin_dash_group'> Groups </a>
         </div>
         <div class='header'>
-            <h4 id='adminName'> {{first}}, {{last}}</h4>
+            <a id='backButton' href="/adminpanelindex"><img src="{{ url_for('static', filename='assets/backButton.svg') }}" /></a> 
 
             <div id='right'>
                 <div id="filter">
@@ -50,7 +50,6 @@
         </div>
 
         <div class='course'>
-            <img src="../assets/studentExample.jpg"/>
 
             <p class='boldHeader'> Days and Times </p>
             <ul class='items'>

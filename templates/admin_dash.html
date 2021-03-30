@@ -78,32 +78,34 @@
          
         <div id='courses'>
             {%for x in listy%}
-            <div class='course {{x[0]}}'>
-                <form method="POST" id="a{{x[0]}}" >
-                    <input type="hidden" id="courseID" name="course" value="{{x[0]}}">
-                    <input type="image" class="exit hiddenTrue" src="{{ url_for('static', filename='assets/delete.svg') }}"  class="hidden_extra" onclick="alert('Course Removed')"/>
-                </form>
-                <img src="{{ url_for('static', filename='assets/studentExample.jpg') }}" />
-                
-                
-                <!-- <a id='exit' href='/removecourse'><img src="{{ url_for('static', filename='assets/delete.svg') }}" /></a> -->
+            <a href='/tocourse'>
+                <div class='course {{x[0]}}'>
+                    <form method="POST" id="a{{x[0]}}" >
+                        <input type="hidden" id="courseID" name="course" value="{{x[0]}}">
+                        <input type="image" class="exit hiddenTrue" src="{{ url_for('static', filename='assets/delete.svg') }}"  class="hidden_extra" onclick="alert('Course Removed')"/>
+                    </form>
+                    <img src="{{ url_for('static', filename='assets/studentExample.jpg') }}" />
+                    
+                    
+                    <!-- <a id='exit' href='/removecourse'><img src="{{ url_for('static', filename='assets/delete.svg') }}" /></a> -->
 
-                <h3 class='courseName'>{{x[0]}}: {{x[1]}}</h3>
+                    <h3 class='courseName'>{{x[0]}}: {{x[1]}}</h3>
 
-                <p class='boldHeader'> Days and Times </p>
-                <ul class='items'>
-                    {%for y in x[4]%}
-                    <li> {{y}} </li>
-                    {%endfor%}
-                </ul>
+                    <p class='boldHeader'> Days and Times </p>
+                    <ul class='items'>
+                        {%for y in x[4]%}
+                        <li> {{y}} </li>
+                        {%endfor%}
+                    </ul>
 
-                <p class='boldHeader'> Location </p>
-                <ul class='items'>
-                    {%for l in x[3]%}
-                    <li> {{l}} </li>
-                    {%endfor%}
-                </ul>
-            </div>
+                    <p class='boldHeader'> Location </p>
+                    <ul class='items'>
+                        {%for l in x[3]%}
+                        <li> {{l}} </li>
+                        {%endfor%}
+                    </ul>
+                </div>
+            </a>
             {%endfor%}
         
         </div>

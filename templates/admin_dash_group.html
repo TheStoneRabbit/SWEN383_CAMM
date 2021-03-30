@@ -34,7 +34,7 @@
                 
                 <!-- <a id='exit' href='/removecourse'><img src="{{ url_for('static', filename='assets/delete.svg') }}" /></a> -->
                 <form method="POST" >
-                    <input type="hidden" id="courseID" name="group" value="{{x[0]}}">
+                    <input type="hidden" id="groupID" name="group" value="{{x[0]}}">
                     <button type="submit" onclick="alert('Group Removed')"><img src="{{ url_for('static', filename='assets/delete.svg') }}" /></button>
                 </form>
 

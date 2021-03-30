@@ -89,12 +89,12 @@ def admin_panel_index():
 
 # Group admin page. Checks if user is admin and returns admin group page, 
 # otherwise returns failure page
-@app.route('/admin_group_dash',  methods=['GET', 'POST'])
+@app.route('/admin_dash_group',  methods=['GET', 'POST'])
 def admin_group():
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
             groupData = mydb.cursor(buffered=True)
-            groupData.execute("select * from group")
+            groupData.execute("select * from user_group")
             items = groupData.fetchall()
             htmlRender = [] 
             piece = []
@@ -118,7 +118,7 @@ def admin_group():
                     nameRender.append(i)
             if request.method == 'POST':
                 deletefrom = mydb.cursor(buffered=True)
-                sql = "delete from group where groupID='" + request.form.get("group") + "'"
+                sql = "delete from user_group where groupID='" + request.form.get("group") + "'"
                 deletefrom.execute(sql)
                 mydb.commit()
                 return redirect(url_for("admin_dash_group.html"))
@@ -327,7 +327,6 @@ def discussions():
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
             return render_template("discussions.html")
-            # This line is not necessary -> allData = mydb.cursor(buffered=True)
         else:
             return redirect(url_for("failure"))  
     else: 

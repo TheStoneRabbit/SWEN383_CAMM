@@ -1,12 +1,31 @@
 <html>
     <head>
         <title>myPLS</title>
-        <link rel="stylesheet" href="../style/main.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     </head>
     <body>
+      <div id='nav'>
+        <img id="logo" src="{{ url_for('static', filename='assets/logo.svg') }}"/>
+
+        <a class='active' href="#"> Users </a>
+        <a href='/adminpanelindex'> Courses </a>
+        <a href='/admin_group_dash'> Groups </a>
+      </div>
+      <div class='header'>
+          <h4 id='adminName'> {{first}}, {{last}}</h4>
+
+          <div id='right'>
+              <div id="filter">
+                  <input id="myInput" type="text" placeholder="">
+              </div>
+
+              <a href='/logout'><img src="{{ url_for('static', filename='assets/profileIcon.svg') }}"/></a>
+          </div>
+      </div>
+
         <div class="container text-center">
-          <h1 class="mb-3 text-info">Remove myPLS User</h1>
+          <h1 id='title'>Remove a User</h1>
           <form action="" method="post">
               <input type="text" placeholder="User ID" class=" border border-primary mt-2 rounded" name="username" value="{{
                 request.form.username }}">

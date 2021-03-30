@@ -69,6 +69,38 @@ body {
     font-weight: bold;
 }
 
+#edit {
+    display: flex;
+    justify-content:flex-end;
+}
+
+#edit button {
+    background-color: #0d6efd;
+    color: white;
+    margin-right: 6vw;
+}
+
+#add {
+    display: flex;
+    justify-content:flex-end;
+}
+
+#add a {
+    margin-right: 6vw;
+}
+
+#add a img {
+    width: 6vw;
+}
+
+.hiddenTrue {
+    display: none;
+}
+
+.hiddenFalse {
+    display: block;
+}
+
 #courses {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -108,6 +140,7 @@ body {
     margin: 0;
     color: #0d6efd;
 }
+
 .hide_extra {
     padding: 0;
     border: none;

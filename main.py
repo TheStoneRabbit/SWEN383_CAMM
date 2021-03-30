@@ -322,6 +322,18 @@ def admin_course():
     else: 
         return redirect(url_for("failure"))
 
+# Navigating to A Course Page - Alexis
+@app.route('/tocourse',  methods=['GET', 'POST'])
+def to_course():
+    if session["permission_level"] == "(0)":
+        if session["logged_in"] != 'false':
+            return render_template("course.html")
+        else: 
+            return redirect(url_for("failure"))
+    else: 
+        return redirect(url_for("failure"))
+
+
 # myPLS Start page
 # As of right now this just redirects to login
 @app.route('/')

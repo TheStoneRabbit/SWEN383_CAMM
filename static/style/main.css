@@ -3,8 +3,8 @@
     margin-top: 2em;
 }
 
-.container img {
-    width: 8vw;
+#homeLogo {
+    width: 16vw;
 }
 
 /* learner dash */
@@ -191,6 +191,15 @@ for the popup that you use to fill out discussion group information. */
     top: 50%;
     margin-top: -25vh;
     border-radius: .7vw;
-    box-shadow: .5vw 1vh 2px 5px lightgray;
+    box-shadow: 5px 5px 8px 0 gray;
 
+}
+
+/* Add and Remove a User */
+#backButton {
+    margin-left: 6vw;
+}
+
+#backButton img {
+    width: 30px;
 }

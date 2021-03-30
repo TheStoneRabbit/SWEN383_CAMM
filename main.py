@@ -354,12 +354,12 @@ def remove_course():
         return redirect(url_for("failure"))
 
 
-# Discussions Page - Conor
-@app.route('/discussions')
+# Course Page - Conor
+@app.route('/group')
 def discussions():
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
-            return render_template("discussions.html")
+            return render_template("group.html")
         else:
             return redirect(url_for("failure"))  
     else: 

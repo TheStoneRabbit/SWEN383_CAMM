@@ -200,3 +200,47 @@ for the popup that you use to fill out discussion group information. */
 #backButton img {
     width: 30px;
 }
+
+/*
+
++++++++++++++++++++++++++++++++++++++++++++++++++
+    Styles for 'admin_dash_group.html' page.
++++++++++++++++++++++++++++++++++++++++++++++++++
+
+*/
+
+#groups {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 6vw;
+    row-gap: 8vh;
+    padding: 6vw;
+}
+
+#groups a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.group {
+    background-color: white;
+    padding: 12px;
+    position: relative;
+}
+
+.group img {
+    width: 100%;
+}
+
+.group form {
+    position: absolute;  
+    width: 100%;
+}
+
+.group .exit {
+    width: 6%;
+}
+
+.groupName {
+    text-align: center;
+}

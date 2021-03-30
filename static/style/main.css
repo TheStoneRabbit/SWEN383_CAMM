@@ -69,18 +69,26 @@ body {
     font-weight: bold;
 }
 
-#edit button {
+#edit {
     display: flex;
     justify-content:flex-end;
+}
+
+#edit button {
     background-color: #0d6efd;
     color: white;
+    margin-right: 6vw;
+}
+
+#add {
+    display: flex;
+    justify-content:flex-end;
 }
 
 #add button {
-    display: flex;
-    justify-content:flex-end;
     background-color: rgb(58, 184, 58);
     color: white;
+    margin-right: 6vw;
 }
 
 .hiddenTrue {

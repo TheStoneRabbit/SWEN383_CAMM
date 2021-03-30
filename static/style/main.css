@@ -202,6 +202,20 @@ for the popup that you use to fill out discussion group information. */
     width: 30px;
 }
 
+.subtitle {
+    text-align: left;
+    margin-left: 6vw;
+    color: #0d6efd;
+}
+
+.userT {
+    width: 80vw;
+    margin-left: 6vw;
+    margin-bottom: 2em;
+}
+
+
+
 /*
 
 +++++++++++++++++++++++++++++++++++++++++++++++++

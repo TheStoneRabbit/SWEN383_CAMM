@@ -247,19 +247,33 @@ def admin_user_dash():
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
             allData = mydb.cursor(buffered=True)
-            allData.execute("select firstName, lastName, userID, email, typeU from user")
+            allData.execute("select firstName, lastName, userID, email from user WHERE typeU=0")
             items = allData.fetchall()
             htmlRender = []
             numOfItems = len(items)
-            lenX = 6
+            lenX = 4
             for x in items:
                 for i in x:
                     htmlRender.append(i)
+            allData.execute("select firstName, lastName, userID, email from user WHERE typeU=1")
+            items1 = allData.fetchall()
+            numOfItems1 = len(items1)
+            lenX1 = 4
+            for x1 in items1:
+                for i1 in x1:
+                    htmlRender.append(i1)
+            allData.execute("select firstName, lastName, userID, email from user WHERE typeU=2")
+            items2 = allData.fetchall()
+            numOfItems2 = len(items1)
+            lenX2 = 4
+            for x2 in items2:
+                for i2 in x2:
+                    htmlRender.append(i2)
         else:
             return redirect(url_for("failure"))  
     else: 
         return redirect(url_for("failure"))
-    return render_template("admin_dash_user.html", htmlRender=htmlRender, items=items, x=lenX)
+    return render_template("admin_dash_user.html", htmlRender=htmlRender, items=items, x=lenX, items1=items1, x1=lenX1, items2=items2, x2=lenX2)
 
 
 # for the group page

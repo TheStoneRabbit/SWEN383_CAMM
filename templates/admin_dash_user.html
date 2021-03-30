@@ -32,7 +32,7 @@
         </div>
 
         <div class='header'>
-            <h4 id='adminName'> {{first}}, {{last}}</h4>
+            <h4 id='adminName'> {{last}}, {{first}}</h4>
 
             <div id='right'>
                 <div id="filter">
@@ -48,29 +48,69 @@
         <div class="Buttons text-center">
             <a href="/adminpaneladd"><input type="button" class="btn btn-primary m-2" value="Add User"></a> 
             <a href="/adminpanelremove"><input type="button" class="btn btn-primary m-2" value="Remove User"></a> 
-        <table class="table">
-            <thead>
-                <tr>
-                  <th scope="col">First Name</th>
-                  <th scope="col">Last Name</th>
-                  <th scope="col">User ID</th>
-                  <th scope="col">Email</th>
-                  <!--<th scope="col">Password Hash</th>-->
-                  <th scope="col">User Authorization</th>
-                </tr>
-              </thead>
-        <tbody>
-            {%for i in items%} 
 
-            <tr class='userName'>
-                {%for l in i%}    
-                <td>{{l}}</td>
-                {%endfor%}
-            </tr>
-            {%endfor%}
-        
-        </tbody>
-        </table>
+            <h2 class='subtitle'> Admin Users </h2>
+            <table class="table userT">
+                <thead>
+                    <tr>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">User ID</th>
+                    <th scope="col">Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for i in items%} 
+                    <tr class='userName'>
+                        {%for l in i%}    
+                        <td>{{l}}</td>
+                        {%endfor%}
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+
+            <h2 class='subtitle'> Professor Users </h2>
+            <table class="table userT">
+                <thead>
+                    <tr>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">User ID</th>
+                    <th scope="col">Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for i1 in items1%} 
+                    <tr class='userName'>
+                        {%for l in i1%}    
+                        <td>{{l}}</td>
+                        {%endfor%}
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+
+            <h2 class='subtitle'> Learner Users </h2>
+            <table class="table userT">
+                <thead>
+                    <tr>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">User ID</th>
+                    <th scope="col">Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for i2 in items2%} 
+                    <tr class='userName'>
+                        {%for l in i2%}    
+                        <td>{{l}}</td>
+                        {%endfor%}
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
         </div> 
     </body>
 </html>

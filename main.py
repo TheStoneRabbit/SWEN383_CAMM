@@ -69,8 +69,10 @@ def admin_panel_index():
                 deletefrom.execute(sql)
                 mydb.commit()
                 return redirect(url_for("admin_panel_index"))
-            return render_template("admin_dash.html", listy=htmlRender, first=nameRender[0], last=nameRender[1])
-            
+            try:
+                return render_template("admin_dash.html", listy=htmlRender, first=nameRender[0], last=nameRender[1])
+            except:
+                return redirect(url_for("failure"))
         else: 
             return redirect(url_for("failure"))
     else:
@@ -140,10 +142,13 @@ def admin_panel_add():
                 sql = "INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values (%s, %s, %s, %s, %s, %s)"
                 req_pass = str(request.form['password'])
                 pass_encode = hashlib.sha256(req_pass.encode())
-                values = (request.form["firstname"], request.form["lastname"],int(request.form["userID"]), request.form["email"], pass_encode.hexdigest(), int(request.form["type"]))
-                insertinto.execute(sql, values)
-                mydb.commit()
-                return render_template("entries_added.html")
+                try:
+                    values = (request.form["firstname"], request.form["lastname"],int(request.form["userID"]), request.form["email"], pass_encode.hexdigest(), int(request.form["type"]))
+                    insertinto.execute(sql, values)
+                    mydb.commit()
+                    return render_template("entries_added.html")
+                except:
+                    return render_template("query_error.html")
             return render_template("adminpaneladd.html")
         else: 
             return redirect(url_for("failure"))
@@ -308,12 +313,13 @@ def admin_course():
             if request.method == 'POST':
                 insertinto = mydb.cursor(buffered=True)
                 sql = "INSERT INTO course (courseID, courseName, capacity, courseLoc, courseTimes) values (%s, %s, %s, %s, %s)"
-                for x in request.form:
-                    print(x)
-                values = (request.form["courseID"], request.form["courseName"],int(request.form["capacity"]), request.form["Location"], request.form["times"])
-                insertinto.execute(sql, values)
-                mydb.commit()
-                return render_template("entries_added.html")
+                try:
+                    values = (request.form["courseID"], request.form["courseName"],int(request.form["capacity"]), request.form["Location"], request.form["times"])
+                    insertinto.execute(sql, values)
+                    mydb.commit()
+                    return render_template("entries_added.html")
+                except:
+                    return render_template("query_error.html")
             return render_template("add_course.html")
         else: 
             return redirect(url_for("failure"))

@@ -168,3 +168,29 @@ body {
     border: none;
     background: none;
 }
+
+/*
+
++++++++++++++++++++++++++++++++++++++++++++++++
+    Styles for 'discussions.html' page.
++++++++++++++++++++++++++++++++++++++++++++++++
+
+*/
+
+/* This element appears when the admin clicks the 'Create' button. It is the container
+for the popup that you use to fill out discussion group information. */
+#createGroupPopupContainer {
+
+    background-color: white;
+    width: 22vw;
+    height: 50vh;
+    position: absolute;
+    margin: 0 auto;
+    left: 50%;
+    margin-left: -11vw;
+    top: 50%;
+    margin-top: -25vh;
+    border-radius: .7vw;
+    box-shadow: .5vw 1vh 2px 5px lightgray;
+
+}

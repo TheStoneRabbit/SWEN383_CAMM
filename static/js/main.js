@@ -4,9 +4,12 @@
 
 */
 let counter = 3;
-
 let addDiscussionButton = document.getElementById("add-discussion-button");
-let groupContainer = document.getElementById("discussion-group-container");
+let groupContainer = document.getElementById("container");
+
+let createGroupPopupContainer = document.createElement("div");
+createGroupPopupContainer.textContent = "hello";
+createGroupPopupContainer.id = "createGroupPopupContainer";
 
 // addGroupButton.addEventListener("click", function() {
 
@@ -30,21 +33,18 @@ function disableScrolling() {
 
 }
 
-// addDiscussionButton.addEventListener("click", function() {
+addDiscussionButton.addEventListener("click", function() {
 
-//     for (let i = 0; i < document.body.childNodes.length; i++) {
+    window.scrollTo(0, 0);
 
-//         console.log(document.body.childNodes[i]);
-//         document.body.childNodes[i].style.opacity = ".5";
+    document.querySelectorAll('#container *').forEach((element) => {
 
-//     }
-      
-//     window.addEventListener('scroll', disableScrolling);
-
-// });
-
-document.querySelectorAll('body *').forEach((element) => {
-
+        element.style.opacity = ".7";
     
+    });
+
+    window.addEventListener('scroll', disableScrolling);
+
+    document.body.appendChild(createGroupPopupContainer);
 
 });

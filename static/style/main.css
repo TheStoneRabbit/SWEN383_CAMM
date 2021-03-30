@@ -83,16 +83,14 @@ body {
     justify-content:flex-end;
 }
 
-#edit button {
-    background-color: #0d6efd;
-    color: white;
+#edit a {
     margin-right: 6vw;
-    display: inline-block;
 }
 
 #add {
     display: flex;
     justify-content:flex-end;
+    margin-top: 1em;
 }
 
 #add a {
@@ -105,14 +103,8 @@ body {
 
 #done {
     display: flex;
-    justify-content: flex-end;
-}
-
-#done a {
-    background-color: #0d6efd;
-    color: white;
-    margin-right: 6vw;
-    text-decoration: none;
+    justify-content: center;
+    margin: 1em 0;
 }
 
 .hiddenTrue {

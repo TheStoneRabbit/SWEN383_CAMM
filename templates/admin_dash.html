@@ -69,15 +69,11 @@
         <h1 id='title'> Course Management </h1>
 
         <div id='edit'>
-            <button id='editButton' class='' onclick='edit()'> Edit Courses </button>
+            <a onclick='edit()'><input type="button" class="btn btn-primary m-2" value='Edit Courses'/></a>
         </div>
 
         <div id='add'>
             <a class="hiddenTrue" href='/addcourse'><img src="{{ url_for('static', filename='assets/add.svg') }}"/></a>
-        </div>
-
-        <div id='done'>
-            <a href="/adminpanelindex"><input type="button" class="btn btn-primary m-2 hiddenTrue" value='Done'/></a>
         </div>
          
         <div id='courses'>
@@ -110,6 +106,10 @@
             </div>
             {%endfor%}
         
+        </div>
+
+        <div id='done'>
+            <a href="/adminpanelindex"><input type="button" class="btn btn-primary m-2 hiddenTrue" value='Done'/></a>
         </div>
         
     </body>

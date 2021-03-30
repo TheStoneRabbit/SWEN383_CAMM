@@ -78,6 +78,7 @@ body {
     background-color: #0d6efd;
     color: white;
     margin-right: 6vw;
+    display: inline-block;
 }
 
 #add {
@@ -90,7 +91,19 @@ body {
 }
 
 #add a img {
-    width: 6vw;
+    width: 5vw;
+}
+
+#done {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#done a {
+    background-color: #0d6efd;
+    color: white;
+    margin-right: 6vw;
+    text-decoration: none;
 }
 
 .hiddenTrue {

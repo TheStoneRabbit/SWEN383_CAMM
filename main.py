@@ -275,8 +275,8 @@ def login():
 
     # View Format for user table 
 
-@app.route('/adminview', methods=['GET', 'POST'])
-def aView():
+@app.route('/admin_user_dash', methods=['GET', 'POST'])
+def admin_user_dash():
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
             allData = mydb.cursor(buffered=True)
@@ -292,14 +292,15 @@ def aView():
             return redirect(url_for("failure"))  
     else: 
         return redirect(url_for("failure"))
-    return render_template("adminpanelview.html", htmlRender=htmlRender, items=items, x=lenX)
+    return render_template("admin_dash_user.html", htmlRender=htmlRender, items=items, x=lenX)
 
 
-@app.route("/admin_user_dash")
-def admin_user_dash():
+# for the group page
+@app.route("/admin_group_dash")
+def admin_group_dash():
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
-            return render_template("admin_dash_user.html")
+            return render_template("admin_dash_group.html")
         else: 
             return redirect(url_for("failure"))
     else:

@@ -28,8 +28,8 @@
         <h1 id='title'> Group Management </h1>
 
         <div id='courses'>
-            {%for x in listy%}
-            <div class='course {{x[0]}}'>
+            {%for x in userGroupData%}
+            <div class='course {{x[2]}}'>
                 <img src="{{ url_for('static', filename='assets/studentExample.jpg') }}" />
                 
                 <!-- <a id='exit' href='/removecourse'><img src="{{ url_for('static', filename='assets/delete.svg') }}" /></a> -->
@@ -37,21 +37,12 @@
                     <input type="hidden" id="courseID" name="course" value="{{x[0]}}">
                     <button type="submit" onclick="alert('Course Removed')"><img src="{{ url_for('static', filename='assets/delete.svg') }}" /></button>
                 </form>
+                
+                <h3 class='courseName'>{{x[2]}}</h3>
 
-                <h3 class='courseName'>{{x[0]}}: {{x[1]}}</h3>
-
-                <p class='boldHeader'> Days and Times </p>
+                <p class='boldHeader'> Description:</p>
                 <ul class='items'>
-                    {%for y in x[4]%}
-                    <li> {{y}} </li>
-                    {%endfor%}
-                </ul>
-
-                <p class='boldHeader'> Location </p>
-                <ul class='items'>
-                    {%for l in x[3]%}
-                    <li> {{l}} </li>
-                    {%endfor%}
+                    <li> {{x[3]}} </li>
                 </ul>
             </div>
             {%endfor%}

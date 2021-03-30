@@ -247,7 +247,24 @@ def admin_user_dash():
 def admin_group_dash():
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
-            return render_template("admin_dash_group.html")
+            groupData = mydb.cursor(buffered=True)
+            groupData.execute("select group_concat(groupID), userID, title, group_description from user_group")
+            items = groupData.fetchall()
+            htmlRender = []
+            numOfItems = len(items)
+            piece = []
+            existing_groups = []
+            count = 0
+            appendItems = False
+            for x in items:
+                for i in x:
+                    piece.append(i)
+                    count += 1
+                    htmlRender.append(piece)
+                piece = []
+                count = 0
+            print(htmlRender)
+            return render_template("admin_dash_group.html", userGroupData=htmlRender, items=items)
         else: 
             return redirect(url_for("failure"))
     else:

@@ -6,6 +6,30 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     </head>
     <body>
+        <script>
+            function edit() {
+                var elements = document.getElementsByClassName('hiddenTrue');
+
+                for (var i = 0; i < elements.length; i++){
+                    elements[i].classList.remove('hiddenTrue');
+                    elements.item(i).classList.add('hiddenFalse');
+                }  
+
+                document.getElementById('editButton').style.display = 'none';
+            };
+
+            function done(){
+                var elements = document.getElementsByClassName('hiddenFalse');
+
+                for (var i = 0; i < elements.length; i++){
+                    elements[i].classList.remove('hiddenFalse');
+                    elements.item(i).classList.add('hiddenTrue');
+                }
+
+                document.getElementById('editButton').style.display = 'inline-block';
+
+            };
+        </script>
         <div id='nav'>
             <img src="{{ url_for('static', filename='assets/logo.svg') }}"/>
             <a href="/admin_user_dash"> Users </a>
@@ -27,28 +51,37 @@
 
         <h1 id='title'> Group Management </h1>
 
+        <div id='edit'>
+            <a onclick='edit()'><input type="button" class="btn btn-primary m-2" value='Edit Courses'/></a>
+        </div>
+
+        <div id='add'>
+            <a class="hiddenTrue" href='/addcourse'><img src="{{ url_for('static', filename='assets/add.svg') }}"/></a>
+        </div>
+
         <div id='groups'>
             {%for x in userGroupData%}
-            <div class='group {{x[2]}}'>
-                <img src="{{ url_for('static', filename='assets/studentExample.jpg') }}" />
-                
-                <!-- <a id='exit' href='/removecourse'><img src="{{ url_for('static', filename='assets/delete.svg') }}" /></a> -->
-                <form method="POST" >
-                    <input type="hidden" id="groupID" name="group" value="{{x[0]}}">
-                    <button type="submit" onclick="alert('Group Removed')"><img src="{{ url_for('static', filename='assets/delete.svg') }}" /></button>
-                </form>
-                
-                <h3 class='groupName'>{{x[2]}}</h3>
+            <a href='/togroup'>
+                <div class='group {{x[2]}}'>
+                    <img src="{{ url_for('static', filename='assets/studentExample.jpg') }}" />
+                    
+                    <form method="POST" >
+                        <input type="hidden" id="groupID" name="group" value="{{x[0]}}">
+                        <button type="submit" onclick="alert('Group Removed')"><img src="{{ url_for('static', filename='assets/delete.svg') }}" /></button>
+                    </form>
+                    
+                    <h3 class='groupName'>{{x[2]}}</h3>
 
-                <p class='boldHeader'> Description:</p>
-                <ul class='items'>
-                    <li> {{x[3]}} </li>
-                </ul>
-                <p class='boldHeader'> Students:</p>
-                <ul class='items'>
-                    <li> {{x[1]}} </li>
-                </ul>
-            </div>
+                    <p class='boldHeader'> Description:</p>
+                    <ul class='items'>
+                        <li> {{x[3]}} </li>
+                    </ul>
+                    <p class='boldHeader'> Students:</p>
+                    <ul class='items'>
+                        <li> {{x[1]}} </li>
+                    </ul>
+                </div>
+            </a>
             {%endfor%}
         
         </div>

@@ -1,4 +1,6 @@
-
+/*
+OK, so I am going to have to add another column to user called groupID.  This column will dictate what group(s) the users are in
+*/
 
 
 DROP DATABASE IF EXISTS myPLS;
@@ -20,7 +22,6 @@ CREATE TABLE user (
     typeU       tinyint NOT NULL,
     CONSTRAINT user_pk PRIMARY KEY (userID)
 );
-
 
 
 /* 
@@ -114,18 +115,21 @@ CREATE TABLE multimedia (
 */
 CREATE TABLE user_group (
     groupID     int,
-    userID     int,
     title       varchar(30),
     group_description   varchar(200),
      /* group must exist before a user can be added to it */
     -- CONSTRAINT discussionArea_fk FOREIGN KEY (groupID) REFERENCES discussionArea(groupID),
     /* user must exist before it can be added to a group */
-    CONSTRAINT public_group_fk FOREIGN KEY (userID) REFERENCES user(userID),
-    -- CONSTRAINT enrollment_user_fk_two FOREIGN KEY (userID) REFERENCES user(userID),
-    CONSTRAINT public_group_pk PRIMARY KEY (groupID, userID)
+    CONSTRAINT group_pk PRIMARY KEY (groupID)
 );
 
 
+CREATE TABLE studentGroups (
+    userID      int,
+    groupID     int,
+    CONSTRAINT group_fk_user FOREIGN KEY (userID) REFERENCES user(userID),
+    CONSTRAINT group_fk_ID FOREIGN KEY (groupID) REFERENCES user_group(groupID)
+);
 
 /* User test cases */
 INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values ("Mason", "Lapine", 4263, "mwl4263@rit.edu", "d64dfa6e3c81910d0267c38b158690cf50722b8c4b259f1bc8ea77ea180d6451", 2);
@@ -142,12 +146,22 @@ INSERT INTO course (courseID, courseName, capacity, courseLoc, courseTimes) valu
 INSERT INTO course (courseID, courseName, capacity, courseLoc, courseTimes) values ('ISTE340', 'Client Programming', 24, 'ONLINE', 'Tuesday 9:30am - 10:45am, Thursday 9:30am - 10:45am');
 INSERT INTO course (courseID, courseName, capacity, courseLoc, courseTimes) values ('PSYC251', 'Research Methods II', 28, 'Tuesday ONLINE, Thursday LBR 3244', 'Tuesday 12:30pm - 1:45pm, Thursday 12:30pm - 1:45pm');
 
-INSERT INTO user_group (groupID, userID, title, group_description) VALUES (1, 4263, "Group 1 Title", "This is Group 1s description and this describes the group's contents and group members.");
-INSERT INTO user_group (groupID, userID, title, group_description) VALUES (2, 1001, "Group 1 Title", "This is Group 1's description and this describes the group's contents and group members.");
-INSERT INTO user_group (groupID, userID, title, group_description) VALUES (3, 6969, "Group 1 Title", "This is Group 1's description and this describes the group's contents and group members.");
-INSERT INTO user_group (groupID, userID, title, group_description) VALUES (4, 4263, "Group 2 Title", "This is Group 2's description and this describes the group's contents and group members.");
-INSERT INTO user_group (groupID, userID, title, group_description) VALUES (5, 1001, "Group 2 Title", "This is Group 2's description and this describes the group's contents and group members.");
-INSERT INTO user_group (groupID, userID, title, group_description) VALUES (6, 6969, "Group 2 Title", "This is Group 2's description and this describes the group's contents and group members.");
-INSERT INTO user_group (groupID, userID, title, group_description) VALUES (7, 4263, "Group 3 Title", "This is Group 3's description and this describes the group's contents and group members.");
-INSERT INTO user_group (groupID, userID, title, group_description) VALUES (8, 1001, "Group 3 Title", "This is Group 3's description and this describes the group's contents and group members.");
-INSERT INTO user_group (groupID, userID, title, group_description) VALUES (9, 6969, "Group 3 Title", "This is Group 3's description and this describes the group's contents and group members.");
+INSERT INTO user_group (groupID, title, group_description) VALUES (1, "Group 1 Title", "This is Group 1s description and this describes the group's contents and group members.");
+INSERT INTO user_group (groupID, title, group_description) VALUES (2, "Group 2 Title", "This is Group 2's description and this describes the group's contents and group members.");
+INSERT INTO user_group (groupID, title, group_description) VALUES (3, "Group 3 Title", "This is Group 3's description and this describes the group's contents and group members.");
+
+INSERT INTO studentGroups VALUES (4263, 1);
+INSERT INTO studentGroups VALUES (4263, 2);
+INSERT INTO studentGroups VALUES (4263, 3);
+INSERT INTO studentGroups VALUES (1001, 3);
+INSERT INTO studentGroups VALUES (1001, 2);
+INSERT INTO studentGroups VALUES (1001, 1);
+INSERT INTO studentGroups VALUES (6969, 1);
+INSERT INTO studentGroups VALUES (6969, 2);
+INSERT INTO studentGroups VALUES (6969, 3);s
+
+select studentGroups.groupID, group_concat(studentGroups.userID) as "Users in Group", title, group_description from user_group 
+join studentGroups on studentGroups.groupID = user_group.groupID
+join user on studentGroups.userID = user.userID
+where user.userID = studentGroups.userID
+group by user_group.groupID;

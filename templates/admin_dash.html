@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title></title>
+        <title>Admin Dash</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"/>
         <link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -52,7 +52,7 @@
 
             <a href='/admin_user_dash'> Users </a>
             <a class='active' href="#"> Courses </a>
-            <a href='/admin_group_dash'> Groups </a>
+            <a href='/admin_dash_group'> Groups </a>
         </div>
         <div class='header'>
             <h4 id='adminName'> {{first}}, {{last}}</h4>

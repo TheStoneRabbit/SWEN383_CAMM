@@ -14,7 +14,7 @@
         </div>
 
         <div class='header'>
-            <h4 id='adminName'> Admin Name </h4>
+            <h4 id='adminName'> {{first}}, {{last}} </h4>
 
             <div id='right'>
                 <div id="filter">
@@ -34,8 +34,8 @@
                 
                 <!-- <a id='exit' href='/removecourse'><img src="{{ url_for('static', filename='assets/delete.svg') }}" /></a> -->
                 <form method="POST" >
-                    <input type="hidden" id="courseID" name="course" value="{{x[0]}}">
-                    <button type="submit" onclick="alert('Course Removed')"><img src="{{ url_for('static', filename='assets/delete.svg') }}" /></button>
+                    <input type="hidden" id="groupID" name="group" value="{{x[0]}}">
+                    <button type="submit" onclick="alert('Group Removed')"><img src="{{ url_for('static', filename='assets/delete.svg') }}" /></button>
                 </form>
                 
                 <h3 class='courseName'>{{x[2]}}</h3>

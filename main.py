@@ -65,7 +65,7 @@ def admin_panel_index():
                     nameRender.append(i)
             if request.method == 'POST':
                 deletefrom = mydb.cursor(buffered=True)
-                sql = "delete from course where courseID='" + request.form.get("course")+ "'"
+                sql = "delete from course where courseID='" + request.form.get("course") + "'"
                 deletefrom.execute(sql)
                 mydb.commit()
                 return redirect(url_for("admin_panel_index"))
@@ -73,6 +73,59 @@ def admin_panel_index():
                 return render_template("admin_dash.html", listy=htmlRender, first=nameRender[0], last=nameRender[1])
             except:
                 return redirect(url_for("failure"))
+        else: 
+            return redirect(url_for("failure"))
+    else:
+        return redirect(url_for("failure"))
+
+        # for the group page
+# @app.route("/admin_group_dash")
+# def admin_group_dash():
+#     if session["permission_level"] == "(0)":
+#         if session["logged_in"] != 'false':
+#             return render_template("admin_dash_group.html")
+#         else: 
+#             return redirect(url_for("failure"))
+#     else:
+#         return redirect(url_for("failure"))
+
+# Group admin page. Checks if user is admin and returns admin group page, 
+# otherwise returns failure page
+@app.route('/admin_dash_group',  methods=['GET', 'POST'])
+def admin_group():
+    if session["permission_level"] == "(0)":
+        if session["logged_in"] != 'false':
+            groupData = mydb.cursor(buffered=True)
+            groupData.execute("select * from user_group")
+            items = groupData.fetchall()
+            htmlRender = [] 
+            piece = []
+            count  = 0
+            for x in items:
+                for i in x:
+                    if count == 4 or count == 3:
+                        i = str(i)
+                        i = i.split(", ")
+                    piece.append(i)
+                    count += 1
+                htmlRender.append(piece)
+                piece = []
+                count = 0
+            userName = mydb.cursor(buffered=True)
+            userName.execute("select firstName, lastName from user where email='"+ email+ "'")
+            names = userName.fetchall()
+            nameRender = []
+            for x in names:
+                for i in x:
+                    nameRender.append(i)
+            if request.method == 'POST':
+                deletefrom = mydb.cursor(buffered=True)
+                sql = "delete from user_group where groupID='" + request.form.get("group") + "'"
+                deletefrom.execute(sql)
+                mydb.commit()
+                return redirect(url_for("admin_dash_group.html"))
+            return render_template("admin_dash_group.html", listy=htmlRender, first=nameRender[0], last=nameRender[1])
+            
         else: 
             return redirect(url_for("failure"))
     else:
@@ -317,7 +370,6 @@ def discussions():
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
             return render_template("discussions.html")
-            # This line is not necessary -> allData = mydb.cursor(buffered=True)
         else:
             return redirect(url_for("failure"))  
     else: 

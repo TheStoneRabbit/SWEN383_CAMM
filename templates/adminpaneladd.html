@@ -13,7 +13,7 @@
             <a href='/admin_group_dash'> Groups </a>
         </div>
         <div class='header'>
-            <h4 id='adminName'> {{first}}, {{last}}</h4>
+            <a id='backButton' href="/admin_user_dash"><img src="{{ url_for('static', filename='assets/backButton.svg') }}" /></a> 
 
             <div id='right'>
                 <div id="filter">
@@ -48,7 +48,6 @@
 
                 <input class="btn btn-primary m-2" type="submit" value="Add User">
             </form>
-            <a href="/admin_user_dash"><input type="button" class="btn btn-primary m-2" value=Back></a> 
         </div>
         <br> 
     </body>

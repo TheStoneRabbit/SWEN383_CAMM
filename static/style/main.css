@@ -168,3 +168,12 @@ body {
     border: none;
     background: none;
 }
+
+/* Add and Remove a User */
+#backButton {
+    margin-left: 6vw;
+}
+
+#backButton img {
+    width: 30px;
+}

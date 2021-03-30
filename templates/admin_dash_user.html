@@ -19,7 +19,7 @@
                     var value = $(this).val();
                 
                     //filter by course
-                    $(document.getElementsByClassName('course')).hide().filter(':containi("' + value + '")').show();
+                    $(document.getElementsByClassName('userName')).hide().filter(':containi("' + value + '")').show();
                 });
             });
         </script>
@@ -32,7 +32,7 @@
         </div>
 
         <div class='header'>
-            <h4 id='adminName'> Admin Name </h4>
+            <h4 id='adminName'> {{first}}, {{last}}</h4>
 
             <div id='right'>
                 <div id="filter">
@@ -62,7 +62,7 @@
         <tbody>
             {%for i in items%} 
 
-            <tr>
+            <tr class='userName'>
                 {%for l in i%}    
                 <td>{{l}}</td>
                 {%endfor%}

@@ -123,6 +123,11 @@ body {
     padding: 6vw;
 }
 
+#courses a {
+    text-decoration: none;
+    color: inherit;
+}
+
 .course {
     background-color: white;
     padding: 12px;

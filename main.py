@@ -261,6 +261,25 @@ def admin_group_dash():
         return redirect(url_for("failure"))
     
 
+@app.route('/addcourse',  methods=['GET', 'POST'])
+def admin_course():
+    if session["permission_level"] == "(0)":
+        if session["logged_in"] != 'false':
+            if request.method == 'POST':
+                insertinto = mydb.cursor(buffered=True)
+                sql = "INSERT INTO course (courseID, courseName, capacity, courseLoc, courseTimes) values (%s, %s, %s, %s, %s)"
+                for x in request.form:
+                    print(x)
+                values = (request.form["courseID"], request.form["courseName"],int(request.form["capacity"]), request.form["Location"], request.form["times"])
+                insertinto.execute(sql, values)
+                mydb.commit()
+                return render_template("entries_added.html")
+            return render_template("add_course.html")
+        else: 
+            return redirect(url_for("failure"))
+    else: 
+        return redirect(url_for("failure"))
+
 # myPLS Start page
 # As of right now this just redirects to login
 @app.route('/')

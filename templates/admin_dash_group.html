@@ -27,9 +27,9 @@
 
         <h1 id='title'> Group Management </h1>
 
-        <div id='courses'>
+        <div id='groups'>
             {%for x in userGroupData%}
-            <div class='course {{x[2]}}'>
+            <div class='group {{x[2]}}'>
                 <img src="{{ url_for('static', filename='assets/studentExample.jpg') }}" />
                 
                 <!-- <a id='exit' href='/removecourse'><img src="{{ url_for('static', filename='assets/delete.svg') }}" /></a> -->
@@ -38,7 +38,7 @@
                     <button type="submit" onclick="alert('Group Removed')"><img src="{{ url_for('static', filename='assets/delete.svg') }}" /></button>
                 </form>
                 
-                <h3 class='courseName'>{{x[2]}}</h3>
+                <h3 class='groupName'>{{x[2]}}</h3>
 
                 <p class='boldHeader'> Description:</p>
                 <ul class='items'>

@@ -48,7 +48,29 @@
         <div class="Buttons text-center">
             <a href="/adminpaneladd"><input type="button" class="btn btn-primary m-2" value="Add User"></a> 
             <a href="/adminpanelremove"><input type="button" class="btn btn-primary m-2" value="Remove User"></a> 
-            <a href="/adminview"><input type="button" class="btn btn-primary m-2" value="View Users"></a> 
+        <table class="table">
+            <thead>
+                <tr>
+                  <th scope="col">First Name</th>
+                  <th scope="col">Last Name</th>
+                  <th scope="col">User ID</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Password Hash</th>
+                  <th scope="col">User Authorization</th>
+                </tr>
+              </thead>
+        <tbody>
+            {%for i in items%} 
+
+            <tr>
+                {%for l in i%}    
+                <td>{{l}}</td>
+                {%endfor%}
+            </tr>
+            {%endfor%}
+        
+        </tbody>
+        </table>
         </div> 
     </body>
 </html>

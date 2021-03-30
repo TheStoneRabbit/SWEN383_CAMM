@@ -27,6 +27,8 @@ userID = ""
 email = ""
 app = Flask(__name__)
 app.secret_key = 'cammgroup'
+firstName = ""
+lastName = ""
 
 # Logs a user out
 @app.route('/logout',  methods=['GET', 'POST'])
@@ -63,6 +65,10 @@ def admin_panel_index():
             for x in names:
                 for i in x:
                     nameRender.append(i)
+            global firstName
+            firstName = nameRender[0]
+            global lastName
+            lastName = nameRender[1]
             if request.method == 'POST':
                 deletefrom = mydb.cursor(buffered=True)
                 sql = "delete from course where courseID='" + request.form.get("course") + "'"
@@ -91,45 +97,6 @@ def admin_panel_index():
 
 # Group admin page. Checks if user is admin and returns admin group page, 
 # otherwise returns failure page
-@app.route('/admin_dash_group',  methods=['GET', 'POST'])
-def admin_group():
-    if session["permission_level"] == "(0)":
-        if session["logged_in"] != 'false':
-            groupData = mydb.cursor(buffered=True)
-            groupData.execute("select * from user_group")
-            items = groupData.fetchall()
-            htmlRender = [] 
-            piece = []
-            count  = 0
-            for x in items:
-                for i in x:
-                    if count == 4 or count == 3:
-                        i = str(i)
-                        i = i.split(", ")
-                    piece.append(i)
-                    count += 1
-                htmlRender.append(piece)
-                piece = []
-                count = 0
-            userName = mydb.cursor(buffered=True)
-            userName.execute("select firstName, lastName from user where email='"+ email+ "'")
-            names = userName.fetchall()
-            nameRender = []
-            for x in names:
-                for i in x:
-                    nameRender.append(i)
-            if request.method == 'POST':
-                deletefrom = mydb.cursor(buffered=True)
-                sql = "delete from user_group where groupID='" + request.form.get("group") + "'"
-                deletefrom.execute(sql)
-                mydb.commit()
-                return redirect(url_for("admin_dash_group.html"))
-            return render_template("admin_dash_group.html", listy=htmlRender, first=nameRender[0], last=nameRender[1])
-            
-        else: 
-            return redirect(url_for("failure"))
-    else:
-        return redirect(url_for("failure"))
 
 #admin add user page. Checks permission of user and returns admin add page if admin,
 # otherwise returns failure page
@@ -296,12 +263,13 @@ def admin_user_dash():
 
 
 # for the group page
-@app.route("/admin_group_dash")
+@app.route("/admin_dash_group")
 def admin_group_dash():
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
             groupData = mydb.cursor(buffered=True)
-            groupData.execute("select group_concat(groupID), userID, title, group_description from user_group")
+            sql = "select studentGroups.groupID, group_concat(studentGroups.userID) as 'Users in Group', title, group_description from user_group  join studentGroups on studentGroups.groupID = user_group.groupID join user on studentGroups.userID = user.userID where user.userID = studentGroups.userID group by user_group.groupID"
+            groupData.execute(sql)
             items = groupData.fetchall()
             htmlRender = []
             numOfItems = len(items)
@@ -309,15 +277,25 @@ def admin_group_dash():
             existing_groups = []
             count = 0
             appendItems = False
-            for x in items:
-                for i in x:
-                    piece.append(i)
-                    count += 1
-                    htmlRender.append(piece)
-                piece = []
-                count = 0
-            print(htmlRender)
-            return render_template("admin_dash_group.html", userGroupData=htmlRender, items=items)
+            mySplit = False
+            out = [k for t in items for k in t]
+            j = []
+            k = [out[i:i + 4] for i in range(0, len(out), 4)]
+            htmlRender = k
+
+                
+# l = ['a',' b',' c',' d',' e']
+# c_index = l.index("c")
+# l2 = l[:c_index]
+                # if count == 0:
+                #     j = str(x).replace("'", "").split(", ")
+                #     mySplit = True 
+                #     count += 1
+                #     htmlRender.append(j)
+            
+                
+                
+            return render_template("admin_dash_group.html", userGroupData=htmlRender, items=items, last=lastName, first=firstName)
         else: 
             return redirect(url_for("failure"))
     else:

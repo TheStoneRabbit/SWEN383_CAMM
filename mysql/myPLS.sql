@@ -160,7 +160,7 @@ INSERT INTO studentGroups VALUES (6969, 1);
 INSERT INTO studentGroups VALUES (6969, 2);
 INSERT INTO studentGroups VALUES (6969, 3);s
 
-select group_concat(studentGroups.userID) as "Users in Group", title, group_description from user_group 
+select studentGroups.groupID, group_concat(studentGroups.userID) as "Users in Group", title, group_description from user_group 
 join studentGroups on studentGroups.groupID = user_group.groupID
 join user on studentGroups.userID = user.userID
 where user.userID = studentGroups.userID

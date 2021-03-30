@@ -269,11 +269,21 @@ def admin_user_dash():
             for x2 in items2:
                 for i2 in x2:
                     htmlRender.append(i2)
+            allData.execute("select firstName, lastName from user where email='"+ email+ "'")
+            names = allData.fetchall()
+            nameRender = []
+            for x in names:
+                for i in x:
+                    nameRender.append(i)
+            global firstName
+            firstName = nameRender[0]
+            global lastName
+            lastName = nameRender[1]
         else:
             return redirect(url_for("failure"))  
     else: 
         return redirect(url_for("failure"))
-    return render_template("admin_dash_user.html", htmlRender=htmlRender, items=items, x=lenX, items1=items1, x1=lenX1, items2=items2, x2=lenX2)
+    return render_template("admin_dash_user.html", htmlRender=htmlRender, items=items, x=lenX, items1=items1, x1=lenX1, items2=items2, x2=lenX2, first=nameRender[0], last=nameRender[1])
 
 
 # for the group page

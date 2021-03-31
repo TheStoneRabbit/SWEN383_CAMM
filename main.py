@@ -75,12 +75,11 @@ def admin_panel_index():
                 deletefrom.execute(sql)
                 mydb.commit()
                 return redirect(url_for("admin_panel_index"))
-            try:
-                lastName = nameRender[1]
-                firstName = nameRender[0]
-                return render_template("admin_dash.html", listy=htmlRender, first=nameRender[0], last=nameRender[1])
-            except:
-                return redirect(url_for("failure"))
+           
+            lastName = nameRender[1]
+            firstName = nameRender[0]
+            return render_template("admin_dash.html", listy=htmlRender, first=nameRender[0], last=nameRender[1])
+          
         else: 
             return redirect(url_for("failure"))
     else:
@@ -210,7 +209,6 @@ def login():
         second_pos = 0
         for y in rowsPass:
             req_pass = str(request.form['password'])
-            #print(req_pass)
             pass_encode = hashlib.sha256(req_pass.encode())
             subbed_two = re.sub("(|)|,|'", "", str(y))
             y = re.sub("(|)|,|'", "", str(y))
@@ -292,8 +290,8 @@ def admin_user_dash():
 
 
 # Navigating to A Course Page
-@app.route('/tocourse')
-def to_course():
+@app.route('/tocourse/<course>', methods=['GET', 'POST'])
+def to_course(course):
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
             return render_template("course.html")

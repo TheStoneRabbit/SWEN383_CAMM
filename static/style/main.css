@@ -78,12 +78,22 @@ body {
     font-weight: bold;
 }
 
+/* Admin course area */
 #edit {
     display: flex;
     justify-content:flex-end;
 }
 
 #edit a {
+    margin-right: 6vw;
+}
+
+#update {
+    display: flex;
+    justify-content:flex-end;
+}
+
+#update a {
     margin-right: 6vw;
 }
 
@@ -165,6 +175,13 @@ body {
     padding: 0;
     border: none;
     background: none;
+}
+
+#courseSpecific {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 6vw;
+    padding: 6vw;
 }
 
 /*

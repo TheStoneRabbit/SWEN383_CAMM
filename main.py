@@ -286,6 +286,18 @@ def admin_user_dash():
     return render_template("admin_dash_user.html", htmlRender=htmlRender, items=items, x=lenX, items1=items1, x1=lenX1, items2=items2, x2=lenX2, first=nameRender[0], last=nameRender[1])
 
 
+# Navigating to A Course Page
+@app.route('/tocourse',  methods=['GET', 'POST'])
+def to_course():
+    if session["permission_level"] == "(0)":
+        if session["logged_in"] != 'false':
+            return render_template("course.html")
+        else: 
+            return redirect(url_for("failure"))
+    else: 
+        return redirect(url_for("failure"))
+
+
 # for the group page
 @app.route("/admin_dash_group")
 def admin_group_dash():

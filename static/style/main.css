@@ -111,6 +111,11 @@ body {
     width: 5vw;
 }
 
+#courseSpecificBtns {
+    display: flex;
+    justify-content: center;
+}
+
 #done {
     display: flex;
     justify-content: center;

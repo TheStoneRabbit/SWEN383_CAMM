@@ -296,9 +296,7 @@ def admin_user_dash():
 def to_course():
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
-            data = mydb.cursor(buffered=True)
-            courseName = 0
-            return render_template("course.html", courseName=courseName)
+            return render_template("course.html")
         else: 
             return redirect(url_for("failure"))
     else: 

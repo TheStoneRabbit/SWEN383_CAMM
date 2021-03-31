@@ -66,9 +66,9 @@ def admin_panel_index():
                 for i in x:
                     nameRender.append(i)
             global firstName
-            firstName = nameRender[0]
+            
             global lastName
-            lastName = nameRender[1]
+            
             if request.method == 'POST':
                 deletefrom = mydb.cursor(buffered=True)
                 sql = "delete from course where courseID='" + request.form.get("course") + "'"
@@ -76,6 +76,8 @@ def admin_panel_index():
                 mydb.commit()
                 return redirect(url_for("admin_panel_index"))
             try:
+                lastName = nameRender[1]
+                firstName = nameRender[0]
                 return render_template("admin_dash.html", listy=htmlRender, first=nameRender[0], last=nameRender[1])
             except:
                 return redirect(url_for("failure"))

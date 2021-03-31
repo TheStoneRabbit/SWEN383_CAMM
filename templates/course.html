@@ -22,6 +22,17 @@
                     $(document.getElementsByClassName('userName')).hide().filter(':containi("' + value + '")').show();
                 });
             });
+
+            function update() {
+                var elements = document.getElementsByClassName('hiddenTrue');
+
+                for (var i = 0; i < elements.length; i++){
+                    elements[i].classList.remove('hiddenTrue');
+                    elements.item(i).classList.add('hiddenFalse');
+                }  
+
+                document.getElementById('updateButton').style.display = 'none';
+            };
         </script>
 
         <div id='nav'>
@@ -43,42 +54,49 @@
             </div>
         </div>
 
-        <h1 id='title'> Course Name </h1>
+        <h1 id='title'> {{courseName}} </h1>
 
         <div id='update'>
             <a onclick='update()'><input type="button" class="btn btn-primary m-2" value='Update Course'/></a>
         </div>
 
-        <div class='course'>
-
-            <p class='boldHeader'> Days and Times </p>
-            <ul class='items'>
-                <li> Tuesday 2pm - 3:15pm </li>
-                <li> Thursday 2pm - 3:15pm </li>
-            </ul>
-
-            <p class='boldHeader'> Location </p>
-            <ul class='items'>
-                <li> GOL 3510 </li>
-            </ul>
-
-            <p class='boldHeader'> Professor Name </p>
-            <ul class='items'>
-                <li> Stephen Cady </li>
-            </ul>
-
-            <p class='boldHeader'> Learner Names </p>
-            <ul class='items'>
-                <li class='userName'> Mason Lapine </li>
-                <li class='userName'> Alexis Gordon </li>
-                <li class='userName'> Max Gerber </li>
-                <li class='userName'> Conor Keegan </li>
-                <li> <button> Add Learner </button></li>
-            </ul>
-
-            <button> Go to Discussion Group </button>
+        <div id='courseSpecificBtns'>
+            <a href='/addusertocourse'><input type="button" class="btn btn-primary m-2 hiddenTrue" value='Add User'/></a>
+            <a href='/removeusertocourse'><input type="button" class="btn btn-primary m-2 hiddenTrue" value='Remove User'/></a>
         </div>
 
+        <div id='courseSpecific'>
+            <div id='stats'>
+                <p class='boldHeader'> Days and Times </p>
+                <ul class='items'>
+                    <li> Tuesday 2pm - 3:15pm </li>
+                    <li> Thursday 2pm - 3:15pm </li>
+                </ul>
+
+                <p class='boldHeader'> Location </p>
+                <ul class='items'>
+                    <li> GOL 3510 </li>
+                </ul>
+
+                <p class='boldHeader'> Professor Name </p>
+                <ul class='items'>
+                    <li> Stephen Cady </li>
+                </ul>
+            </div>
+            <div id='learners'>
+                <p class='boldHeader'> Learner Names </p>
+                <ul class='items'>
+                    <li class='userName'> Mason Lapine </li>
+                    <li class='userName'> Alexis Gordon </li>
+                    <li class='userName'> Max Gerber </li>
+                    <li class='userName'> Conor Keegan </li>
+                </ul>
+            </div>
+        </div>
+
+        <div id='done'>
+            <a href="/tocourse"><input type="button" class="btn btn-primary m-2 hiddenTrue" value='Done'/></a>
+        </div>
             
     </body>
 </html>

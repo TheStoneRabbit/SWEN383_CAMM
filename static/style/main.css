@@ -78,12 +78,22 @@ body {
     font-weight: bold;
 }
 
+/* Admin course area */
 #edit {
     display: flex;
     justify-content:flex-end;
 }
 
 #edit a {
+    margin-right: 6vw;
+}
+
+#update {
+    display: flex;
+    justify-content:flex-end;
+}
+
+#update a {
     margin-right: 6vw;
 }
 
@@ -99,6 +109,11 @@ body {
 
 #add a img {
     width: 5vw;
+}
+
+#courseSpecificBtns {
+    display: flex;
+    justify-content: center;
 }
 
 #done {
@@ -167,6 +182,13 @@ body {
     background: none;
 }
 
+#courseSpecific {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 6vw;
+    padding: 6vw;
+}
+
 /*
 
 +++++++++++++++++++++++++++++++++++++++++++++++
@@ -201,6 +223,20 @@ for the popup that you use to fill out discussion group information. */
 #backButton img {
     width: 30px;
 }
+
+.subtitle {
+    text-align: left;
+    margin-left: 6vw;
+    color: #0d6efd;
+}
+
+.userT {
+    width: 80vw;
+    margin-left: 6vw;
+    margin-bottom: 2em;
+}
+
+
 
 /*
 

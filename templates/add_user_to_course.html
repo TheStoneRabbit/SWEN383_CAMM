@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>myPLS</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    </head>
+    <body>
+        <div id='nav'>
+            <img id="logo" src="{{ url_for('static', filename='assets/logo.svg') }}"/>
+    
+            <a href='/admin_group_user'> Users </a>
+            <a class='active' href="#"> Courses </a>
+            <a href='/admin_group_dash'> Groups </a>
+          </div>
+          <div class='header'>
+              <a id='backButton' href="/adminpanelindex"><img src="{{ url_for('static', filename='assets/backButton.svg') }}" /></a> 
+    
+              <div id='right'>
+                  <div id="filter">
+                      <input id="myInput" type="text" placeholder="">
+                  </div>
+    
+                  <a href='/logout'><img src="{{ url_for('static', filename='assets/profileIcon.svg') }}"/></a>
+              </div>
+          </div>
+
+        <div class="text-center container">
+            <h1 id='title'>Add a User to a Course</h1>
+            <form action="" method="post">
+                <input type="text" placeholder="Course ID" class=" border border-primary mt-2 rounded" name="courseID" value="{{
+                  request.form.courseID }}">
+                  <br>
+                <input type="text" placeholder="User ID" class="border border-primary mt-3 rounded" name="courseName" value="{{
+                  request.form.userID }}">
+                  <br>
+
+                <input class="btn btn-primary m-2" type="submit" value="Add User to Course">
+            </form>
+        </div>
+        <br> 
+    </body>
+</html>

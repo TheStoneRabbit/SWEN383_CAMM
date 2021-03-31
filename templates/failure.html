@@ -1,14 +1,16 @@
 <html>
     <head>
         <title>myPLS</title>
-        <link rel="stylesheet" href="../style/main.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}">
 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     </head>
     <body>
+        <br/>
+        <a id='backButton' href="/login"><img src="{{ url_for('static', filename='assets/backButton.svg') }}" /></a> 
         <div class="text-center container">
-            <h1>Not Authorized!</h1>
-            <a href="/login"><input type="button" class="btn btn-primary m-2" value=Back></a> 
+            <h1 id='title'>You Have Not Been Authorized</h1>
+            <p> Please try checking your spelling and/or caps. If these are not the issue or you do not have a login, please contact your admin. </p>
         </div>
         <br> 
     </body>

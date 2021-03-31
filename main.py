@@ -287,13 +287,12 @@ def admin_user_dash():
 
 
 # Navigating to A Course Page
-# @app.route('/tocourse/<course>')
 @app.route('/tocourse')
 def to_course(course):
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
             data = mydb.cursor(buffered=True)
-            courseName = course
+            courseName = 0
             return render_template("course.html", courseName=courseName)
         else: 
             return redirect(url_for("failure"))

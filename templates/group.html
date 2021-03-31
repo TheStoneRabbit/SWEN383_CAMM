@@ -50,9 +50,19 @@
             <a onclick='update()'><input type="button" class="btn btn-primary m-2" value='Update Course'/></a>
         </div>
 
-        <div class='course'>
+        <div id='group-post-container'>
 
-            
+            <div id="group-make-post">
+
+                <span id="group-make-post-title">New Post</span>
+                <form method="POST">
+
+                    <textarea id="group-make-post-textarea" name="makePostInput" required></textarea>
+                    <button type="submit">Post</button>
+
+                </form>
+
+            </div>
             
         </div>
 

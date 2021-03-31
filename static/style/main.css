@@ -281,3 +281,35 @@ for the popup that you use to fill out discussion group information. */
 .groupName {
     text-align: center;
 }
+
+/*
+
++++++++++++++++++++++++++++++++++++++++++++++++++
+    Styles for 'group.html' page.
++++++++++++++++++++++++++++++++++++++++++++++++++
+
+*/
+
+#group-post-container {
+
+    overflow: auto;
+
+}
+
+#group-make-post {
+
+    margin: 0 auto;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    width: 30vw;
+    height: 45vh;
+
+}
+
+#group-make-post-textarea {
+
+    width: 30vw;
+    height: 20vh;
+    resize: none;
+
+}

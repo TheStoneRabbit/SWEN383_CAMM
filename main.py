@@ -128,10 +128,13 @@ def admin_panel_remove():
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
             if request.method == 'POST':
-                deletefrom = mydb.cursor(buffered=True)
-                sql = "delete from user where userID = " + str(int(request.form["username"]))
+                deletefromStudentGroups = mydb.cursor(buffered=True)
+                sql = "delete from studentGroups where userID = " + str(int(request.form["username"]))
                 # values = int(request.form["username"])
-                deletefrom.execute(sql)
+                deletefromStudentGroups.execute(sql)
+                deletefromUser = mydb.cursor(buffered=True)
+                sqlTwo = "delete from user where userID = " + str(int(request.form["username"]))
+                deletefromUser.execute(sqlTwo)
                 mydb.commit()
                 return render_template("entries_removed.html")
             return render_template("adminpanelremove.html")

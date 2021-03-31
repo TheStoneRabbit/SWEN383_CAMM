@@ -296,8 +296,7 @@ def admin_user_dash():
 def to_course():
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
-            course = localStorage.getItem('course')
-            return render_template("course.html", course=course)
+            return render_template("course.html")
         else: 
             return redirect(url_for("failure"))
     else: 

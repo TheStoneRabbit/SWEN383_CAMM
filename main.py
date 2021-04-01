@@ -380,16 +380,43 @@ def admin_course():
     else: 
         return redirect(url_for("failure"))
 
-# # Navigating to A Course Page - Alexis
-# @app.route('/tocourse',  methods=['GET', 'POST'])
-# def to_course():
-#     if session["permission_level"] == "(0)":
-#         if session["logged_in"] != 'false':
-#             return render_template("course.html")
-#         else: 
-#             return redirect(url_for("failure"))
-#     else: 
-#         return redirect(url_for("failure"))
+
+@app.route('/addusertocourse', methods=['GET', 'POST'])
+def admin_add_user_to_course():
+    if session["permission_level"] == "(0)":
+        if session["logged_in"] != 'false':
+            if request.method == 'POST':
+                insertinto = mydb.cursor(buffered=True)
+                sql = "INSERT INTO enrollment (courseID, userID) VALUES (%s, %s)"
+                try:
+                    values = (request.form["courseID"], int(request.form["userID"]))
+                    insertinto.execute(sql, values)
+                    mydb.commit()
+                    return render_template("entries_added.html")
+                except:
+                    return render_template("query_error.html")
+            return render_template("add_user_to_course.html")
+        else: 
+            return redirect(url_for("failure"))
+    else: 
+        return redirect(url_for("failure"))
+
+
+@app.route('/removeuserfromcourse', methods=['GET', 'POST'])
+def admin_remove_user_from_course():
+    if session["permission_level"] == "(0)":
+        if session["logged_in"] != 'false':
+            if request.method == 'POST':
+                removefrom = mydb.cursor(buffered=True)
+                sql = "DELETE FROM enrollment WHERE courseID = " + request.form["courseID"] + " AND userID = " + str(int(request.form["userID"]))
+                removefrom.execute(sql)
+                mydb.commit()
+                return render_template("entries_removed.html")
+            return render_template("remove_user_from_course.html")
+        else: 
+            return redirect(url_for("failure"))
+    else: 
+        return redirect(url_for("failure"))
 
 
 # myPLS Start page

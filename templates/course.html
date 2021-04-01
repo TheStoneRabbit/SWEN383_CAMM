@@ -54,7 +54,7 @@
             </div>
         </div>
 
-        <h1 id='title'> {{course}} </h1>
+        <h1 id='title'> {{courseinfo[0][1]}} </h1>
 
         <div id='update'>
             <a onclick='update()'><input type="button" class="btn btn-primary m-2" value='Update Course'/></a>
@@ -69,27 +69,28 @@
             <div id='stats'>
                 <p class='boldHeader'> Days and Times </p>
                 <ul class='items'>
-                    <li> Tuesday 2pm - 3:15pm </li>
-                    <li> Thursday 2pm - 3:15pm </li>
+                    {% for x in courseinfo[0][4]%}
+                    <li>{{x}}</li>
+                    {%endfor%}
                 </ul>
 
                 <p class='boldHeader'> Location </p>
                 <ul class='items'>
-                    <li> GOL 3510 </li>
+                    <li> {{courseinfo[0][3]}} </li>
                 </ul>
 
                 <p class='boldHeader'> Professor Name </p>
                 <ul class='items'>
-                    <li> Stephen Cady </li>
+                    <li>{{courseinfo[0][5]}} {{courseinfo[0][6]}}</li>
                 </ul>
             </div>
             <div id='learners'>
                 <p class='boldHeader'> Learner Names </p>
                 <ul class='items'>
-                    <li class='userName'> Mason Lapine </li>
-                    <li class='userName'> Alexis Gordon </li>
-                    <li class='userName'> Max Gerber </li>
-                    <li class='userName'> Conor Keegan </li>
+
+                    {%for i in range(1, courseinfo|length)%}
+                    <li class='userName'> {{courseinfo[i][5]}} {{courseinfo[i][6]}}</li>
+                    {%endfor%}
                 </ul>
             </div>
         </div>

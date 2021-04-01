@@ -29,6 +29,7 @@ app = Flask(__name__)
 app.secret_key = 'cammgroup'
 firstName = ""
 lastName = ""
+courseID = ""
 
 # Logs a user out
 @app.route('/logout',  methods=['GET', 'POST'])
@@ -292,6 +293,8 @@ def admin_user_dash():
 # Navigating to A Course Page
 @app.route('/tocourse/<course>', methods=['GET', 'POST'])
 def to_course(course):
+    global courseID
+    courseID = course
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
             getSpecificCourseData = mydb.cursor(buffered=True)
@@ -389,7 +392,7 @@ def admin_add_user_to_course():
                 insertinto = mydb.cursor(buffered=True)
                 sql = "INSERT INTO enrollment (courseID, userID) VALUES (%s, %s)"
                 try:
-                    values = (request.form["courseID"], int(request.form["userID"]))
+                    values = (courseID, int(request.form["userID"]))
                     insertinto.execute(sql, values)
                     mydb.commit()
                     return render_template("entries_added.html")
@@ -408,7 +411,7 @@ def admin_remove_user_from_course():
         if session["logged_in"] != 'false':
             if request.method == 'POST':
                 removefrom = mydb.cursor(buffered=True)
-                sql = "DELETE FROM enrollment WHERE courseID = " + request.form["courseID"] + " AND userID = " + str(int(request.form["userID"]))
+                sql = "DELETE FROM enrollment WHERE courseID = '" + courseID + "' AND userID = " + str(int(request.form["userID"]))
                 removefrom.execute(sql)
                 mydb.commit()
                 return render_template("entries_removed.html")

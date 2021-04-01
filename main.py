@@ -294,7 +294,26 @@ def admin_user_dash():
 def to_course(course):
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
-            return render_template("course.html")
+            getSpecificCourseData = mydb.cursor(buffered=True)
+            getSpecificCourseData.execute("select courseID, courseName, capacity, courseLoc, courseTimes, firstName, LastName, typeU from course join enrollment using(courseID) join user on enrollment.userID = user.userID where courseID='"+ course+ "' order by typeU asc;")
+            items = getSpecificCourseData.fetchall()
+            classinfo = []
+            outerList = []
+            count = 0
+            for x in items:
+                for i in x:
+                    if count == 4:
+                        i = str(i)
+                        i = i.split(", ")
+                    classinfo.append(i)
+                    count += 1
+                outerList.append(classinfo)
+                classinfo = []
+                count = 0
+            if outerList == []:
+                return redirect(url_for("failure"))
+            else:
+                return render_template("course.html", courseinfo=outerList)
         else: 
             return redirect(url_for("failure"))
     else: 

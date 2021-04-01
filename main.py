@@ -444,13 +444,91 @@ def remove_course():
         return redirect(url_for("failure"))
 
 
-# Course Page - Conor
-@app.route('/group')
-def discussions():
+# Group page
+@app.route('/group',  methods=['GET', 'POST'])
+def add_group():
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
+            groupData = mydb.cursor(buffered=True)
+            groupData.execute("select * from user_group")
+            items = groupData.fetchall()
+            htmlRender = [] 
+            piece = []
+            count  = 0
+            for x in items:
+                for i in x:
+                    if count == 4 or count == 3:
+                        i = str(i)
+                        i = i.split(", ")
+                    piece.append(i)
+                    count += 1
+                htmlRender.append(piece)
+                piece = []
+                count = 0
+            userName = mydb.cursor(buffered=True)
+            userName.execute("select firstName, lastName from user where email='" + email + "'")
+            names = userName.fetchall()
+            nameRender = []
+            for x in names:
+                for i in x:
+                    nameRender.append(i)
+            global firstName
+            
+            global lastName
+            
+            if request.method == 'POST':
+                deletefrom = mydb.cursor(buffered=True)
+                sql = "INSERT INTO studentGroups (userID, groupID, userPost) values (%s, %s, %s)"
+                try:
+                    values = (5876, groupID, request.form["makePostInput"])
+                    insertinto.execute(sql, values)
+                    mydb.commit()
+                    return render_template("entries_added.html")
+                except:
+                    return render_template("query_error.html")
+                return redirect(url_for("group"))
+            try:
+                lastName = nameRender[1]
+                firstName = nameRender[0]
+                return render_template("group.html", listy=htmlRender, first=nameRender[0], last=nameRender[1])
+            except:
+                return redirect(url_for("failure"))
             return render_template("group.html")
-        else:
-            return redirect(url_for("failure"))  
+            
+        else: 
+            return redirect(url_for("failure"))
+    else:
+        return redirect(url_for("failure"))
+
+# Navigating to A group Page
+@app.route('/togroup/<group>', methods=['GET', 'POST'])
+def to_group(group):
+    global groupID
+    groupID = group
+    if session["permission_level"] == "(0)":
+        if session["logged_in"] != 'false':
+            getSpecificGroupData = mydb.cursor(buffered=True)
+            getSpecificGroupData.execute("select groupID, title, group_description from user_group join studentGroups using(groupID) join user on studentGroups.userID = user.userID where groupID='"+ group+ "' order by typeU asc;")
+            items = getSpecificGroupData.fetchall()
+            groupInfo = []
+            outerList = []
+            count = 0
+            for x in items:
+                for i in x:
+                    if count == 4:
+                        i = str(i)
+                        i = i.split(", ")
+                    groupInfo.append(i)
+                    count += 1
+                outerList.append(groupInfo)
+                groupInfo = []
+                count = 0
+            if outerList == []:
+                return redirect(url_for("failure"))
+            else:    
+                return render_template("group.html", groupInfo=outerList)
+
+        else: 
+            return redirect(url_for("failure"))
     else: 
         return redirect(url_for("failure"))

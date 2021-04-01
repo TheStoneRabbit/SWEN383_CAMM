@@ -71,6 +71,10 @@ def admin_panel_index():
             global lastName
             
             if request.method == 'POST':
+                deletefromEnrollment = mydb.cursor(buffered=True)
+                sqlTwo = "delete from enrollment where courseID='" + request.form.get("course") + "'"
+                
+                deletefromEnrollment.execute(sqlTwo)
                 deletefrom = mydb.cursor(buffered=True)
                 sql = "delete from course where courseID='" + request.form.get("course") + "'"
                 deletefrom.execute(sql)
@@ -134,6 +138,9 @@ def admin_panel_remove():
                 sql = "delete from studentGroups where userID = " + str(int(request.form["username"]))
                 # values = int(request.form["username"])
                 deletefromStudentGroups.execute(sql)
+                deletefromEnrollment = mydb.cursor(buffered=True)
+                sqlThree = "delete from enrollment where userID = " + str(int(request.form["username"]))
+                deletefromEnrollment.execute(sqlThree)
                 deletefromUser = mydb.cursor(buffered=True)
                 sqlTwo = "delete from user where userID = " + str(int(request.form["username"]))
                 deletefromUser.execute(sqlTwo)

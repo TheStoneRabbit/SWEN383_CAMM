@@ -529,10 +529,25 @@ def to_group(group):
                 outerList.append(groupInfo)
                 groupInfo = []
                 count = 0
-                print(groupInfo)
             if outerList == []:
                 return redirect(url_for("failure"))
             else:    
+                
+                # lets see
+                if request.method == 'POST':
+                    print(request.form["makePostInput"])
+                    deletefrom = mydb.cursor(buffered=True)
+                    sql = "INSERT INTO studentGroups (userID, groupID, post) values (%s, %s, %s)"
+                    try:
+                        insertinto = mydb.cursor(buffered=True)
+                        values = (5876, groupID, request.form["makePostInput"])
+                        insertinto.execute(sql, values)
+                        mydb.commit()
+                        return render_template("entries_added.html")
+                    except:
+                        return render_template("query_error.html")
+                    return redirect(url_for("group"))
+
                 return render_template("group.html", groupInfo=outerList)
 
         else: 

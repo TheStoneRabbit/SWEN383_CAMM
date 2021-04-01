@@ -127,6 +127,7 @@ CREATE TABLE user_group (
 CREATE TABLE studentGroups (
     userID      int,
     groupID     int,
+    post        varchar(500),
     CONSTRAINT group_fk_user FOREIGN KEY (userID) REFERENCES user(userID),
     CONSTRAINT group_fk_ID FOREIGN KEY (groupID) REFERENCES user_group(groupID)
 );
@@ -220,15 +221,15 @@ INSERT INTO user_group (groupID, title, group_description) VALUES (1, "Group 1 T
 INSERT INTO user_group (groupID, title, group_description) VALUES (2, "Group 2 Title", "This is Group 2's description and this describes the group's contents and group members.");
 INSERT INTO user_group (groupID, title, group_description) VALUES (3, "Group 3 Title", "This is Group 3's description and this describes the group's contents and group members.");
 
-INSERT INTO studentGroups VALUES (4263, 1);
-INSERT INTO studentGroups VALUES (4263, 2);
-INSERT INTO studentGroups VALUES (4263, 3);
-INSERT INTO studentGroups VALUES (1001, 3);
-INSERT INTO studentGroups VALUES (1001, 2);
-INSERT INTO studentGroups VALUES (1001, 1);
-INSERT INTO studentGroups VALUES (6969, 1);
-INSERT INTO studentGroups VALUES (6969, 2);
-INSERT INTO studentGroups VALUES (6969, 3);
+INSERT INTO studentGroups VALUES (4263, 1, "Post 1");
+INSERT INTO studentGroups VALUES (4263, 2, "Post 2");
+INSERT INTO studentGroups VALUES (4263, 3, "Post 3");
+INSERT INTO studentGroups VALUES (1001, 3, "Post 4");
+INSERT INTO studentGroups VALUES (1001, 2, "Post 5");
+INSERT INTO studentGroups VALUES (1001, 1, "Post 6");
+INSERT INTO studentGroups VALUES (6969, 1, "Post 7");
+INSERT INTO studentGroups VALUES (6969, 2, "Post 8");
+INSERT INTO studentGroups VALUES (6969, 3, "Post 9");
 
 -- select studentGroups.groupID, group_concat(studentGroups.userID) as "Users in Group", title, group_description from user_group 
 -- join studentGroups on studentGroups.groupID = user_group.groupID

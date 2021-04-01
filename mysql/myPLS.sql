@@ -160,7 +160,7 @@ INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) value
 INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values ("Benjamin", "Tarentino", 9854, "but9854@rit.edu", "f3c7769dd45d51cbd33a2105124274b75dfb43ecc028d899c2313a4f2f0f95ce", 2);
 INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values ("Ashley", "Saperstein", 3424, "axs3424@rit.edu", "c64975ba3cf3f9cd58459710b0a42369f34b0759c9967fb5a47eea488e8bea79", 2);
 INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values ("Axes", "Smith", 0493, "abs0493@rit.edu", "56f4655f8022518d8ec47843d889343bffacdb529abc1182181578ddc1cb181a", 2);
-INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values ("Bethany", "Mota", 2847 "bam2847@rit.edu", "af7c752bf81f575efe5ac39f7ab8c61a3668ff0cf7e950114194fa5267cc830a", 2);
+INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values ("Bethany", "Mota", 2847, "bam2847@rit.edu", "af7c752bf81f575efe5ac39f7ab8c61a3668ff0cf7e950114194fa5267cc830a", 2);
 
 
 
@@ -198,24 +198,19 @@ INSERT INTO enrollment (courseID, userID) values ('ISTE264', 9854);
 INSERT INTO enrollment (courseID, userID) values ('ISTE264', 3424);
 INSERT INTO enrollment (courseID, userID) values ('ISTE264', 0493);
 
-INSERT INTO enrollment (courseID, userID) values ('ISTE330', 3424);
-INSERT INTO enrollment (courseID, userID) values ('ISTE330', 0493);
-
-
+INSERT INTO enrollment (courseID, userID) values ('PSYC251', 0829);
 INSERT INTO enrollment (courseID, userID) values ('PSYC251', 9854);
 INSERT INTO enrollment (courseID, userID) values ('PSYC251', 3424);
 INSERT INTO enrollment (courseID, userID) values ('PSYC251', 0493);
-INSERT INTO enrollment (courseID, userID) values ('PSYC251', 2847);
 
 INSERT INTO enrollment (courseID, userID) values ('ISTE340', 9854);
 INSERT INTO enrollment (courseID, userID) values ('ISTE340', 3424);
 INSERT INTO enrollment (courseID, userID) values ('ISTE340', 0493);
-INSERT INTO enrollment (courseID, userID) values ('ISTE340', 2847);
 
+INSERT INTO enrollment (courseID, userID) values ('ISTE330', 2130);
 INSERT INTO enrollment (courseID, userID) values ('ISTE330', 9854);
 INSERT INTO enrollment (courseID, userID) values ('ISTE330', 3424);
 INSERT INTO enrollment (courseID, userID) values ('ISTE330', 0493);
-INSERT INTO enrollment (courseID, userID) values ('ISTE330', 2847);
 
 
 

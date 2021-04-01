@@ -300,9 +300,9 @@ for the popup that you use to fill out discussion group information. */
 
     margin: 0 auto;
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     width: 30vw;
-    height: 45vh;
+    height: 30vh;
 
 }
 

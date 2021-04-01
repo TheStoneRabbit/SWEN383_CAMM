@@ -114,7 +114,7 @@ CREATE TABLE multimedia (
     Private Groups already handled during enrollment automatically
 */
 CREATE TABLE user_group (
-    groupID     int,
+    groupID     int AUTO_INCREMENT,
     title       varchar(30),
     group_description   varchar(200),
      /* group must exist before a user can be added to it */
@@ -127,6 +127,7 @@ CREATE TABLE user_group (
 CREATE TABLE studentGroups (
     userID      int,
     groupID     int,
+    userPost varchar(500),
     CONSTRAINT group_fk_user FOREIGN KEY (userID) REFERENCES user(userID),
     CONSTRAINT group_fk_ID FOREIGN KEY (groupID) REFERENCES user_group(groupID)
 );

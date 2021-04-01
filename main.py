@@ -364,7 +364,6 @@ def admin_group_dash():
                 #     htmlRender.append(j)
             
                 
-                
             return render_template("admin_dash_group.html", userGroupData=htmlRender, items=items, last=lastName, first=firstName)
         else: 
             return redirect(url_for("failure"))
@@ -530,6 +529,7 @@ def to_group(group):
                 outerList.append(groupInfo)
                 groupInfo = []
                 count = 0
+                print(groupInfo)
             if outerList == []:
                 return redirect(url_for("failure"))
             else:    

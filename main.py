@@ -29,6 +29,7 @@ app = Flask(__name__)
 app.secret_key = 'cammgroup'
 firstName = ""
 lastName = ""
+courseID = ""
 
 # Logs a user out
 @app.route('/logout',  methods=['GET', 'POST'])
@@ -75,12 +76,11 @@ def admin_panel_index():
                 deletefrom.execute(sql)
                 mydb.commit()
                 return redirect(url_for("admin_panel_index"))
-            try:
-                lastName = nameRender[1]
-                firstName = nameRender[0]
-                return render_template("admin_dash.html", listy=htmlRender, first=nameRender[0], last=nameRender[1])
-            except:
-                return redirect(url_for("failure"))
+           
+            lastName = nameRender[1]
+            firstName = nameRender[0]
+            return render_template("admin_dash.html", listy=htmlRender, first=nameRender[0], last=nameRender[1])
+          
         else: 
             return redirect(url_for("failure"))
     else:
@@ -210,7 +210,6 @@ def login():
         second_pos = 0
         for y in rowsPass:
             req_pass = str(request.form['password'])
-            #print(req_pass)
             pass_encode = hashlib.sha256(req_pass.encode())
             subbed_two = re.sub("(|)|,|'", "", str(y))
             y = re.sub("(|)|,|'", "", str(y))
@@ -281,22 +280,45 @@ def admin_user_dash():
                 for i in x:
                     nameRender.append(i)
             global firstName
-            firstName = nameRender[0]
+            if nameRender[0] != "":
+                firstName = nameRender[0]
             global lastName
-            lastName = nameRender[1]
+            if nameRender[1] != "":
+                lastName = nameRender[1]
+            return render_template("admin_dash_user.html", htmlRender=htmlRender, items=items, x=lenX, items1=items1, x1=lenX1, items2=items2, x2=lenX2, first=firstName, last=lastName)
         else:
             return redirect(url_for("failure"))  
     else: 
         return redirect(url_for("failure"))
-    return render_template("admin_dash_user.html", htmlRender=htmlRender, items=items, x=lenX, items1=items1, x1=lenX1, items2=items2, x2=lenX2, first=nameRender[0], last=nameRender[1])
 
 
 # Navigating to A Course Page
-@app.route('/tocourse')
-def to_course():
+@app.route('/tocourse/<course>', methods=['GET', 'POST'])
+def to_course(course):
+    global courseID
+    courseID = course
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
-            return render_template("course.html")
+            getSpecificCourseData = mydb.cursor(buffered=True)
+            getSpecificCourseData.execute("select courseID, courseName, capacity, courseLoc, courseTimes, firstName, LastName, typeU from course join enrollment using(courseID) join user on enrollment.userID = user.userID where courseID='"+ course+ "' order by typeU asc;")
+            items = getSpecificCourseData.fetchall()
+            classinfo = []
+            outerList = []
+            count = 0
+            for x in items:
+                for i in x:
+                    if count == 4:
+                        i = str(i)
+                        i = i.split(", ")
+                    classinfo.append(i)
+                    count += 1
+                outerList.append(classinfo)
+                classinfo = []
+                count = 0
+            if outerList == []:
+                return redirect(url_for("failure"))
+            else:
+                return render_template("course.html", courseinfo=outerList)
         else: 
             return redirect(url_for("failure"))
     else: 
@@ -363,16 +385,43 @@ def admin_course():
     else: 
         return redirect(url_for("failure"))
 
-# # Navigating to A Course Page - Alexis
-# @app.route('/tocourse',  methods=['GET', 'POST'])
-# def to_course():
-#     if session["permission_level"] == "(0)":
-#         if session["logged_in"] != 'false':
-#             return render_template("course.html")
-#         else: 
-#             return redirect(url_for("failure"))
-#     else: 
-#         return redirect(url_for("failure"))
+
+@app.route('/addusertocourse', methods=['GET', 'POST'])
+def admin_add_user_to_course():
+    if session["permission_level"] == "(0)":
+        if session["logged_in"] != 'false':
+            if request.method == 'POST':
+                insertinto = mydb.cursor(buffered=True)
+                sql = "INSERT INTO enrollment (courseID, userID) VALUES (%s, %s)"
+                try:
+                    values = (courseID, int(request.form["userID"]))
+                    insertinto.execute(sql, values)
+                    mydb.commit()
+                    return render_template("entries_added.html")
+                except:
+                    return render_template("query_error.html")
+            return render_template("add_user_to_course.html")
+        else: 
+            return redirect(url_for("failure"))
+    else: 
+        return redirect(url_for("failure"))
+
+
+@app.route('/removeuserfromcourse', methods=['GET', 'POST'])
+def admin_remove_user_from_course():
+    if session["permission_level"] == "(0)":
+        if session["logged_in"] != 'false':
+            if request.method == 'POST':
+                removefrom = mydb.cursor(buffered=True)
+                sql = "DELETE FROM enrollment WHERE courseID = '" + courseID + "' AND userID = " + str(int(request.form["userID"]))
+                removefrom.execute(sql)
+                mydb.commit()
+                return render_template("entries_removed.html")
+            return render_template("remove_user_from_course.html")
+        else: 
+            return redirect(url_for("failure"))
+    else: 
+        return redirect(url_for("failure"))
 
 
 # myPLS Start page

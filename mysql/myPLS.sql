@@ -138,7 +138,6 @@ INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) value
 INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values ("Max", "Gerber", 4789, "mlg4789@rit.edu", "713bfda78870bf9d1b261f565286f85e97ee614efe5f0faf7c34e7ca4f65baca", 0);
 INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values ("Admin", "Admin", 1, "admin@rit.edu", "713bfda78870bf9d1b261f565286f85e97ee614efe5f0faf7c34e7ca4f65baca", 0);
 
-INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values ("Jim", "Habermas", 5698, "Jim.Habermas@rit.edu", "4b2d8efaee9ce2e9691d7f9e8f1f543fb3d0672b1f611b027238ec47ed958216", 1);
 INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values ("Michael", "McQuaid", 4239, "mjmics@rit.edu", "34550715062af006ac4fab288de67ecb44793c3a05c475227241535f6ef7a81b", 1);
 INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values ("Stephen", "Cady", 5237, "sgcics@rit.edu", "267eed33dc459584a996e2cb0613d1d5cfa3c64ad6d97558f477ff74a2e5f71e", 1);
 INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values ("AbdulMutalib", "Wahaishi", 2015, "tawvse@rit.edu", "26a6b71abb93734b2f2e3f3b6722dc620cd111ababc4e2cdddecbc2499c04ac8", 1);
@@ -178,7 +177,10 @@ INSERT INTO course (courseID, courseName, capacity, courseLoc, courseTimes) valu
 INSERT INTO enrollment (courseID, userID) values ('ISTE252', 5237);
 INSERT INTO enrollment (courseID, userID) values ('SWEN383', 2015);
 INSERT INTO enrollment (courseID, userID) values ('ISTE264', 4239);
-INSERT INTO enrollment (courseID, userID) values ('ISTE330', 5698);
+INSERT INTO enrollment (courseID, userID) values ('ISTE330', 8045);
+INSERT INTO enrollment (courseID, userID) values ('PSYC251', 0829);
+INSERT INTO enrollment (courseID, userID) values ('ISTE340', 2130);
+
 
 /* Learners */
 INSERT INTO enrollment (courseID, userID) values ('ISTE252', 7890);

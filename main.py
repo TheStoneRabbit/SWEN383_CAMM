@@ -280,10 +280,12 @@ def admin_user_dash():
                 for i in x:
                     nameRender.append(i)
             global firstName
-            firstName = nameRender[0]
+            if nameRender[0] != "":
+                firstName = nameRender[0]
             global lastName
-            lastName = nameRender[1]
-            return render_template("admin_dash_user.html", htmlRender=htmlRender, items=items, x=lenX, items1=items1, x1=lenX1, items2=items2, x2=lenX2, first=nameRender[0], last=nameRender[1])
+            if nameRender[1] != "":
+                lastName = nameRender[1]
+            return render_template("admin_dash_user.html", htmlRender=htmlRender, items=items, x=lenX, items1=items1, x1=lenX1, items2=items2, x2=lenX2, first=firstName, last=lastName)
         else:
             return redirect(url_for("failure"))  
     else: 

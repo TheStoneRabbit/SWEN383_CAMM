@@ -30,7 +30,7 @@ app.secret_key = 'cammgroup'
 firstName = ""
 lastName = ""
 courseID = ""
-
+userCode = ""
 # Logs a user out
 @app.route('/logout',  methods=['GET', 'POST'])
 def logout():
@@ -60,14 +60,14 @@ def admin_panel_index():
                 piece = []
                 count = 0
             userName = mydb.cursor(buffered=True)
-            userName.execute("select firstName, lastName from user where email='"+ email+ "'")
+            userName.execute("select firstName, lastName, userID from user where email='"+ email+ "'")
             names = userName.fetchall()
             nameRender = []
             for x in names:
                 for i in x:
                     nameRender.append(i)
             global firstName
-            
+            global userCode
             global lastName
             
             if request.method == 'POST':
@@ -83,6 +83,7 @@ def admin_panel_index():
            
             lastName = nameRender[1]
             firstName = nameRender[0]
+            userCode = nameRender[2]
             return render_template("admin_dash.html", listy=htmlRender, first=nameRender[0], last=nameRender[1])
           
         else: 
@@ -518,15 +519,13 @@ def to_group(group):
             if outerList == []:
                 return redirect(url_for("failure"))
             else:    
-                
-                # lets see
                 if request.method == 'POST':
-                    print(request.form["makePostInput"])
+                    print(userCode)
                     deletefrom = mydb.cursor(buffered=True)
                     sql = "INSERT INTO studentGroups (userID, groupID, post) values (%s, %s, %s)"
                     try:
                         insertinto = mydb.cursor(buffered=True)
-                        values = (5876, groupID, request.form["makePostInput"])
+                        values = (userCode, groupID, request.form["makePostInput"])
                         insertinto.execute(sql, values)
                         mydb.commit()
                         return render_template("entries_added.html")

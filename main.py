@@ -31,14 +31,149 @@ firstName = ""
 lastName = ""
 courseID = ""
 userCode = ""
-# Logs a user out
+
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ LOGIN PROCESS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++
+# START OF APP THAT REDIRECTS TO THE LOGIN
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route('/')
+def start():
+    session['logged_in'] = 'false'
+    return redirect(url_for("login"))
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# REDIRECTING TO LOGIN PAGE
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route('/home',  methods=['GET', 'POST'])
+def home():
+    name = mydb.cursor(buffered=True)
+    #print(userID)
+    name.execute("select firstName from user where email = "+ "'" + userID + "'")
+    firstName = name.fetchall()
+    #print(firstName)
+    firstName = re.sub("[()]|,|'", "", str(userID)) #Removes extra characters
+    if session['logged_in'] != 'false':
+        return "<h1 style='text-align:center;'>Welcome " + firstName + "</h1><br>" +render_template('index.html')
+    else:
+        return redirect(url_for("login"))
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# SETTING THE LOGIN PAGE
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route('/login',  methods=['GET', 'POST'])
+def login():
+    mycursor.execute("select email from user")
+    numRows = mycursor.rowcount
+
+    bad_chars = ["(", ")", ",", "\'"]
+    if request.method == 'POST':
+        rowsUser = mycursor.fetchall()
+        # mycursor.close()
+        newCursor = mydb.cursor(buffered=True)
+        newCursor.execute("select hashPassword from user")
+        rowsPass = newCursor.fetchall()
+        cred_pass_one = False
+        cred_pass_two = False
+        # newCursor.close()
+        # These for loops test if username and password is in db.
+        pos = 0
+        subbed_one = ""
+        # print(rowsUser)
+        for x in rowsUser:
+            subbed_one = re.sub("(|)|,|'", "", str(x))
+            pos += 1
+            if "(" + request.form['username']+ ")" == subbed_one :
+                global email
+                global userID
+                userID = subbed_one
+                email = request.form['username']
+                cred_pass_one = True
+                break
+            else:
+                cred_pass_one = False
+        second_pos = 0
+        for y in rowsPass:
+            req_pass = str(request.form['password'])
+            pass_encode = hashlib.sha256(req_pass.encode())
+            subbed_two = re.sub("(|)|,|'", "", str(y))
+            y = re.sub("(|)|,|'", "", str(y))
+            second_pos += 1
+            #print("("+str(pass_encode.hexdigest()) + ")")
+            #print(str(second_pos) + " :: " + str(pos))
+            #print(y)
+            #print(subbed_two)
+            if "(" + str(pass_encode.hexdigest())+ ")"  ==  subbed_two and second_pos == pos:
+                cred_pass_two = True
+                break
+            else: 
+                cred_pass_two = False
+        #print(str(cred_pass_one) + " " + str(cred_pass_two))
+        # If the password is in and the password matches then log in
+        if cred_pass_one == True and cred_pass_two == True:
+            session['logged_in'] = 'true'
+            user_type = mydb.cursor(buffered=True)
+            subbed_one = re.sub("[()]|,|'", "", str(subbed_one))
+            #print(subbed_one)
+            user_type.execute("select typeU from user where email=" + "'" +subbed_one + "'")
+            permission_level = user_type.fetchall()
+            #print(permission_level)
+            subbed_permission = re.sub("(|)|,|'", "", str(permission_level[0]))
+            #print(subbed_permission)
+            session["permission_level"] = subbed_permission
+            if session["permission_level"] == "(0)":
+                return redirect(url_for("admin_panel_index"))
+            if session["permission_level"] == "(1)":
+                return redirect(url_for("professor_panel_index"))
+            return redirect(url_for('login_success'))
+        else:
+            return redirect(url_for('failure'))
+                
+    return render_template("sign_in.html")
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# SUCCESSFUL LOGIN
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route('/success')
+def login_success():
+    if session['logged_in'] != 'false':
+        return redirect(url_for("home"))
+    else:
+        return redirect(url_for("login"))
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# FAILED LOGIN
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route('/invalidcredentials')
+def failure():
+    session['logged_in'] = 'false'
+    return render_template("failure.html")
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# REDIRECTS TO LOGOUT
+# +++++++++++++++++++++++++++++++++++++++++++++
 @app.route('/logout',  methods=['GET', 'POST'])
 def logout():
     session['logged_in'] = 'false'
     return redirect(url_for("login"))
 
-# Main admin page. Checks if user is admin and returns admin page, 
-# otherwise returns failure page
+
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ ADMIN SYSTEM ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++
+# SETTING THE DEFAULT ADMIN COURSE DASH
+# PERMISSION LEVEL: ADMIN
+# +++++++++++++++++++++++++++++++++++++++++++++
 @app.route('/adminpanelindex',  methods=['GET', 'POST'])
 def admin_panel_index():
     if session["permission_level"] == "(0)":
@@ -91,8 +226,12 @@ def admin_panel_index():
     else:
         return redirect(url_for("failure"))
 
-#admin add user page. Checks permission of user and returns admin add page if admin,
-# otherwise returns failure page
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# ADDING A USER TO THE SYSTEM
+# PERMISSION LEVEL: ADMIN
+# +++++++++++++++++++++++++++++++++++++++++++++
 @app.route('/adminpaneladd',  methods=['GET', 'POST'])
 def admin_panel_add():
     if session["permission_level"] == "(0)":
@@ -115,7 +254,12 @@ def admin_panel_add():
     else: 
         return redirect(url_for("failure"))
 
-#admin remove user page 
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# REMOVING A USER FROM THE SYSTEM
+# PERMISSION LEVEL: ADMIN
+# +++++++++++++++++++++++++++++++++++++++++++++
 @app.route('/adminpanelremove',  methods=['GET', 'POST'])
 def admin_panel_remove():
     if session["permission_level"] == "(0)":
@@ -139,109 +283,12 @@ def admin_panel_remove():
     else: 
         return redirect(url_for("failure"))
 
-# Successful login page
-# this redirects to the homepage
-# Do login tasks here
-@app.route('/success')
-def login_success():
-    if session['logged_in'] != 'false':
-        return redirect(url_for("home"))
-    else:
-        return redirect(url_for("login"))
 
-# Login failed page
-@app.route('/invalidcredentials')
-def failure():
-    session['logged_in'] = 'false'
-    return render_template("failure.html")
-    
-# Home Page
-@app.route('/home',  methods=['GET', 'POST'])
-def home():
-    name = mydb.cursor(buffered=True)
-    #print(userID)
-    name.execute("select firstName from user where email = "+ "'" + userID + "'")
-    firstName = name.fetchall()
-    #print(firstName)
-    firstName = re.sub("[()]|,|'", "", str(userID)) #Removes extra characters
-    if session['logged_in'] != 'false':
-        return "<h1 style='text-align:center;'>Welcome " + firstName + "</h1><br>" +render_template('index.html')
-    else:
-        return redirect(url_for("login"))
 
-# Login page
-@app.route('/login',  methods=['GET', 'POST'])
-def login():
-    mycursor.execute("select email from user")
-    numRows = mycursor.rowcount
-
-    bad_chars = ["(", ")", ",", "\'"]
-    if request.method == 'POST':
-        rowsUser = mycursor.fetchall()
-        # mycursor.close()
-        newCursor = mydb.cursor(buffered=True)
-        newCursor.execute("select hashPassword from user")
-        rowsPass = newCursor.fetchall()
-        cred_pass_one = False
-        cred_pass_two = False
-        # newCursor.close()
-        # These for loops test if username and password is in db.
-        pos = 0
-        subbed_one = ""
-     #   print(rowsUser)
-        for x in rowsUser:
-            subbed_one = re.sub("(|)|,|'", "", str(x))
-            pos += 1
-            if "(" + request.form['username']+ ")" == subbed_one :
-                global email
-                global userID
-                userID = subbed_one
-                email = request.form['username']
-                cred_pass_one = True
-                break
-            else:
-                cred_pass_one = False
-        second_pos = 0
-        for y in rowsPass:
-            req_pass = str(request.form['password'])
-            pass_encode = hashlib.sha256(req_pass.encode())
-            subbed_two = re.sub("(|)|,|'", "", str(y))
-            y = re.sub("(|)|,|'", "", str(y))
-            second_pos += 1
-            #print("("+str(pass_encode.hexdigest()) + ")")
-            #print(str(second_pos) + " :: " + str(pos))
-            #print(y)
-            #print(subbed_two)
-            if "(" + str(pass_encode.hexdigest())+ ")"  ==  subbed_two and second_pos == pos:
-                cred_pass_two = True
-                break
-            else: 
-                cred_pass_two = False
-        #print(str(cred_pass_one) + " " + str(cred_pass_two))
-        # If the password is in and the password matches then log in
-        if cred_pass_one == True and cred_pass_two == True:
-            session['logged_in'] = 'true'
-            user_type = mydb.cursor(buffered=True)
-            subbed_one = re.sub("[()]|,|'", "", str(subbed_one))
-            #print(subbed_one)
-            user_type.execute("select typeU from user where email=" + "'" +subbed_one + "'")
-            permission_level = user_type.fetchall()
-            #print(permission_level)
-            subbed_permission = re.sub("(|)|,|'", "", str(permission_level[0]))
-            #print(subbed_permission)
-            session["permission_level"] = subbed_permission
-            if session["permission_level"] == "(0)":
-                return redirect(url_for("admin_panel_index"))
-            if session["permission_level"] == "(1)":
-                return redirect(url_for("professor_panel_index"))
-            return redirect(url_for('login_success'))
-        else:
-            return redirect(url_for('failure'))
-                
-    return render_template("sign_in.html")
-
-    # View Format for user table 
-
+# +++++++++++++++++++++++++++++++++++++++++++++
+# SETTING THE ADMIN USER DASH
+# PERMISSION LEVEL: ADMIN
+# +++++++++++++++++++++++++++++++++++++++++++++
 @app.route('/admin_user_dash', methods=['GET', 'POST'])
 def admin_user_dash():
     if session["permission_level"] == "(0)":
@@ -288,7 +335,54 @@ def admin_user_dash():
         return redirect(url_for("failure"))
 
 
-# Navigating to A Course Page
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# ADDING A COURSE
+# PERMISSION LEVEL: ADMIN
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route('/addcourse',  methods=['GET', 'POST'])
+def admin_course():
+    if session["permission_level"] == "(0)":
+        if session["logged_in"] != 'false':
+            if request.method == 'POST':
+                insertinto = mydb.cursor(buffered=True)
+                sql = "INSERT INTO course (courseID, courseName, capacity, courseLoc, courseTimes) values (%s, %s, %s, %s, %s)"
+                try:
+                    values = (request.form["courseID"], request.form["courseName"],int(request.form["capacity"]), request.form["Location"], request.form["times"])
+                    insertinto.execute(sql, values)
+                    mydb.commit()
+                    return render_template("entries_added.html")
+                except:
+                    return render_template("query_error.html")
+            return render_template("add_course.html")
+        else: 
+            return redirect(url_for("failure"))
+    else: 
+        return redirect(url_for("failure"))
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# REMOVING A COURSE
+# PERMISSION LEVEL: ADMIN
+# +++++++++++++++++++++++++++++++++++++++++++++ 
+@app.route('/removecourse',  methods=['GET', 'POST'])
+def remove_course():
+    if session["permission_level"] == "(0)":
+        if session["logged_in"] != 'false':
+            
+            return render_template("entries_removed.html")
+        else: 
+            return redirect(url_for("failure"))
+    else: 
+        return redirect(url_for("failure"))
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# SETTING UP A SPECIFIC COURSE PAGE
+# PERMISSION LEVEL: ADMIN
+# +++++++++++++++++++++++++++++++++++++++++++++
 @app.route('/tocourse/<course>', methods=['GET', 'POST'])
 def to_course(course):
     global courseID
@@ -321,7 +415,57 @@ def to_course(course):
         return redirect(url_for("failure"))
 
 
-# for the group page
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# ADDING A USER TO A SPECIFIC COURSE
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route('/addusertocourse', methods=['GET', 'POST'])
+def admin_add_user_to_course():
+    if session["permission_level"] == "(0)":
+        if session["logged_in"] != 'false':
+            if request.method == 'POST':
+                insertinto = mydb.cursor(buffered=True)
+                sql = "INSERT INTO enrollment (courseID, userID) VALUES (%s, %s)"
+                try:
+                    values = (courseID, int(request.form["userID"]))
+                    insertinto.execute(sql, values)
+                    mydb.commit()
+                    return render_template("entries_added.html")
+                except:
+                    return render_template("query_error.html")
+            return render_template("add_user_to_course.html")
+        else: 
+            return redirect(url_for("failure"))
+    else: 
+        return redirect(url_for("failure"))
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# REMOVING A USER FROM A SPECIFIC COURSE
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route('/removeuserfromcourse', methods=['GET', 'POST'])
+def admin_remove_user_from_course():
+    if session["permission_level"] == "(0)":
+        if session["logged_in"] != 'false':
+            if request.method == 'POST':
+                removefrom = mydb.cursor(buffered=True)
+                sql = "DELETE FROM enrollment WHERE courseID = '" + courseID + "' AND userID = " + str(int(request.form["userID"]))
+                removefrom.execute(sql)
+                mydb.commit()
+                return render_template("entries_removed.html")
+            return render_template("remove_user_from_course.html")
+        else: 
+            return redirect(url_for("failure"))
+    else: 
+        return redirect(url_for("failure"))
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# SETTING THE ADMIN GROUP DASH
+# PERMISSION LEVEL: ADMIN
+# +++++++++++++++++++++++++++++++++++++++++++++
 @app.route("/admin_dash_group")
 def admin_group_dash():
     if session["permission_level"] == "(0)":
@@ -355,23 +499,56 @@ def admin_group_dash():
             return redirect(url_for("failure"))
     else:
         return redirect(url_for("failure"))
-    
 
-@app.route('/addcourse',  methods=['GET', 'POST'])
-def admin_course():
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# SETTING UP A SPECIFIC GROUP PAGE
+# PERMISSION LEVEL: ADMIN
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route('/togroup/<group>', methods=['GET', 'POST'])
+def to_group(group):
+    global groupID
+    groupID = group
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
-            if request.method == 'POST':
-                insertinto = mydb.cursor(buffered=True)
-                sql = "INSERT INTO course (courseID, courseName, capacity, courseLoc, courseTimes) values (%s, %s, %s, %s, %s)"
-                try:
-                    values = (request.form["courseID"], request.form["courseName"],int(request.form["capacity"]), request.form["Location"], request.form["times"])
-                    insertinto.execute(sql, values)
-                    mydb.commit()
-                    return render_template("entries_added.html")
-                except:
-                    return render_template("query_error.html")
-            return render_template("add_course.html")
+            getSpecificGroupData = mydb.cursor(buffered=True)
+            getSpecificGroupData.execute("select groupID, title, group_description, group_concat(studentGroups.userID) as Users from user_group join studentGroups using(groupID) join user on studentGroups.userID = user.userID where groupID='"+ group+ "' group by title order by typeU asc;")
+            items = getSpecificGroupData.fetchall()
+            groupInfo = []
+            outerList = []
+            usersForGroup = []
+            count = 0
+            for x in items:
+                for i in x:
+                    if count == 4:
+                        i = str(i)
+                        i = i.split(", ")
+                    groupInfo.append(i)
+                    count += 1
+                outerList.append(groupInfo)
+                groupInfo = []
+                count = 0
+            for l in outerList[0][3].split(","):
+                if l not in usersForGroup:
+                    usersForGroup.append(l)
+            if outerList == []:
+                return redirect(url_for("failure"))
+            else:    
+                if request.method == 'POST':
+                    print(outerList)
+                    deletefrom = mydb.cursor(buffered=True)
+                    sql = "INSERT INTO studentGroups (userID, groupID, post) values (%s, %s, %s)"
+                    try:
+                        insertinto = mydb.cursor(buffered=True)
+                        values = (userCode, groupID, request.form["makePostInput"])
+                        insertinto.execute(sql, values)
+                        mydb.commit()
+                        return render_template("entries_added.html")
+                    except:
+                        return render_template("query_error.html")
+                    return redirect(url_for("group"))
+                return render_template("group.html", groupUsers=usersForGroup, groupInfo=outerList)
         else: 
             return redirect(url_for("failure"))
     else: 
@@ -379,67 +556,7 @@ def admin_course():
 
 
 
-#admin remove course 
-@app.route('/removecourse',  methods=['GET', 'POST'])
-def remove_course():
-    if session["permission_level"] == "(0)":
-        if session["logged_in"] != 'false':
-            
-            return render_template("entries_removed.html")
-        else: 
-            return redirect(url_for("failure"))
-    else: 
-        return redirect(url_for("failure"))
-        
-
-
-@app.route('/addusertocourse', methods=['GET', 'POST'])
-def admin_add_user_to_course():
-    if session["permission_level"] == "(0)":
-        if session["logged_in"] != 'false':
-            if request.method == 'POST':
-                insertinto = mydb.cursor(buffered=True)
-                sql = "INSERT INTO enrollment (courseID, userID) VALUES (%s, %s)"
-                try:
-                    values = (courseID, int(request.form["userID"]))
-                    insertinto.execute(sql, values)
-                    mydb.commit()
-                    return render_template("entries_added.html")
-                except:
-                    return render_template("query_error.html")
-            return render_template("add_user_to_course.html")
-        else: 
-            return redirect(url_for("failure"))
-    else: 
-        return redirect(url_for("failure"))
-
-
-@app.route('/removeuserfromcourse', methods=['GET', 'POST'])
-def admin_remove_user_from_course():
-    if session["permission_level"] == "(0)":
-        if session["logged_in"] != 'false':
-            if request.method == 'POST':
-                removefrom = mydb.cursor(buffered=True)
-                sql = "DELETE FROM enrollment WHERE courseID = '" + courseID + "' AND userID = " + str(int(request.form["userID"]))
-                removefrom.execute(sql)
-                mydb.commit()
-                return render_template("entries_removed.html")
-            return render_template("remove_user_from_course.html")
-        else: 
-            return redirect(url_for("failure"))
-    else: 
-        return redirect(url_for("failure"))
-
-
-# myPLS Start page
-# As of right now this just redirects to login
-@app.route('/')
-def start():
-    session['logged_in'] = 'false'
-    return redirect(url_for("login"))
-
-
-# Group page
+# I'm Not Sure What This is - May be Old
 @app.route('/group',  methods=['GET', 'POST'])
 def add_group():
     if session["permission_level"] == "(0)":
@@ -495,59 +612,13 @@ def add_group():
     else:
         return redirect(url_for("failure"))
 
-# Navigating to A group Page
-@app.route('/togroup/<group>', methods=['GET', 'POST'])
-def to_group(group):
-    global groupID
-    groupID = group
-    if session["permission_level"] == "(0)":
-        if session["logged_in"] != 'false':
-            getSpecificGroupData = mydb.cursor(buffered=True)
-            getSpecificGroupData.execute("select groupID, title, group_description, group_concat(studentGroups.userID) as Users from user_group join studentGroups using(groupID) join user on studentGroups.userID = user.userID where groupID='"+ group+ "' group by title order by typeU asc;")
-            items = getSpecificGroupData.fetchall()
-            groupInfo = []
-            outerList = []
-            usersForGroup = []
-            count = 0
-            for x in items:
-                for i in x:
-                    if count == 4:
-                        i = str(i)
-                        i = i.split(", ")
-                    groupInfo.append(i)
-                    count += 1
-                outerList.append(groupInfo)
-                groupInfo = []
-                count = 0
-            for l in outerList[0][3].split(","):
-                if l not in usersForGroup:
-                    usersForGroup.append(l)
-            if outerList == []:
-                return redirect(url_for("failure"))
-            else:    
-                if request.method == 'POST':
-                    print(outerList)
-                    deletefrom = mydb.cursor(buffered=True)
-                    sql = "INSERT INTO studentGroups (userID, groupID, post) values (%s, %s, %s)"
-                    try:
-                        insertinto = mydb.cursor(buffered=True)
-                        values = (userCode, groupID, request.form["makePostInput"])
-                        insertinto.execute(sql, values)
-                        mydb.commit()
-                        return render_template("entries_added.html")
-                    except:
-                        return render_template("query_error.html")
-                    return redirect(url_for("group"))
-
-                return render_template("group.html", groupUsers=usersForGroup, groupInfo=outerList)
-
-        else: 
-            return redirect(url_for("failure"))
-    else: 
-        return redirect(url_for("failure"))
 
 
-
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ PROFESSOR SYSTEM ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++
+# SETTING THE DEFAULT PROFESSOR COURSE DASH
+# PERMISSION LEVEL: PROFESSOR
+# +++++++++++++++++++++++++++++++++++++++++++++
 @app.route('/professorpanelindex',  methods=['GET', 'POST'])
 def professor_panel_index():
     if session["permission_level"] == "(1)":

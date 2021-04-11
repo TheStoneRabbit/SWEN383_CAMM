@@ -90,20 +90,6 @@ def admin_panel_index():
     else:
         return redirect(url_for("failure"))
 
-        # for the group page
-# @app.route("/admin_group_dash")
-# def admin_group_dash():
-#     if session["permission_level"] == "(0)":
-#         if session["logged_in"] != 'false':
-#             return render_template("admin_dash_group.html")
-#         else: 
-#             return redirect(url_for("failure"))
-#     else:
-#         return redirect(url_for("failure"))
-
-# Group admin page. Checks if user is admin and returns admin group page, 
-# otherwise returns failure page
-
 #admin add user page. Checks permission of user and returns admin add page if admin,
 # otherwise returns failure page
 @app.route('/adminpaneladd',  methods=['GET', 'POST'])

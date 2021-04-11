@@ -1,4 +1,8 @@
-/* Sign In */
+/*
++++++++++++++++++++++++++++++++++++++++++++++++
+    Styles for universal sign in page.
++++++++++++++++++++++++++++++++++++++++++++++++
+*/
 .signin {
     margin-top: 2em;
 }
@@ -7,13 +11,13 @@
     width: 16vw;
 }
 
-/* learner dash */
-#learnerName {
-    text-align: center;
-}
 
-/* admin dash */
-/* Navigation */
+
+/*
++++++++++++++++++++++++++++++++++++++++++++++++
+    Styles for universal admin navigation.
++++++++++++++++++++++++++++++++++++++++++++++++
+*/
 body {
     background-color: lightgrey;
 }
@@ -78,7 +82,21 @@ body {
     font-weight: bold;
 }
 
-/* Admin course area */
+#backButton {
+    margin-left: 6vw;
+}
+
+#backButton img {
+    width: 30px;
+}
+
+
+
+/*
++++++++++++++++++++++++++++++++++++++++++++++++
+    Styles for 'admin_dash.html' page.
++++++++++++++++++++++++++++++++++++++++++++++++
+*/
 #edit {
     display: flex;
     justify-content:flex-end;
@@ -189,41 +207,13 @@ body {
     padding: 6vw;
 }
 
+
+
 /*
-
 +++++++++++++++++++++++++++++++++++++++++++++++
-    Styles for 'discussions.html' page.
+    Styles for 'admin_dash_user.html' page.
 +++++++++++++++++++++++++++++++++++++++++++++++
-
 */
-
-/* This element appears when the admin clicks the 'Create' button. It is the container
-for the popup that you use to fill out discussion group information. */
-#createGroupPopupContainer {
-
-    background-color: white;
-    width: 22vw;
-    height: 50vh;
-    position: absolute;
-    margin: 0 auto;
-    left: 50%;
-    margin-left: -11vw;
-    top: 50%;
-    margin-top: -25vh;
-    border-radius: .7vw;
-    box-shadow: 5px 5px 8px 0 gray;
-
-}
-
-/* Add and Remove a User */
-#backButton {
-    margin-left: 6vw;
-}
-
-#backButton img {
-    width: 30px;
-}
-
 .subtitle {
     text-align: left;
     margin-left: 6vw;
@@ -239,13 +229,10 @@ for the popup that you use to fill out discussion group information. */
 
 
 /*
-
 +++++++++++++++++++++++++++++++++++++++++++++++++
     Styles for 'admin_dash_group.html' page.
 +++++++++++++++++++++++++++++++++++++++++++++++++
-
 */
-
 #groups {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -282,34 +269,35 @@ for the popup that you use to fill out discussion group information. */
     text-align: center;
 }
 
-/*
 
+
+/*
 +++++++++++++++++++++++++++++++++++++++++++++++++
     Styles for 'group.html' page.
 +++++++++++++++++++++++++++++++++++++++++++++++++
-
 */
-
 #group-post-container {
-
-    overflow: auto;
-
+    display: grid;
+    grid-template-columns: 1fr 3fr;
 }
 
 #group-make-post {
-
     margin: 0 auto;
     display: grid;
     grid-template-rows: 1fr 1fr;
     width: 30vw;
     height: 30vh;
-
 }
 
 #group-make-post-textarea {
-
     width: 30vw;
     height: 20vh;
     resize: none;
+}
 
+
+
+/* learner dash */
+#learnerName {
+    text-align: center;
 }

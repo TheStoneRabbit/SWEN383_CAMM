@@ -332,6 +332,8 @@ def admin_group_dash():
             numOfItems = len(items)
             piece = []
             existing_groups = []
+            usersHold = []
+            userNums = []
             count = 0
             appendItems = False
             mySplit = False
@@ -339,19 +341,14 @@ def admin_group_dash():
             j = []
             k = [out[i:i + 4] for i in range(0, len(out), 4)]
             htmlRender = k
-
-                
-# l = ['a',' b',' c',' d',' e']
-# c_index = l.index("c")
-# l2 = l[:c_index]
-                # if count == 0:
-                #     j = str(x).replace("'", "").split(", ")
-                #     mySplit = True 
-                #     count += 1
-                #     htmlRender.append(j)
-            
-                
-            return render_template("admin_dash_group.html", userGroupData=htmlRender, items=items, last=lastName, first=firstName)
+            for i in range(0, len(htmlRender)):
+                for x in htmlRender[i][1].split(","):
+                    if x not in userNums:
+                        userNums.append(x)
+                usersHold.append(userNums)
+                userNums = []
+            print(usersHold)
+            return render_template("admin_dash_group.html", userGroupData=htmlRender, items=items, last=lastName, first=firstName, userGroupNums=usersHold)
         else: 
             return redirect(url_for("failure"))
     else:
@@ -501,10 +498,11 @@ def to_group(group):
     if session["permission_level"] == "(0)":
         if session["logged_in"] != 'false':
             getSpecificGroupData = mydb.cursor(buffered=True)
-            getSpecificGroupData.execute("select groupID, title, group_description from user_group join studentGroups using(groupID) join user on studentGroups.userID = user.userID where groupID='"+ group+ "' order by typeU asc;")
+            getSpecificGroupData.execute("select groupID, title, group_description, group_concat(studentGroups.userID) as Users from user_group join studentGroups using(groupID) join user on studentGroups.userID = user.userID where groupID='"+ group+ "' group by title order by typeU asc;")
             items = getSpecificGroupData.fetchall()
             groupInfo = []
             outerList = []
+            usersForGroup = []
             count = 0
             for x in items:
                 for i in x:
@@ -516,11 +514,14 @@ def to_group(group):
                 outerList.append(groupInfo)
                 groupInfo = []
                 count = 0
+            for l in outerList[0][3].split(","):
+                if l not in usersForGroup:
+                    usersForGroup.append(l)
             if outerList == []:
                 return redirect(url_for("failure"))
             else:    
                 if request.method == 'POST':
-                    print(userCode)
+                    print(outerList)
                     deletefrom = mydb.cursor(buffered=True)
                     sql = "INSERT INTO studentGroups (userID, groupID, post) values (%s, %s, %s)"
                     try:
@@ -533,7 +534,7 @@ def to_group(group):
                         return render_template("query_error.html")
                     return redirect(url_for("group"))
 
-                return render_template("group.html", groupInfo=outerList)
+                return render_template("group.html", groupUsers=usersForGroup, groupInfo=outerList)
 
         else: 
             return redirect(url_for("failure"))

@@ -75,9 +75,12 @@
                     <ul class='items'>
                         <li> {{x[3]}} </li>
                     </ul>
+
                     <p class='boldHeader'> Students:</p>
                     <ul class='items'>
-                        <li> {{x[1]}} </li>
+                        {%for l in userGroupNums[loop.index - 1]%}
+                        <li> {{l}} </li>
+                        {%endfor%}
                     </ul>
                 </div>
             </a>

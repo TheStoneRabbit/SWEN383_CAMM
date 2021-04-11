@@ -1,0 +1,98 @@
+<html>
+    <head>
+        <title></title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <script>   
+            //filtering courses
+            $(document).ready(function(){
+               jQuery.expr[':'].containi = function(a, i, m) {
+                    return jQuery(a).text().toUpperCase()
+                        .indexOf(m[3].toUpperCase()) >= 0;
+                };
+
+                $("#myInput").keyup(function() {
+                    //retrieve input target value
+                    var value = $(this).val();
+                
+                    //filter by course
+                    $(document.getElementsByClassName('userName')).hide().filter(':containi("' + value + '")').show();
+                });
+            });
+
+            function update() {
+                var elements = document.getElementsByClassName('hiddenTrue');
+
+                for (var i = 0; i < elements.length; i++){
+                    elements[i].classList.remove('hiddenTrue');
+                    elements.item(i).classList.add('hiddenFalse');
+                }  
+
+                document.getElementById('updateButton').style.display = 'none';
+            };
+        </script>
+
+        <div id='nav'>
+            <img id="logo" src="{{ url_for('static', filename='assets/logo.svg') }}"/>
+
+            <a class='active' href="#"> Courses </a>
+            <a href='/professor_dash_group'> Groups </a>
+        </div>
+        <div class='header'>
+            <a id='backButton' href="/professorpanelindex"><img src="{{ url_for('static', filename='assets/backButton.svg') }}" /></a> 
+
+            <div id='right'>
+                <div id="filter">
+                    <input id="myInput" type="text" placeholder="Find a User...">
+                </div>
+    
+                <a href='/logout'><img src="{{ url_for('static', filename='assets/profileIcon.svg') }}"/></a>
+            </div>
+        </div>
+
+        <h1 id='title'> {{courseinfo[0][1]}} </h1>
+
+        <div id='update'>
+            <a onclick='update()'><input type="button" class="btn btn-primary m-2" value='Update Course'/></a>
+        </div>
+
+        <div id='courseSpecificBtns'>
+            <a href='/addcontenttocourse'><input type="button" class="btn btn-primary m-2 hiddenTrue" value='Add Content'/></a>
+            <a href='/removecontentfromcourse'><input type="button" class="btn btn-primary m-2 hiddenTrue" value='Remove Content'/></a>
+        </div>
+
+        <div id='courseSpecific'>
+            <div id='stats'>
+                <p class='boldHeader'> Days and Times </p>
+                <ul class='items'>
+                    {% for x in courseinfo[0][4]%}
+                    <li>{{x}}</li>
+                    {%endfor%}
+                </ul>
+
+                <p class='boldHeader'> Location </p>
+                <ul class='items'>
+                    <li> {{courseinfo[0][3]}} </li>
+                </ul>
+
+            </div>
+            <div id='learners'>
+                <p class='boldHeader'> Learner Names </p>
+                <ul class='items'>
+
+                    {%for i in range(1, courseinfo|length)%}
+                    <li class='userName'> {{courseinfo[i][5]}} {{courseinfo[i][6]}}</li>
+                    {%endfor%}
+                </ul>
+            </div>
+        </div>
+
+        <div id='done'>
+            <a href="{{ url_for('to_course', course=courseinfo[0][0]) }}"><input type="button" class="btn btn-primary m-2 hiddenTrue" value='Done'/></a>
+        </div>
+            
+    </body>
+</html>

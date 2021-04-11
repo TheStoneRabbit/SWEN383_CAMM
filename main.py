@@ -232,6 +232,8 @@ def login():
             session["permission_level"] = subbed_permission
             if session["permission_level"] == "(0)":
                 return redirect(url_for("admin_panel_index"))
+            if session["permission_level"] == "(1)":
+                return redirect(url_for("professor_panel_index"))
             return redirect(url_for('login_success'))
         else:
             return redirect(url_for('failure'))
@@ -376,6 +378,21 @@ def admin_course():
         return redirect(url_for("failure"))
 
 
+
+#admin remove course 
+@app.route('/removecourse',  methods=['GET', 'POST'])
+def remove_course():
+    if session["permission_level"] == "(0)":
+        if session["logged_in"] != 'false':
+            
+            return render_template("entries_removed.html")
+        else: 
+            return redirect(url_for("failure"))
+    else: 
+        return redirect(url_for("failure"))
+        
+
+
 @app.route('/addusertocourse', methods=['GET', 'POST'])
 def admin_add_user_to_course():
     if session["permission_level"] == "(0)":
@@ -421,18 +438,6 @@ def start():
     session['logged_in'] = 'false'
     return redirect(url_for("login"))
 
-#admin remove course 
-@app.route('/removecourse',  methods=['GET', 'POST'])
-def remove_course():
-    if session["permission_level"] == "(0)":
-        if session["logged_in"] != 'false':
-            
-            return render_template("entries_removed.html")
-        else: 
-            return redirect(url_for("failure"))
-    else: 
-        return redirect(url_for("failure"))
-
 
 # Group page
 @app.route('/group',  methods=['GET', 'POST'])
@@ -467,7 +472,7 @@ def add_group():
             global lastName
             
             if request.method == 'POST':
-                deletefrom = mydb.cursor(buffered=True)
+                insertinto = mydb.cursor(buffered=True)
                 sql = "INSERT INTO studentGroups (userID, groupID, userPost) values (%s, %s, %s)"
                 try:
                     values = (5876, groupID, request.form["makePostInput"])
@@ -539,4 +544,59 @@ def to_group(group):
         else: 
             return redirect(url_for("failure"))
     else: 
+        return redirect(url_for("failure"))
+
+
+
+@app.route('/professorpanelindex',  methods=['GET', 'POST'])
+def professor_panel_index():
+    if session["permission_level"] == "(1)":
+        if session["logged_in"] != 'false':
+            userName = mydb.cursor(buffered=True)
+            userName.execute("select firstName, lastName, userID from user where email='"+ email+ "'")
+            names = userName.fetchall()
+            nameRender = []
+            for x in names:
+                for i in x:
+                    nameRender.append(i)
+            global firstName
+            global userCode
+            global lastName
+
+            courseData = mydb.cursor(buffered=True)
+            courseData.execute("SELECT * FROM course JOIN enrollment USING(courseID) JOIN user USING(userID) WHERE userID=" + userCode)
+            items = courseData.fetchall()
+            htmlRender = [] 
+            piece = []
+            count  = 0
+            for x in items:
+                for i in x:
+                    if count == 4 or count == 3:
+                        i = str(i)
+                        i = i.split(", ")
+                    piece.append(i)
+                    count += 1
+                htmlRender.append(piece)
+                piece = []
+                count = 0
+            
+            if request.method == 'POST':
+                deletefromEnrollment = mydb.cursor(buffered=True)
+                sqlTwo = "delete from enrollment where courseID='" + request.form.get("course") + "'"
+                
+                deletefromEnrollment.execute(sqlTwo)
+                deletefrom = mydb.cursor(buffered=True)
+                sql = "delete from course where courseID='" + request.form.get("course") + "'"
+                deletefrom.execute(sql)
+                mydb.commit()
+                return redirect(url_for("professor_panel_index"))
+           
+            lastName = nameRender[1]
+            firstName = nameRender[0]
+            userCode = nameRender[2]
+            return render_template("professor_dash.html", listy=htmlRender, first=nameRender[0], last=nameRender[1])
+          
+        else: 
+            return redirect(url_for("failure"))
+    else:
         return redirect(url_for("failure"))

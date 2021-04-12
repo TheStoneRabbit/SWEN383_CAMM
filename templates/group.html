@@ -28,7 +28,7 @@
         <div id='nav'>
             <img id="logo" src="{{ url_for('static', filename='assets/logo.svg') }}"/>
 
-            <a href='/admin_user_dash'> Users </a>
+            <a href='/admin_dash_user'> Users </a>
             <a href="/adminpanelindex"> Courses </a>
             <a class='active' href='#'> Groups </a>
         </div>
@@ -51,17 +51,20 @@
         </div>
 
         <div id='group-post-container'>
-
+            <div id='userInGroup'>
+                <h2 class='subtitle'> Group Users </h2>
+                <ul class='items'>
+                    {%for i in groupUsers%}
+                    <li class='userName'>{{i}}</li>
+                    {%endfor%}
+                </ul>
+            </div>
             <div id="group-make-post">
-
                 <span id="group-make-post-title">New Post</span>
                 <form method="POST">
-
                     <textarea id="group-make-post-textarea" name="makePostInput" required></textarea>
                     <button type="submit">Post</button>
-
                 </form>
-
             </div>
             
         </div>

@@ -119,11 +119,15 @@ def login():
             user_type = mydb.cursor(buffered=True)
             subbed_one = re.sub("[()]|,|'", "", str(subbed_one))
             #print(subbed_one)
-            user_type.execute("SELECT typeU FROM user WHERE email=" + "'" +subbed_one + "'")
+            user_type.execute("SELECT typeU, userID FROM user WHERE email=" + "'" +subbed_one + "'")
             permission_level = user_type.fetchall()
-            #print(permission_level)
+            # global userCode
+            # userCode = permission_level[1]
             subbed_permission = re.sub("(|)|,|'", "", str(permission_level[0]))
-            #print(subbed_permission)
+            userCodeX = subbed_permission.split(" ")
+            global userCode
+            userCode = userCodeX[1].replace(")", "")
+            subbed_permission = subbed_permission.split(" ")[0] + ")"
             session["permission_level"] = subbed_permission
             if session["permission_level"] == "(0)":
                 return redirect(url_for("admin_panel_index"))
@@ -202,7 +206,6 @@ def admin_panel_index():
                 for i in x:
                     nameRender.append(i)
             global firstName
-            global userCode
             global lastName
             
             if request.method == 'POST':
@@ -218,7 +221,6 @@ def admin_panel_index():
            
             lastName = nameRender[1]
             firstName = nameRender[0]
-            userCode = nameRender[2]
             return render_template("admin_dash.html", listy=htmlRender, first=nameRender[0], last=nameRender[1])
           
         else: 
@@ -635,7 +637,7 @@ def professor_panel_index():
             global lastName
 
             courseData = mydb.cursor(buffered=True)
-            courseData.execute("SELECT * FROM course JOIN enrollment USING(courseID) JOIN user USING(userID) WHERE userID=" + userCode)
+            courseData.execute("SELECT * FROM course JOIN enrollment USING(courseID) JOIN user USING(userID) WHERE userID=" + str(userCode))
             items = courseData.fetchall()
             htmlRender = [] 
             piece = []

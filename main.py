@@ -673,3 +673,39 @@ def professor_panel_index():
             return redirect(url_for("failure"))
     else:
         return redirect(url_for("failure"))
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# SETTING UP A SPECIFIC COURSE PAGE
+# PERMISSION LEVEL: PROFESSOR
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route('/toprofessorcourse/<course>', methods=['GET', 'POST'])
+def to_professor_course(course):
+    courseID = course
+    if session["permission_level"] == "(1)":
+        if session["logged_in"] != 'false':
+            getSpecificCourseData = mydb.cursor(buffered=True)
+            getSpecificCourseData.execute("SELECT courseID, courseName, capacity, courseLoc, courseTimes, firstName, LastName, typeU FROM course JOIN enrollment USING(courseID) JOIN user ON enrollment.userID = user.userID WHERE courseID='"+ courseID + "' ORDER BY typeU ASC;")
+            items = getSpecificCourseData.fetchall()
+            classinfo = []
+            outerList = []
+            count = 0
+            for x in items:
+                for i in x:
+                    if count == 4:
+                        i = str(i)
+                        i = i.split(", ")
+                    classinfo.append(i)
+                    count += 1
+                outerList.append(classinfo)
+                classinfo = []
+                count = 0
+            if outerList == []:
+                return redirect(url_for("failure"))
+            else:
+                return render_template("professor_course.html", courseinfo=outerList)
+        else: 
+            return redirect(url_for("failure"))
+    else: 
+        return redirect(url_for("failure"))

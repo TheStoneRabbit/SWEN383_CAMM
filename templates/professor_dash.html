@@ -50,7 +50,7 @@
          
         <div id='courses'>
             {%for x in listy%}
-            <a href='{{ url_for("to_course", course=x[0]) }}'>
+            <a href='{{ url_for("to_professor_course", course=x[0]) }}'>
                 <div class='course {{x[0]}}'>
                     <form method="POST" id="a{{x[0]}}" >
                         <input type="hidden" id="courseID" name="course" value="{{x[0]}}">

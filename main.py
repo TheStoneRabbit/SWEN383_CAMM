@@ -644,7 +644,7 @@ def professor_panel_index():
             count  = 0
             for x in items:
                 for i in x:
-                    if count == 4 or count == 3:
+                    if count == 5 or count == 4:
                         i = str(i)
                         i = i.split(", ")
                     piece.append(i)
@@ -701,8 +701,6 @@ def to_professor_course(course):
                 outerList.append(classinfo)
                 classinfo = []
                 count = 0
-            if outerList == []:
-                return redirect(url_for("failure"))
             else:
                 return render_template("professor_course.html", courseinfo=outerList)
         else: 

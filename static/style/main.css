@@ -296,8 +296,11 @@ body {
 }
 
 
-
-/* learner dash */
-#learnerName {
-    text-align: center;
+/*
++++++++++++++++++++++++++++++++++++++++++++++++++
+    Styles for 'group.html' page.
++++++++++++++++++++++++++++++++++++++++++++++++++
+*/
+#professorName {
+    margin-left: 6vw;
 }

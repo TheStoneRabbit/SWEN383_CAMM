@@ -179,7 +179,6 @@ INSERT INTO enrollment (courseID, userID) values ('ISTE252', 5237);
 INSERT INTO enrollment (courseID, userID) values ('SWEN383', 2015);
 INSERT INTO enrollment (courseID, userID) values ('ISTE264', 4239);
 INSERT INTO enrollment (courseID, userID) values ('ISTE330', 8045);
-INSERT INTO enrollment (courseID, userID) values ('PSYC251', 0829);
 INSERT INTO enrollment (courseID, userID) values ('ISTE340', 2130);
 
 

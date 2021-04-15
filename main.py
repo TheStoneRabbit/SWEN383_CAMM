@@ -7,9 +7,9 @@ import mysql.connector
 from mysql.connector.cursor import MySQLCursor
 from flask_table import Table, Col
 from localStoragePy import localStoragePy
-localStorage = localStoragePy('your-app-namespace', 'your-storage-backend')
-# Below is MySQL code once database is created
 
+# Below is MySQL code once database is created
+UPLOAD_FOLDER = 'uploads/'
 
 # Enter the password for your MySQL database below
 # Username SHOULD be 'root'
@@ -724,13 +724,16 @@ def professor_add_content_to_course():
         if session["logged_in"] != 'false':
             if request.method == 'POST':
                 insertinto = mydb.cursor(buffered=True)
-                sql = "INSERT INTO multimedia (courseID, lessonNum, multimediaFile, fileType) VALUES (%s, %i, %s, %i)"
+                localStorage = localStoragePy('your-app-namespace', 'your-storage-backend')
+                sql = "INSERT INTO multimedia (courseID, lessonNum, multimediaFile, fileType) VALUES (%s, %s, %s, %s)"
+                print("INSERT INTO multimedia (courseID, lessonNum, multimediaFile, fileType) VALUES ("+ courseID + ", " + request.form["lessonNum"] + ", "+str(localStorage.getItem("fileName"))+", 1")
                 try:
-                    values = (courseID, int(request.form["lessonNum"]), localStorage.getItem("fileName"), 1)
-                    insertinto.execute(sql, values)
-                    mydb.commit()
+                    #values = (courseID, int(request.form["lessonNum"]), localStorage.getItem("fileName"), 1)
+                    #insertinto.execute(sql, values)
+                    #mydb.commit()
                     return render_template("entries_added.html")
-                except:
+                except mysql.connector.Error as err:
+                    print(err)
                     return render_template("query_error.html")
             return render_template("add_content_to_course.html")
         else: 

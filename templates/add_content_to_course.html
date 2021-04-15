@@ -45,13 +45,14 @@
                 <input type="button" id='btnFileUpload' class="btn btn-primary m-2" value='Add File'/>
                 <input type="file" id="FileUpload" style="display: none" />
                 <br/><br/>
-                <input type="text" placeholder="File Name" id='fileName' class=" border border-primary mt-2 rounded" name="fileName" value="">
+                <input type="text" placeholder="File Name" id='fileName' class=" border border-primary mt-2 rounded" name="fileName" value="{{
+                    request.form.fileName }}">
                     <br>
                 <input type="text" placeholder="Lesson Number" class=" border border-primary mt-2 rounded" name="lessonNum" value="{{
                     request.form.lessonNum }}">
                     <br>
 
-                <input class="btn btn-primary m-2" type="submit" value="Add Course">
+                <input class="btn btn-primary m-2" type="submit" value="Add Content">
             </form>
         </div>
         <br> 

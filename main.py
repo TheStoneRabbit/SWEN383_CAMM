@@ -724,10 +724,18 @@ def professor_add_content_to_course():
         if session["logged_in"] != 'false':
             if request.method == 'POST':
                 insertinto = mydb.cursor(buffered=True)
-                sql = "INSERT INTO multimedia (courseID, lessonNum, multimediaFile, fileType) VALUES (%s, %i, %s, %i)"
+                sql_lesson = "INSERT INTO lesson (courseID, lessonNum, quiz) VALUES (%s, %i, %s)"
+                sql_multimedia = "INSERT INTO multimedia (courseID, lessonNum, multimediaFile, fileType) VALUES (%s, %i, %s, %i)"
                 try:
-                    values = (courseID, int(request.form["lessonNum"]), localStorage.getItem("fileName"), 1)
-                    insertinto.execute(sql, values)
+                    print(int(request.form["lessonNum"]))
+                    print(courseID)
+                    values_lesson = (courseID, int(request.form["lessonNum"]), "")
+                    insertinto.execute(sql_lesson, values_lesson)
+                    mydb.commit()
+                    
+                    insertinto = mydb.cursor(buffered=True)
+                    values_multimedia = (courseID, int(request.form["lessonNum"]), request.form["fileName"], 1)
+                    insertinto.execute(sql_multimedia, values_multimedia)
                     mydb.commit()
                     return render_template("entries_added.html")
                 except:

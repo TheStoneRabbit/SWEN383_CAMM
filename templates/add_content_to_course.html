@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <title>myPLS</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    </head>
+    <body>
+        <script>
+            $(function () {
+                var fileupload = $("#FileUpload");
+                var button = $("#btnFileUpload");
+                button.click(function () {
+                    fileupload.click();
+                });
+                fileupload.change(function () {
+                    var fileName = $(this).val().split('\\')[$(this).val().split('\\').length - 1];
+                    localStorage.setItem("fileName", fileName)
+                    document.getElementById('fileName').value = fileName
+                });
+            });
+        </script>
+        <div id='nav'>
+            <img id="logo" src="{{ url_for('static', filename='assets/logo.svg') }}"/>
+    
+            <a class='active' href="#"> Courses </a>
+            <a href='/professor_dash_group'> Groups </a>
+          </div>
+          <div class='header'>
+              <a id='backButton' href="/professorpanelindex"><img src="{{ url_for('static', filename='assets/backButton.svg') }}" /></a> 
+    
+              <div id='right'>
+                  <div id="filter">
+                      <input id="myInput" type="text" placeholder="">
+                  </div>
+    
+                  <a href='/logout'><img src="{{ url_for('static', filename='assets/profileIcon.svg') }}"/></a>
+              </div>
+          </div>
+
+        <div class="text-center container">
+            <h1 id='title'>Add Content</h1>
+            <form action="" method="post">
+                <input type="button" id='btnFileUpload' class="btn btn-primary m-2" value='Add File'/>
+                <input type="file" id="FileUpload" style="display: none" />
+                <br/><br/>
+                <input type="text" placeholder="File Name" id='fileName' class=" border border-primary mt-2 rounded" name="fileName" value="{{
+                    request.form.fileName }}">
+                    <br>
+                <input type="text" placeholder="Lesson Number" class=" border border-primary mt-2 rounded" name="lessonNum" value="{{
+                    request.form.lessonNum }}">
+                    <br>
+
+                <input class="btn btn-primary m-2" type="submit" value="Add Content">
+            </form>
+        </div>
+        <br> 
+    </body>
+</html>

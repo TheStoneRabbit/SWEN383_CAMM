@@ -731,8 +731,6 @@ def professor_add_content_to_course():
                 sql_lesson = "INSERT INTO lesson (courseID, lessonNum, quiz) VALUES (%s, %s, %s)"
                 sql_multimedia = "INSERT INTO multimedia (courseID, lessonNum, multimediaFile, fileType) VALUES (%s, %s, %s, %s)"
                 try:
-                    print(int(request.form["lessonNum"]))
-                    print(courseID)
                     values_lesson = (courseID, int(request.form["lessonNum"]), "")
                     insertinto.execute(sql_lesson, values_lesson)
                     mydb.commit()

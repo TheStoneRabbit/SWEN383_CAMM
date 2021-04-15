@@ -739,12 +739,36 @@ def professor_add_content_to_course():
                     values_multimedia = (courseID, int(request.form["lessonNum"]), request.form["fileName"], 1)
                     insertinto.execute(sql_multimedia, values_multimedia)
                     mydb.commit()
-                    return render_template("entries_added.html")
+                    return render_template("entries_added_professor.html")
                 except mysql.connector.Error as err:
                     print(err)
-                    return render_template("query_error.html")
+                    return render_template("query_error_professor.html")
             return render_template("add_content_to_course.html")
         else: 
             return redirect(url_for("failure"))
     else: 
         return redirect(url_for("failure"))
+
+# # +++++++++++++++++++++++++++++++++++++++++++++
+# # ADDING A LECTURE
+# # PERMISSION LEVEL: PROFESSOR
+# # +++++++++++++++++++++++++++++++++++++++++++++
+# @app.route('/entriedaddedprofessor',  methods=['GET', 'POST'])
+# def admin_course():
+#     if session["permission_level"] == "(1)":
+#         if session["logged_in"] != 'false':
+#             if request.method == 'POST':
+#                 insertinto = mydb.cursor(buffered=True)
+#                 sql = "INSERT INTO lesson (courseID, courseName, capacity, courseLoc, courseTimes) VALUES (%s, %s, %s, %s, %s)"
+#                 try:
+#                     values = (request.form["courseID"], request.form["courseName"],int(request.form["capacity"]), request.form["Location"], request.form["times"])
+#                     insertinto.execute(sql, values)
+#                     mydb.commit()
+#                     return render_template("entries_added.html")
+#                 except:
+#                     return render_template("query_error.html")
+#             return render_template("add_course.html")
+#         else: 
+#             return redirect(url_for("failure"))
+#     else: 
+#         return redirect(url_for("failure"))

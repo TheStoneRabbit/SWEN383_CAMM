@@ -7,6 +7,7 @@ import mysql.connector
 from mysql.connector.cursor import MySQLCursor
 from flask_table import Table, Col
 from localStoragePy import localStoragePy
+from werkzeug import *
 
 # Below is MySQL code once database is created
 UPLOAD_FOLDER = 'uploads/'
@@ -739,12 +740,20 @@ def professor_add_content_to_course():
                     values_multimedia = (courseID, int(request.form["lessonNum"]), request.form["fileName"], 1)
                     insertinto.execute(sql_multimedia, values_multimedia)
                     mydb.commit()
-                    return render_template("entries_added.html")
+                    return render_template("entries_added_professor.html")
                 except mysql.connector.Error as err:
-                    print(err)
                     return render_template("query_error.html")
-            return render_template("add_content_to_course.html")
+            return render_template("uploadPage.html")
         else: 
             return redirect(url_for("failure"))
     else: 
         return redirect(url_for("failure"))
+
+	
+@app.route('/uploader', methods = ['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        f = request.files["file"]
+        f.save("uploads/"+ f.filename)
+    return render_template("entries_added.html")
+        

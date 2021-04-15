@@ -41,9 +41,9 @@
 
         <div class="text-center container">
             <h1 id='title'>Add Content</h1>
-            <form action="" method="post">
+            <form action="/uploader" method="post">
                 <input type="button" id='btnFileUpload' class="btn btn-primary m-2" value='Add File'/>
-                <input type="file" id="FileUpload" style="display: none" />
+                <input type="file" id="FileUpload" style="display: none" name="file_spec" multiple/>
                 <br/><br/>
                 <input type="text" placeholder="File Name" id='fileName' class=" border border-primary mt-2 rounded" name="fileName" value="{{
                     request.form.fileName }}">

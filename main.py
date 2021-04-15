@@ -6,6 +6,8 @@ import re
 import mysql.connector
 from mysql.connector.cursor import MySQLCursor
 from flask_table import Table, Col
+from localStoragePy import localStoragePy
+localStorage = localStoragePy('your-app-namespace', 'your-storage-backend')
 # Below is MySQL code once database is created
 
 
@@ -420,6 +422,7 @@ def to_course(course):
 
 # +++++++++++++++++++++++++++++++++++++++++++++
 # ADDING A USER TO A SPECIFIC COURSE
+# PERMISSION LEVEL: ADMIN
 # +++++++++++++++++++++++++++++++++++++++++++++
 @app.route('/addusertocourse', methods=['GET', 'POST'])
 def admin_add_user_to_course():
@@ -445,6 +448,7 @@ def admin_add_user_to_course():
 
 # +++++++++++++++++++++++++++++++++++++++++++++
 # REMOVING A USER FROM A SPECIFIC COURSE
+# PERMISSION LEVEL: ADMIN
 # +++++++++++++++++++++++++++++++++++++++++++++
 @app.route('/removeuserfromcourse', methods=['GET', 'POST'])
 def admin_remove_user_from_course():
@@ -703,6 +707,32 @@ def to_professor_course(course):
                 count = 0
             else:
                 return render_template("professor_course.html", courseinfo=outerList)
+        else: 
+            return redirect(url_for("failure"))
+    else: 
+        return redirect(url_for("failure"))
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# ADDING CONTENT TO A SPECIFIC COURSE
+# PERMISSION LEVEL: PROFESSOR
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route('/addcontenttocourse', methods=['GET', 'POST'])
+def professor_add_content_to_course():
+    if session["permission_level"] == "(1)":
+        if session["logged_in"] != 'false':
+            if request.method == 'POST':
+                insertinto = mydb.cursor(buffered=True)
+                sql = "INSERT INTO multimedia (courseID, lessonNum, multimediaFile, fileType) VALUES (%s, %i, %s, %i)"
+                try:
+                    values = (courseID, int(request.form["lessonNum"]), localStorage.getItem("fileName"), 1)
+                    insertinto.execute(sql, values)
+                    mydb.commit()
+                    return render_template("entries_added.html")
+                except:
+                    return render_template("query_error.html")
+            return render_template("add_content_to_course.html")
         else: 
             return redirect(url_for("failure"))
     else: 

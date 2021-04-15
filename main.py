@@ -652,7 +652,11 @@ def professor_panel_index():
                         i = str(i)
                         i = i.split(", ")
                     piece.append(i)
+                    if count == 1:
+                        global courseID
+                        courseID=i
                     count += 1
+
                 htmlRender.append(piece)
                 piece = []
                 count = 0
@@ -660,7 +664,7 @@ def professor_panel_index():
             if request.method == 'POST':
                 deletefromEnrollment = mydb.cursor(buffered=True)
                 sqlTwo = "DELETE FROM enrollment WHERE courseID='" + request.form.get("course") + "'"
-                
+
                 deletefromEnrollment.execute(sqlTwo)
                 deletefrom = mydb.cursor(buffered=True)
                 sql = "DELETE FROM course WHERE courseID='" + request.form.get("course") + "'"
@@ -724,8 +728,8 @@ def professor_add_content_to_course():
         if session["logged_in"] != 'false':
             if request.method == 'POST':
                 insertinto = mydb.cursor(buffered=True)
-                sql_lesson = "INSERT INTO lesson (courseID, lessonNum, quiz) VALUES (%s, %i, %s)"
-                sql_multimedia = "INSERT INTO multimedia (courseID, lessonNum, multimediaFile, fileType) VALUES (%s, %i, %s, %i)"
+                sql_lesson = "INSERT INTO lesson (courseID, lessonNum, quiz) VALUES (%s, %s, %s)"
+                sql_multimedia = "INSERT INTO multimedia (courseID, lessonNum, multimediaFile, fileType) VALUES (%s, %s, %s, %s)"
                 try:
                     print(int(request.form["lessonNum"]))
                     print(courseID)

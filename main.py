@@ -755,7 +755,7 @@ def upload_file():
     if request.method == 'POST':
         f = request.files["file"]
         f.save("uploads/"+ f.filename)
-    return render_template("entries_added.html")
+    return render_template("entries_added_professor.html")
         
 # # +++++++++++++++++++++++++++++++++++++++++++++
 # # ADDING A LECTURE

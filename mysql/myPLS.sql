@@ -205,9 +205,9 @@ INSERT INTO enrollment (courseID, userID) values ('PSYC251', 9854);
 INSERT INTO enrollment (courseID, userID) values ('PSYC251', 3424);
 INSERT INTO enrollment (courseID, userID) values ('PSYC251', 0493);
 
-INSERT INTO enrollment (courseID, userID) values ('ISTE340', 9854);
-INSERT INTO enrollment (courseID, userID) values ('ISTE340', 3424);
-INSERT INTO enrollment (courseID, userID) values ('ISTE340', 0493);
+INSERT INTO enrollment (courseID, userID, professorRating, courseRating) values ('ISTE340', 9854, 2, 3);
+INSERT INTO enrollment (courseID, userID, professorRating, courseRating) values ('ISTE340', 3424, 1, 3);
+INSERT INTO enrollment (courseID, userID, professorRating, courseRating) values ('ISTE340', 0493, 3, 4);
 
 INSERT INTO enrollment (courseID, userID) values ('ISTE330', 9854);
 INSERT INTO enrollment (courseID, userID) values ('ISTE330', 3424);

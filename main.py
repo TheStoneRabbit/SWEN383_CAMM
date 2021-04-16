@@ -790,7 +790,7 @@ def professor_dash_ratings():
     if session["permission_level"] == "(1)":
         if session["logged_in"] != 'false':
             allData = mydb.cursor(buffered=True)
-            allData.execute("SELECT firstName, lastName, userID, professorRating, courseRating FROM user JOIN enrollment USING(userID) WHERE courseID=" + courseID)
+            allData.execute("SELECT firstName, lastName, userID, professorRating, courseRating FROM user JOIN enrollment USING(userID) WHERE courseID='" + courseID + "' AND typeU=2")
             items = allData.fetchall()
             htmlRender = []
             numOfItems = len(items)
@@ -798,9 +798,7 @@ def professor_dash_ratings():
             for x in items:
                 for i in x:
                     htmlRender.append(i)
-            firstName = firstName
-            lastName = lastName
-            return render_template("professor_user_ratings.html", htmlRender=htmlRender, items=items, x=lenX, first=firstName, last=lastName)
+            return render_template("professor_dash_ratings.html", htmlRender=htmlRender, items=items, x=lenX, first=firstName, last=lastName)
         else:
             return redirect(url_for("failure"))  
     else: 

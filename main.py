@@ -743,8 +743,7 @@ def professor_add_content_to_course():
                     return render_template("entries_added_professor.html")
                 except mysql.connector.Error as err:
                     return render_template("query_error.html")
-                    #instead of uploadPage.html --> rename add_content_to_course.html
-            return render_template("uploadPage.html")
+            return render_template("add_content_to_course.html")
         else: 
             return redirect(url_for("failure"))
     else: 

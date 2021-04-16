@@ -695,6 +695,7 @@ def to_professor_course(course):
     if session["permission_level"] == "(1)":
         if session["logged_in"] != 'false':
             getSpecificCourseData = mydb.cursor(buffered=True)
+            #getSpecificCourseData.execute("SELECT lessonNum, multimediaFile FROM multimedia GROUP BY lessonNum WHERE courseID='" + courseID + "' ORDER BY lessonNum ASC")
             getSpecificCourseData.execute("SELECT courseID, courseName, capacity, courseLoc, courseTimes, firstName, LastName, typeU FROM course JOIN enrollment USING(courseID) JOIN user ON enrollment.userID = user.userID WHERE courseID='"+ courseID + "' ORDER BY typeU ASC;")
             items = getSpecificCourseData.fetchall()
             classinfo = []

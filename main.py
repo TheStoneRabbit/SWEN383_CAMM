@@ -781,27 +781,27 @@ def professor_remove_content_from_course():
 
 
 
-
-# # +++++++++++++++++++++++++++++++++++++++++++++
-# # ADDING A LECTURE
-# # PERMISSION LEVEL: PROFESSOR
-# # +++++++++++++++++++++++++++++++++++++++++++++
-# @app.route('/entriedaddedprofessor',  methods=['GET', 'POST'])
-# def admin_course():
-#     if session["permission_level"] == "(1)":
-#         if session["logged_in"] != 'false':
-#             if request.method == 'POST':
-#                 insertinto = mydb.cursor(buffered=True)
-#                 sql = "INSERT INTO lesson (courseID, courseName, capacity, courseLoc, courseTimes) VALUES (%s, %s, %s, %s, %s)"
-#                 try:
-#                     values = (request.form["courseID"], request.form["courseName"],int(request.form["capacity"]), request.form["Location"], request.form["times"])
-#                     insertinto.execute(sql, values)
-#                     mydb.commit()
-#                     return render_template("entries_added.html")
-#                 except:
-#                     return render_template("query_error.html")
-#             return render_template("add_course.html")
-#         else: 
-#             return redirect(url_for("failure"))
-#     else: 
-#         return redirect(url_for("failure"))
+# +++++++++++++++++++++++++++++++++++++++++++++
+# SETTING THE PROFESSOR FEEDBACK DASH
+# PERMISSION LEVEL: PROFESSOR
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route('/professor_dash_ratings', methods=['GET', 'POST'])
+def professor_dash_ratings():
+    if session["permission_level"] == "(1)":
+        if session["logged_in"] != 'false':
+            allData = mydb.cursor(buffered=True)
+            allData.execute("SELECT firstName, lastName, userID, professorRating, courseRating FROM user JOIN enrollment USING(userID) WHERE courseID=" + courseID)
+            items = allData.fetchall()
+            htmlRender = []
+            numOfItems = len(items)
+            lenX = 5
+            for x in items:
+                for i in x:
+                    htmlRender.append(i)
+            firstName = firstName
+            lastName = lastName
+            return render_template("professor_user_ratings.html", htmlRender=htmlRender, items=items, x=lenX, first=firstName, last=lastName)
+        else:
+            return redirect(url_for("failure"))  
+    else: 
+        return redirect(url_for("failure"))

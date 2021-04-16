@@ -798,7 +798,7 @@ def professor_dash_ratings():
             for x in items:
                 for i in x:
                     htmlRender.append(i)
-            return render_template("professor_dash_ratings.html", htmlRender=htmlRender, items=items, x=lenX, first=firstName, last=lastName)
+            return render_template("professor_dash_ratings.html", htmlRender=htmlRender, items=items, x=lenX, first=firstName, last=lastName, courseID=courseID)
         else:
             return redirect(url_for("failure"))  
     else: 

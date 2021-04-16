@@ -743,21 +743,45 @@ def professor_add_content_to_course():
                     mydb.commit()
                     return render_template("entries_added_professor.html")
                 except mysql.connector.Error as err:
-                    return render_template("query_error.html")
+                    return render_template("query_error_professor.html")
             return render_template("add_content_to_course.html")
         else: 
             return redirect(url_for("failure"))
     else: 
         return redirect(url_for("failure"))
 
-	
+
 @app.route('/uploader', methods = ['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
         f = request.files["file"]
         f.save("uploads/"+ f.filename)
     return render_template("entries_added_professor.html")
-        
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# REMOVING CONTENT FROM A SPECIFIC COURSE
+# PERMISSION LEVEL: PROFESSOR
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route('/removecontentfromcourse', methods=['GET', 'POST'])
+def professor_remove_content_from_course():
+    if session["permission_level"] == "(1)":
+        if session["logged_in"] != 'false':
+            if request.method == 'POST':
+                removefrom = mydb.cursor(buffered=True)
+                sql_multimedia = "REMOVE FROM multimedia WHERE courseID=" + courseID
+                removefrom.execute(sql_multimedia)
+                mydb.commit()
+                return render_template("entries_removed_professor.html")
+            else: 
+                return redirect(url_for("failure"))
+        else: 
+            return redirect(url_for("failure"))
+
+
+
+
 # # +++++++++++++++++++++++++++++++++++++++++++++
 # # ADDING A LECTURE
 # # PERMISSION LEVEL: PROFESSOR

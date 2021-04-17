@@ -695,7 +695,15 @@ def to_professor_course(course):
     if session["permission_level"] == "(1)":
         if session["logged_in"] != 'false':
             getSpecificCourseData = mydb.cursor(buffered=True)
-            #getSpecificCourseData.execute("SELECT lessonNum, multimediaFile FROM multimedia GROUP BY lessonNum WHERE courseID='" + courseID + "' ORDER BY lessonNum ASC")
+            """ getSpecificCourseData.execute("SELECT lessonNum, multimediaFile FROM multimedia WHERE courseID='" + courseID + "' ORDER BY lessonNum ASC")
+            items2 = getSpecificCourseData.fetchall()
+            htmlRender = []
+            numOfItems = len(items2)
+            lenX = 2
+            for x in items2:
+                for i in x:
+                    htmlRender.append(i) 
+                    htmlRender=htmlRender, items=items, x=lenX"""
             getSpecificCourseData.execute("SELECT courseID, courseName, capacity, courseLoc, courseTimes, firstName, LastName, typeU FROM course JOIN enrollment USING(courseID) JOIN user ON enrollment.userID = user.userID WHERE courseID='"+ courseID + "' ORDER BY typeU ASC;")
             items = getSpecificCourseData.fetchall()
             classinfo = []
@@ -770,7 +778,7 @@ def professor_remove_content_from_course():
         if session["logged_in"] != 'false':
             if request.method == 'POST':
                 removefrom = mydb.cursor(buffered=True)
-                sql_multimedia = "REMOVE FROM multimedia WHERE courseID=" + courseID
+                sql_multimedia = "DELETE FROM multimedia WHERE courseID='" + courseID + "'"
                 removefrom.execute(sql_multimedia)
                 mydb.commit()
                 return render_template("entries_removed_professor.html")

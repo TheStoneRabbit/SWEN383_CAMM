@@ -9,25 +9,7 @@
 
 <body>
     <script>
-        //filtering courses
-        $(document).ready(function() {
-            jQuery.expr[':'].containi = function(a, i, m) {
-                return jQuery(a).text().toUpperCase()
-                    .indexOf(m[3].toUpperCase()) >= 0;
-            };
-
-            $("#myInput").keyup(function() {
-                //retrieve input target value
-                var value = $(this).val();
-
-                //filter by course
-                $(document.getElementsByClassName('course')).hide().filter(':containi("' + value + '")').show();
-            });
-        });
-
-        function storingInfo(course) {
-            localstorage.setItem('course', course);
-        }
+        // For sorting group info
     </script>
 
     <div id='nav'>

@@ -126,8 +126,20 @@ CREATE TABLE studentGroups (
     userID      int,
     groupID     int,
     post        varchar(500),
+    CONSTRAINT group_pk PRIMARY KEY (userID, groupID, post),
     CONSTRAINT group_fk_user FOREIGN KEY (userID) REFERENCES user(userID),
     CONSTRAINT group_fk_ID FOREIGN KEY (groupID) REFERENCES user_group(groupID)
+);
+
+
+CREATE TABLE groupRequestQueue (
+    userID      int,
+    groupID     int,
+    /* "Add" or "Remove" to indicate which functionality */
+    addOrRemove     varchar(10),
+    CONSTRAINT queue_pk PRIMARY KEY (userID, groupID),
+    CONSTRAINT queue_fk_user FOREIGN KEY (userID) REFERENCES user(userID),
+    CONSTRAINT queue_fk_group FOREIGN KEY (userID) REFERENCES user_group(groupID)
 );
 
 /* Starter Users */

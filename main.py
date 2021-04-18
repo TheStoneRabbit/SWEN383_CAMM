@@ -849,3 +849,55 @@ def professor_group_dash():
             return redirect(url_for("failure"))
     else:
         return redirect(url_for("failure"))
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# SETTING UP A SPECIFIC GROUP PAGE
+# PERMISSION LEVEL: PROFESSOR
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route('/togroup/<group>', methods=['GET', 'POST'])
+def to_group_professor(group):
+    global groupID
+    groupID = group
+    if session["permission_level"] == "(1)":
+        if session["logged_in"] != 'false':
+            getSpecificGroupData = mydb.cursor(buffered=True)
+            getSpecificGroupData.execute("SELECT groupID, title, group_description, group_concat(studentGroups.userID) AS Users FROM user_group JOIN studentGroups USING(groupID) JOIN user ON studentGroups.userID = user.userID WHERE groupID='"+ group+ "' GROUP BY title ORDER BY typeU ASC;")
+            items = getSpecificGroupData.fetchall()
+            groupInfo = []
+            outerList = []
+            usersForGroup = []
+            count = 0
+            for x in items:
+                for i in x:
+                    if count == 4:
+                        i = str(i)
+                        i = i.split(", ")
+                    groupInfo.append(i)
+                    count += 1
+                outerList.append(groupInfo)
+                groupInfo = []
+                count = 0
+            for l in outerList[0][3].split(","):
+                if l not in usersForGroup:
+                    usersForGroup.append(l)
+            if outerList == []:
+                return redirect(url_for("failure"))
+            else:    
+                if request.method == 'POST':
+                    print(outerList)
+                    deletefrom = mydb.cursor(buffered=True)
+                    sql = "INSERT INTO studentGroups (userID, groupID, post) VALUES (%s, %s, %s)"
+                    try:
+                        insertinto = mydb.cursor(buffered=True)
+                        values = (userCode, groupID, request.form["makePostInput"])
+                        insertinto.execute(sql, values)
+                        mydb.commit()
+                        return render_template("entries_added.html")
+                    except:
+                        return render_template("query_error.html")
+                    return redirect(url_for("group"))
+                return render_template("group.html", groupUsers=usersForGroup, groupInfo=outerList)
+        else: 
+            return redirect(url_for("failure"))
+    else: 
+        return redirect(url_for("failure"))

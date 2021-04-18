@@ -84,7 +84,7 @@ CREATE TABLE enrollment (
 /* Only professors have access to edit and add lessons to a course */
 CREATE TABLE lesson (
     courseID    varchar(7),
-    lessonNum   tinyint,
+    lessonNum   int,
     /* quiz will hold multiple choice questions, not varchar */
     quiz    varchar(100) NOT NULL,
     /* course must exist before a lesson can be added to it */
@@ -98,10 +98,8 @@ CREATE TABLE lesson (
 /* Adds multimedia files (names) to a lesson for a given course */
 CREATE TABLE multimedia (
     courseID    varchar(7),
-    lessonNum   tinyint,
+    lessonNum   int,
     multimediaFile  varchar(50),
-    /* fileType where document/written = 0, video = 1, and audio = 2 */
-    fileType    tinyint    NOT NULL,
     /* course and lesson must exist before multimedia can be added to it */
     CONSTRAINT multimedia_fk FOREIGN KEY (courseID, lessonNum) REFERENCES lesson(courseID, lessonNum),
     CONSTRAINT multimedia_pk PRIMARY KEY (courseID, lessonNum, multimediaFile)

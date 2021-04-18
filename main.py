@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, session
 import time 
 import hashlib 
 import getpass
+import random
 import re
 import mysql.connector
 from mysql.connector.cursor import MySQLCursor
@@ -764,6 +765,22 @@ def upload_file():
     if request.method == 'POST':
         f = request.files["file"]
         f.save("uploads/"+ f.filename)
+        insertinto = mydb.cursor(buffered=True)
+        lessonNum = str(random.randint(0, 100))
+        sql_lesson = "INSERT INTO lesson (lessonNum, courseID, quiz) VALUES (%s, %s, %s)"
+        sql_multimedia = "INSERT INTO multimedia (lessonNum, courseID, multimediaFile) VALUES (%s, %s, %s)"
+        try:
+            values_lesson = (courseID, "")
+            insertinto.execute(lessonNum, sql_lesson, values_lesson)
+            mydb.commit()
+            
+            insertinto = mydb.cursor(buffered=True)
+            values_multimedia = (lessonNum, courseID, f.filename)
+            insertinto.execute(sql_multimedia, values_multimedia)
+            mydb.commit()
+        except mysql.connector.Error as err:
+            print(err)
+            return render_template("query_error_professor.html")
     return render_template("entries_added_professor.html")
 
 

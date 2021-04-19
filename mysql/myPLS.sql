@@ -251,5 +251,5 @@ INSERT INTO studentGroups VALUES (6969, 2, "i am going to get started on my work
 INSERT INTO studentGroups VALUES (3424, 3, "this is the best group ever");
 INSERT INTO studentGroups VALUES (2130, 1, "i am doing well");
 
-
+INSERT INTO lesson VALUES ('ISTE340', 1, " ");
 INSERT INTO multimedia VALUES ('ISTE340', 1, 'placeholder.txt');

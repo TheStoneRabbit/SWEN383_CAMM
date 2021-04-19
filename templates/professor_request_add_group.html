@@ -51,7 +51,7 @@
          
         <div id='groups'>
             {%for x in userGroupData%}
-            <a> 
+            <a href='{{ url_for("professor_adding_add_group_request_to_queue", group=x[0]) }}' onclick='storingInfo("{{x[0]}}")'> 
                 <div class='group {{x[2]}}'>
                     <img src="{{ url_for('static', filename='assets/studentExample.jpg') }}" />
                     

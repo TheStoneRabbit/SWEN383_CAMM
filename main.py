@@ -9,6 +9,7 @@ from mysql.connector.cursor import MySQLCursor
 from flask_table import Table, Col
 from localStoragePy import localStoragePy
 from werkzeug import *
+import traceback
 
 # Below is MySQL code once database is created
 UPLOAD_FOLDER = 'uploads/'
@@ -967,11 +968,12 @@ def professor_adding_add_group_request_to_queue(group):
         if session["logged_in"] != 'false':            
             sql = "INSERT INTO groupRequestQueue (userID, groupID, addOrRemove) VALUES (%s, %s, %s)"
             try:
-                insertinto = mydb.cursor(buffered=True)
-                add = "Add"
-                values = (userID, group, add)
+                insertinto = mydb.cursor(prepared=True,)
+                add = "'Add'"
+                values = (int(userID), group, add)
                 insertinto.execute(sql, values)
                 mydb.commit()
                 return render_template("professor_request_successfully_added_to_queue.html")
             except:
+                traceback.print_exc()
                 return render_template("query_error_professor.html")

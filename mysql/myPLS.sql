@@ -230,17 +230,26 @@ INSERT INTO user_group (groupID, title, group_description) VALUES (1, "ISTE340 D
 INSERT INTO user_group (groupID, title, group_description) VALUES (2, "SWEN383 Discussion", "This is the Software Design Principles and Patterns course discussion. Anyone currently taking the course can discuss functional requirements, domain models, design patterns, and more.");
 INSERT INTO user_group (groupID, title, group_description) VALUES (3, "ISTE264 Group Project", "This is a private group dicussion for members of the App redesign project.");
 
-INSERT INTO studentGroups VALUES (9854, 1, "User 4263 has been added to this group");
-INSERT INTO studentGroups VALUES (6960, 2, "User 4263 has been added to this group");
-INSERT INTO studentGroups VALUES (9854, 3, "User 4263 has been added to this group");
-INSERT INTO studentGroups VALUES (0493, 3, "User 1001 has been added to this group");
+INSERT INTO studentGroups VALUES (9854, 1, "User 9854 has been added to this group");
+INSERT INTO studentGroups VALUES (6960, 2, "User 6960 has been added to this group");
+INSERT INTO studentGroups VALUES (9854, 3, "User 9854 has been added to this group");
+INSERT INTO studentGroups VALUES (0493, 3, "User 0493 has been added to this group");
 INSERT INTO studentGroups VALUES (1001, 2, "User 1001 has been added to this group");
-INSERT INTO studentGroups VALUES (3424, 1, "User 1001 has been added to this group");
-INSERT INTO studentGroups VALUES (0493, 1, "User 6969 has been added to this group");
+INSERT INTO studentGroups VALUES (3424, 1, "User 3424 has been added to this group");
+INSERT INTO studentGroups VALUES (0493, 1, "User 0493 has been added to this group");
 INSERT INTO studentGroups VALUES (6969, 2, "User 6969 has been added to this group");
-INSERT INTO studentGroups VALUES (3424, 3, "User 6969 has been added to this group");
-
+INSERT INTO studentGroups VALUES (3424, 3, "User 3424 has been added to this group");
 INSERT INTO studentGroups VALUES (2130, 1, "User 2130 has been added to this group");
+INSERT INTO studentGroups VALUES (9854, 1, "Hey guys");
+INSERT INTO studentGroups VALUES (6960, 2, "Hello everyone. I just joined. Do we have any work due soon?");
+INSERT INTO studentGroups VALUES (9854, 3, "what's up guys");
+INSERT INTO studentGroups VALUES (0493, 3, "Hello!");
+INSERT INTO studentGroups VALUES (1001, 2, "I think we have some homework due saturday");
+INSERT INTO studentGroups VALUES (3424, 1, "I will be right back");
+INSERT INTO studentGroups VALUES (0493, 1, "how are you guys doing?");
+INSERT INTO studentGroups VALUES (6969, 2, "i am going to get started on my work right now");
+INSERT INTO studentGroups VALUES (3424, 3, "this is the best group ever");
+INSERT INTO studentGroups VALUES (2130, 1, "i am doing well");
 
 -- select studentGroups.groupID, group_concat(studentGroups.userID) as "Users in Group", title, group_description from user_group 
 -- join studentGroups on studentGroups.groupID = user_group.groupID

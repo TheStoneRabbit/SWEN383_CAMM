@@ -771,7 +771,7 @@ def upload_file():
         sql_multimedia = "INSERT INTO multimedia (lessonNum, courseID, multimediaFile) VALUES (%s, %s, %s)"
         try:
             values_lesson = (courseID, "")
-            insertinto.execute(lessonNum, sql_lesson, values_lesson)
+            insertinto.execute(int(lessonNum), sql_lesson, values_lesson)
             mydb.commit()
             
             insertinto = mydb.cursor(buffered=True)
@@ -871,14 +871,14 @@ def professor_group_dash():
 # SETTING UP A SPECIFIC GROUP PAGE
 # PERMISSION LEVEL: PROFESSOR
 # +++++++++++++++++++++++++++++++++++++++++++++
-@app.route('/togroup/<group>', methods=['GET', 'POST'])
+@app.route('/togroup_professor/<group>', methods=['GET', 'POST'])
 def to_group_professor(group):
     global groupID
     groupID = group
     if session["permission_level"] == "(1)":
         if session["logged_in"] != 'false':
             getSpecificGroupData = mydb.cursor(buffered=True)
-            getSpecificGroupData.execute("SELECT groupID, title, group_description, group_concat(studentGroups.userID) AS Users FROM user_group JOIN studentGroups USING(groupID) JOIN user ON studentGroups.userID = user.userID WHERE groupID='"+ group+ "' GROUP BY title ORDER BY typeU ASC;")
+            getSpecificGroupData.execute("SELECT groupID, title, group_description, group_concat(studentGroups.userID) AS Users FROM user_group JOIN studentGroups USING(groupID) JOIN user ON studentGroups.userID = user.userID WHERE groupID=" + groupID +";")
             items = getSpecificGroupData.fetchall()
             groupInfo = []
             outerList = []
@@ -901,7 +901,7 @@ def to_group_professor(group):
                 return redirect(url_for("failure"))
             else:    
                 if request.method == 'POST':
-                    print(outerList)
+                    # print(outerList)
                     deletefrom = mydb.cursor(buffered=True)
                     sql = "INSERT INTO studentGroups (userID, groupID, post) VALUES (%s, %s, %s)"
                     try:

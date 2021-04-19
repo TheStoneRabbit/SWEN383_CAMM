@@ -91,7 +91,7 @@
 
         <div id='groups'>
             {%for x in userGroupData%}
-            <a href='{{ url_for("to_group", group=x[0]) }}'>
+            <a href='{{ url_for("to_group_professor", group=x[0]) }}'>
                 <div class='group {{x[2]}}'>
                     <img src="{{ url_for('static', filename='assets/studentExample.jpg') }}" />
                     

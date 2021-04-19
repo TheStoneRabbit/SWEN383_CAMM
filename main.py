@@ -769,12 +769,12 @@ def upload_file():
         sql_multimedia = "INSERT INTO multimedia (lessonNum, courseID, multimediaFile) VALUES (%s, %s, %s)"
         try:
             values_lesson = (courseID, "")
-            insertinto.execute(int(lessonNum), sql_lesson, values_lesson)
+            insertinto.execute(lessonNum, sql_lesson, values_lesson)
             mydb.commit()
             
             insertinto = mydb.cursor(buffered=True)
             values_multimedia = (lessonNum, courseID, f.filename)
-            insertinto.execute(sql_multimedia, values_multimedia)
+            insertinto.execute(sql_multimedia, values_multimedia, f.filename)
             mydb.commit()
         except mysql.connector.Error as err:
             print(err)

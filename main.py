@@ -501,7 +501,6 @@ def admin_group_dash():
                         userNums.append(x)
                 usersHold.append(userNums)
                 userNums = []
-            print(usersHold)
             return render_template("admin_dash_group.html", userGroupData=htmlRender, items=items, last=lastName, first=firstName, userGroupNums=usersHold)
         else: 
             return redirect(url_for("failure"))
@@ -544,7 +543,6 @@ def to_group(group):
                 return redirect(url_for("failure"))
             else:    
                 if request.method == 'POST':
-                    print(outerList)
                     deletefrom = mydb.cursor(buffered=True)
                     sql = "INSERT INTO studentGroups (userID, groupID, post) VALUES (%s, %s, %s)"
                     try:
@@ -860,7 +858,6 @@ def professor_group_dash():
                         userNums.append(x)
                 usersHold.append(userNums)
                 userNums = []
-            print(usersHold)
             return render_template("professor_dash_group.html", userGroupData=htmlRender, items=items, last=lastName, first=firstName, userGroupNums=usersHold)
         else: 
             return redirect(url_for("failure"))
@@ -871,7 +868,7 @@ def professor_group_dash():
 # SETTING UP A SPECIFIC GROUP PAGE
 # PERMISSION LEVEL: PROFESSOR
 # +++++++++++++++++++++++++++++++++++++++++++++
-@app.route('/togroup_professor/<group>', methods=['GET', 'POST'])
+@app.route('/to_group_professor/<group>', methods=['GET', 'POST'])
 def to_group_professor(group):
     global groupID
     groupID = group
@@ -913,7 +910,7 @@ def to_group_professor(group):
                     except:
                         return render_template("query_error.html")
                     return redirect(url_for("group"))
-                return render_template("group.html", groupUsers=usersForGroup, groupInfo=outerList)
+                return render_template("professor_group.html", groupUsers=usersForGroup, groupInfo=outerList)
         else: 
             return redirect(url_for("failure"))
     else: 
@@ -952,7 +949,6 @@ def professor_add_group_queue():
                         userNums.append(x)
                 usersHold.append(userNums)
                 userNums = []
-            print(usersHold)
             return render_template("professor_request_add_group.html", userGroupData=htmlRender, items=items, last=lastName, first=firstName, userGroupNums=usersHold)
         else: 
             return redirect(url_for("failure"))

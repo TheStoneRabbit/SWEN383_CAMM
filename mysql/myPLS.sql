@@ -253,5 +253,5 @@ INSERT INTO studentGroups VALUES (2130, 1, "i am doing well");
 
 INSERT INTO lesson VALUES ('ISTE340', 1, " ");
 INSERT INTO multimedia VALUES ('ISTE340', 1, 'placeholder.txt');
-INSERT INTO multimedia VALUES ('ISTE340', 1, 'Lesson1.txt');
+INSERT INTO multimedia VALUES ('ISTE340', 1, 'Lesson1.pptx');
 INSERT INTO multimedia VALUES ('ISTE340', 1, 'Lesson1.txt');

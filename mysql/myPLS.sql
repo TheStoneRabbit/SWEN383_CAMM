@@ -239,6 +239,7 @@ INSERT INTO studentGroups VALUES (3424, 1, "User 3424 has been added to this gro
 INSERT INTO studentGroups VALUES (0493, 1, "User 0493 has been added to this group");
 INSERT INTO studentGroups VALUES (6969, 2, "User 6969 has been added to this group");
 INSERT INTO studentGroups VALUES (3424, 3, "User 3424 has been added to this group");
+INSERT INTO studentGroups VALUES (2130, 1, "User 2130 has been added to this group");
 INSERT INTO studentGroups VALUES (9854, 1, "Hey guys");
 INSERT INTO studentGroups VALUES (6960, 2, "Hello everyone. I just joined. Do we have any work due soon?");
 INSERT INTO studentGroups VALUES (9854, 3, "what's up guys");

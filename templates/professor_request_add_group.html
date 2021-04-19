@@ -1,14 +1,13 @@
 <html>
     <head>
-        <title>Professor User Group</title>
+        <title>Professor Add Group to Queue</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"/>
         <link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     </head>
     <body>
-        <script>
-
-            //filtering groups
+        <script>   
+            //filtering courses
             $(document).ready(function(){
                jQuery.expr[':'].containi = function(a, i, m) {
                     return jQuery(a).text().toUpperCase()
@@ -24,51 +23,35 @@
                 });
             });
 
-            function update() {
-                var elements = document.getElementsByClassName('hiddenTrue');
-
-                for (var i = 0; i < elements.length; i++){
-                    elements[i].classList.remove('hiddenTrue');
-                    elements.item(i).classList.add('hiddenFalse');
-                }  
-
-                document.getElementById('updateButton').style.display = 'none';
-            };
-
+            function storingInfo(groupID) {
+                localstorage.setItem('groupToQueue', groupID);
+            }
         </script>
-        <div id='nav'>
-            <img src="{{ url_for('static', filename='assets/logo.svg') }}"/>
-            <a href="/professorpanelindex"> Courses </a>
-            <a class='active'href='#'> Groups </a>
-            <a href='/professor_dash_ratings'> Feedback </a>
-        </div>
 
+        <div id='nav'>
+            <img id="logo" src="{{ url_for('static', filename='assets/logo.svg') }}"/>
+
+            <a href="/professorpanelindex"> Courses </a>
+            <a class='active' href="#"> Groups </a>
+            <a href='/admin_dash_ratings'> Feedback </a>
+        </div>
         <div class='header'>
-            <h4 id='adminName'> {{last}}, {{first}} </h4>
+            <h4 id='professorName'> {{last}}, {{first}}</h4>
 
             <div id='right'>
                 <div id="filter">
-                    <input id="myInput" type="text" placeholder="Filter Groups...">
+                    <input id="myInput" type="text" placeholder="Filter Courses...">
                 </div>
     
                 <a href='/logout'><img src="{{ url_for('static', filename='assets/profileIcon.svg') }}"/></a>
             </div>
         </div>
 
-        <h1 id='title'> Group Management </h1>
-
-        <div id='update'>
-            <a onclick='update()'><input type="button" class="btn btn-primary m-2" value='Update Groups'/></a>
-        </div>
-
-        <div id='courseSpecificBtns'>
-            <a href='/addgroupaddtoqueue'><input type="button" class="btn btn-primary m-2 hiddenTrue" value='Request to Join Group'/></a>
-            <a href='/addgroupremovetoqueue'><input type="button" class="btn btn-primary m-2 hiddenTrue" value='Request to Remove Group'/></a>
-        </div>
-
+        <h1 id='title'> Adding a Group </h1>
+         
         <div id='groups'>
             {%for x in userGroupData%}
-            <a href='{{ url_for("to_group_professor", group=x[0]) }}'>
+            <a> 
                 <div class='group {{x[2]}}'>
                     <img src="{{ url_for('static', filename='assets/studentExample.jpg') }}" />
                     
@@ -94,10 +77,5 @@
             {%endfor%}
         
         </div>
-
-        <div id='done'>
-            <a href="/professor_dash_group"><input id="doneButton" type="button" class="btn btn-primary m-2 hiddenTrue" value='Done'/></a>
-        </div>
-
     </body>
 </html>

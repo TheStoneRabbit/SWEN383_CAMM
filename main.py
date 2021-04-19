@@ -918,3 +918,44 @@ def to_group_professor(group):
             return redirect(url_for("failure"))
     else: 
         return redirect(url_for("failure"))
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# ADDING A REQUEST TO JOIN GROUP TO THE QUEUE
+# PERMISSION LEVEL: PROFESSOR
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route("/addgroupaddtoqueue")
+def professor_add_group_queue():
+    if session["permission_level"] == "(1)":
+        if session["logged_in"] != 'false':            
+            groupData = mydb.cursor(buffered=True)
+            sql = "SELECT studentGroups.groupID, group_concat(studentGroups.userID) AS 'Users in Group', title, group_description FROM user_group JOIN studentGroups ON studentGroups.groupID = user_group.groupID JOIN user ON studentGroups.userID = user.userID WHERE user.userID = studentGroups.userID GROUP BY user_group.groupID"
+            groupData.execute(sql)
+            items = groupData.fetchall()
+            htmlRender = []
+            numOfItems = len(items)
+            piece = []
+            existing_groups = []
+            usersHold = []
+            userNums = []
+            count = 0
+            appendItems = False
+            mySplit = False
+            out = [k for t in items for k in t]
+            j = []
+            k = [out[i:i + 4] for i in range(0, len(out), 4)]
+            htmlRender = k
+            for i in range(0, len(htmlRender)):
+                for x in htmlRender[i][1].split(","):
+                    if x not in userNums:
+                        userNums.append(x)
+                usersHold.append(userNums)
+                userNums = []
+            print(usersHold)
+            return render_template("professor_request_add_group.html", userGroupData=htmlRender, items=items, last=lastName, first=firstName, userGroupNums=usersHold)
+        else: 
+            return redirect(url_for("failure"))
+    else:
+        return redirect(url_for("failure"))
+            

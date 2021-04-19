@@ -977,3 +977,64 @@ def professor_adding_add_group_request_to_queue(group):
                 return render_template("professor_request_successfully_added_to_queue.html")
             except:
                 return render_template("already_queued_professor.html")
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# ADDING A REQUEST TO LEAVE GROUP TO THE QUEUE
+# PERMISSION LEVEL: PROFESSOR
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route("/addgroupremovetoqueue")
+def professor_delete_group_queue():
+    if session["permission_level"] == "(1)":
+        if session["logged_in"] != 'false':            
+            groupData = mydb.cursor(buffered=True)
+            sql = "SELECT studentGroups.groupID, group_concat(studentGroups.userID) AS 'Users in Group', title, group_description FROM user_group JOIN studentGroups USING(groupID) JOIN user USING(userID) WHERE user.userID=" + str(userCode) + " GROUP BY user_group.groupID"
+            groupData.execute(sql)
+            items = groupData.fetchall()
+            htmlRender = []
+            numOfItems = len(items)
+            piece = []
+            existing_groups = []
+            usersHold = []
+            userNums = []
+            count = 0
+            appendItems = False
+            mySplit = False
+            out = [k for t in items for k in t]
+            j = []
+            k = [out[i:i + 4] for i in range(0, len(out), 4)]
+            htmlRender = k
+            for i in range(0, len(htmlRender)):
+                for x in htmlRender[i][1].split(","):
+                    if x not in userNums:
+                        userNums.append(x)
+                usersHold.append(userNums)
+                userNums = []
+            return render_template("professor_request_delete_group.html", userGroupData=htmlRender, items=items, last=lastName, first=firstName, userGroupNums=usersHold)
+        else: 
+            return redirect(url_for("failure"))
+    else:
+        return redirect(url_for("failure"))
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# ADDING A REQUEST TO LEAVE GROUP TO THE QUEUE
+# PERMISSION LEVEL: PROFESSOR
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route("/addinggroupdeletetoqueue/<group>")
+def professor_adding_delete_group_request_to_queue(group):
+    if session["permission_level"] == "(1)":
+        if session["logged_in"] != 'false':            
+            sql = "INSERT INTO groupRequestQueue (userID, groupID, addOrRemove) VALUES (%s, %s, %s)"
+            try:
+                insertinto = mydb.cursor(prepared=True,)
+                add = "'Add'"
+                values = (userCode, group, add)
+                insertinto.execute(sql, values)
+                mydb.commit()
+                return render_template("professor_request_successfully_added_to_queue.html")
+            except:
+                traceback.print_exc()
+                return render_template("already_queued_professor.html")

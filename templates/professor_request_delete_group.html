@@ -1,0 +1,81 @@
+<html>
+    <head>
+        <title>Professor Delete Group to Queue</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <script>   
+            //filtering courses
+            $(document).ready(function(){
+               jQuery.expr[':'].containi = function(a, i, m) {
+                    return jQuery(a).text().toUpperCase()
+                        .indexOf(m[3].toUpperCase()) >= 0;
+                };
+
+                $("#myInput").keyup(function() {
+                    //retrieve input target value
+                    var value = $(this).val();
+                
+                    //filter by course
+                    $(document.getElementsByClassName('course')).hide().filter(':containi("' + value + '")').show();
+                });
+            });
+
+            function storingInfo(groupID) {
+                localstorage.setItem('groupToQueue', groupID);
+            }
+        </script>
+
+        <div id='nav'>
+            <img id="logo" src="{{ url_for('static', filename='assets/logo.svg') }}"/>
+
+            <a href="/professorpanelindex"> Courses </a>
+            <a class='active' href="#"> Groups </a>
+            <a href='/admin_dash_ratings'> Feedback </a>
+        </div>
+        <div class='header'>
+            <h4 id='professorName'> {{last}}, {{first}}</h4>
+
+            <div id='right'>
+                <div id="filter">
+                    <input id="myInput" type="text" placeholder="Filter Courses...">
+                </div>
+    
+                <a href='/logout'><img src="{{ url_for('static', filename='assets/profileIcon.svg') }}"/></a>
+            </div>
+        </div>
+
+        <h1 id='title'> Groups to Leave </h1>
+         
+        <div id='groups'>
+            {%for x in userGroupData%}
+            <a href='{{ url_for("professor_adding_delete_group_request_to_queue", group=x[0]) }}' onclick='storingInfo("{{x[0]}}")'> 
+                <div class='group {{x[2]}}'>
+                    <img src="{{ url_for('static', filename='assets/studentExample.jpg') }}" />
+                    
+                    <form method="POST" >
+                        <input type="hidden" class="groupID" name="group" value="{{x[0]}}">
+                    </form>
+                    
+                    <h3 class='groupName'>{{x[2]}}</h3>
+
+                    <p class='boldHeader'> Description:</p>
+                    <ul class='items'>
+                        <li> {{x[3]}} </li>
+                    </ul>
+
+                    <p class='boldHeader'> Students:</p>
+                    <ul class='items'>
+                        {%for l in userGroupNums[loop.index - 1]%}
+                        <li> {{l}} </li>
+                        {%endfor%}
+                    </ul>
+                </div>
+            </a>
+            {%endfor%}
+        
+        </div>
+    </body>
+</html>

@@ -226,19 +226,19 @@ INSERT INTO enrollment (courseID, userID) values ('ISTE330', 0493);
 
 
 /* Starter Groups */
-INSERT INTO user_group (groupID, title, group_description) VALUES (1, "Group 1 Title", "This is Group 1s description and this describes the group's contents and group members.");
-INSERT INTO user_group (groupID, title, group_description) VALUES (2, "Group 2 Title", "This is Group 2's description and this describes the group's contents and group members.");
-INSERT INTO user_group (groupID, title, group_description) VALUES (3, "Group 3 Title", "This is Group 3's description and this describes the group's contents and group members.");
+INSERT INTO user_group (groupID, title, group_description) VALUES (1, "ISTE340 Discussion", "This is the Client Programming course discussion. Anyone currently taking the course can discuss JavaScript syntax, properties, and more.");
+INSERT INTO user_group (groupID, title, group_description) VALUES (2, "SWEN383 Discussion", "This is the Software Design Principles and Patterns course discussion. Anyone currently taking the course can discuss functional requirements, domain models, design patterns, and more.");
+INSERT INTO user_group (groupID, title, group_description) VALUES (3, "ISTE264 Group Project", "This is a private group dicussion for members of the App redesign project.");
 
-INSERT INTO studentGroups VALUES (4263, 1, "User 4263 has been added to this group");
-INSERT INTO studentGroups VALUES (4263, 2, "User 4263 has been added to this group");
-INSERT INTO studentGroups VALUES (4263, 3, "User 4263 has been added to this group");
-INSERT INTO studentGroups VALUES (1001, 3, "User 1001 has been added to this group");
+INSERT INTO studentGroups VALUES (9854, 1, "User 4263 has been added to this group");
+INSERT INTO studentGroups VALUES (6960, 2, "User 4263 has been added to this group");
+INSERT INTO studentGroups VALUES (9854, 3, "User 4263 has been added to this group");
+INSERT INTO studentGroups VALUES (0493, 3, "User 1001 has been added to this group");
 INSERT INTO studentGroups VALUES (1001, 2, "User 1001 has been added to this group");
-INSERT INTO studentGroups VALUES (1001, 1, "User 1001 has been added to this group");
-INSERT INTO studentGroups VALUES (6969, 1, "User 6969 has been added to this group");
+INSERT INTO studentGroups VALUES (3424, 1, "User 1001 has been added to this group");
+INSERT INTO studentGroups VALUES (0493, 1, "User 6969 has been added to this group");
 INSERT INTO studentGroups VALUES (6969, 2, "User 6969 has been added to this group");
-INSERT INTO studentGroups VALUES (6969, 3, "User 6969 has been added to this group");
+INSERT INTO studentGroups VALUES (3424, 3, "User 6969 has been added to this group");
 
 INSERT INTO studentGroups VALUES (2130, 1, "User 2130 has been added to this group");
 

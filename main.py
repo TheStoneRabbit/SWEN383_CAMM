@@ -838,7 +838,7 @@ def professor_group_dash():
     if session["permission_level"] == "(1)":
         if session["logged_in"] != 'false':
             groupData = mydb.cursor(buffered=True)
-            sql = "SELECT studentGroups.groupID, group_concat(studentGroups.userID) AS 'Users in Group', title, group_description FROM user_group JOIN studentGroups ON studentGroups.groupID = user_group.groupID JOIN user ON studentGroups.userID = user.userID WHERE user.userID = studentGroups.userID GROUP BY user_group.groupID"
+            sql = "SELECT studentGroups.groupID, group_concat(studentGroups.userID) AS 'Users in Group', title, group_description FROM user_group JOIN studentGroups USING(groupID) JOIN user USING(userID) WHERE user.userID=" + str(userCode) + " GROUP BY user_group.groupID"
             groupData.execute(sql)
             items = groupData.fetchall()
             htmlRender = []
@@ -877,7 +877,7 @@ def to_group_professor(group):
     if session["permission_level"] == "(1)":
         if session["logged_in"] != 'false':
             getSpecificGroupData = mydb.cursor(buffered=True)
-            getSpecificGroupData.execute("SELECT groupID, title, group_description, group_concat(studentGroups.userID) AS Users FROM user_group JOIN studentGroups USING(groupID) JOIN user ON studentGroups.userID = user.userID WHERE groupID=" + groupID +";")
+            getSpecificGroupData.execute("SELECT groupID, title, group_description, group_concat(studentGroups.userID) AS Users FROM user_group JOIN studentGroups USING(groupID) JOIN user USING(userID) WHERE groupID=" + groupID +";")
             items = getSpecificGroupData.fetchall()
             groupInfo = []
             outerList = []
@@ -929,7 +929,7 @@ def professor_add_group_queue():
     if session["permission_level"] == "(1)":
         if session["logged_in"] != 'false':            
             groupData = mydb.cursor(buffered=True)
-            sql = "SELECT studentGroups.groupID, group_concat(studentGroups.userID) AS 'Users in Group', title, group_description FROM user_group JOIN studentGroups ON studentGroups.groupID = user_group.groupID JOIN user ON studentGroups.userID = user.userID WHERE user.userID = studentGroups.userID GROUP BY user_group.groupID"
+            sql = "SELECT studentGroups.groupID, group_concat(studentGroups.userID) AS 'Users in Group', title, group_description FROM user_group JOIN studentGroups USING(groupID) WHERE groupID NOT IN (SELECT user_group.groupID FROM user_group JOIN studentGroups USING(groupID) WHERE userID=" + str(userCode) + ") GROUP BY user_group.groupID"
             groupData.execute(sql)
             items = groupData.fetchall()
             htmlRender = []
@@ -976,5 +976,4 @@ def professor_adding_add_group_request_to_queue(group):
                 mydb.commit()
                 return render_template("professor_request_successfully_added_to_queue.html")
             except:
-                traceback.print_exc()
-                return render_template("query_error_professor.html")
+                return render_template("already_queued_professor.html")

@@ -958,4 +958,24 @@ def professor_add_group_queue():
             return redirect(url_for("failure"))
     else:
         return redirect(url_for("failure"))
-            
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# ADDING A REQUEST TO JOIN GROUP TO THE QUEUE
+# PERMISSION LEVEL: PROFESSOR
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route("/addinggroupaddtoqueue/<group>")
+def professor_adding_add_group_request_to_queue(group):
+    if session["permission_level"] == "(1)":
+        if session["logged_in"] != 'false':            
+            sql = "INSERT INTO groupRequestQueue (userID, groupID, addOrRemove) VALUES (%s, %s, %s)"
+            try:
+                insertinto = mydb.cursor(buffered=True)
+                add = "Add"
+                values = (userID, group, add)
+                insertinto.execute(sql, values)
+                mydb.commit()
+                return render_template("professor_request_successfully_added_to_queue.html")
+            except:
+                return render_template("query_error_professor.html")

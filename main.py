@@ -501,7 +501,6 @@ def admin_group_dash():
                         userNums.append(x)
                 usersHold.append(userNums)
                 userNums = []
-            print(usersHold)
             return render_template("admin_dash_group.html", userGroupData=htmlRender, items=items, last=lastName, first=firstName, userGroupNums=usersHold)
         else: 
             return redirect(url_for("failure"))
@@ -544,7 +543,6 @@ def to_group(group):
                 return redirect(url_for("failure"))
             else:    
                 if request.method == 'POST':
-                    print(outerList)
                     deletefrom = mydb.cursor(buffered=True)
                     sql = "INSERT INTO studentGroups (userID, groupID, post) VALUES (%s, %s, %s)"
                     try:
@@ -776,7 +774,7 @@ def upload_file():
             
             insertinto = mydb.cursor(buffered=True)
             values_multimedia = (lessonNum, courseID, f.filename)
-            insertinto.execute(sql_multimedia, values_multimedia)
+            insertinto.execute(sql_multimedia, values_multimedia, f.filename)
             mydb.commit()
         except mysql.connector.Error as err:
             print(err)
@@ -860,7 +858,6 @@ def professor_group_dash():
                         userNums.append(x)
                 usersHold.append(userNums)
                 userNums = []
-            print(usersHold)
             return render_template("professor_dash_group.html", userGroupData=htmlRender, items=items, last=lastName, first=firstName, userGroupNums=usersHold)
         else: 
             return redirect(url_for("failure"))
@@ -871,14 +868,14 @@ def professor_group_dash():
 # SETTING UP A SPECIFIC GROUP PAGE
 # PERMISSION LEVEL: PROFESSOR
 # +++++++++++++++++++++++++++++++++++++++++++++
-@app.route('/togroup/<group>', methods=['GET', 'POST'])
+@app.route('/to_group_professor/<group>', methods=['GET', 'POST'])
 def to_group_professor(group):
     global groupID
     groupID = group
     if session["permission_level"] == "(1)":
         if session["logged_in"] != 'false':
             getSpecificGroupData = mydb.cursor(buffered=True)
-            getSpecificGroupData.execute("SELECT groupID, title, group_description, group_concat(studentGroups.userID) AS Users FROM user_group JOIN studentGroups USING(groupID) JOIN user ON studentGroups.userID = user.userID WHERE groupID='"+ group+ "' GROUP BY title ORDER BY typeU ASC;")
+            getSpecificGroupData.execute("SELECT groupID, title, group_description, group_concat(studentGroups.userID) AS Users FROM user_group JOIN studentGroups USING(groupID) JOIN user ON studentGroups.userID = user.userID WHERE groupID=" + groupID +";")
             items = getSpecificGroupData.fetchall()
             groupInfo = []
             outerList = []
@@ -901,7 +898,7 @@ def to_group_professor(group):
                 return redirect(url_for("failure"))
             else:    
                 if request.method == 'POST':
-                    print(outerList)
+                    # print(outerList)
                     deletefrom = mydb.cursor(buffered=True)
                     sql = "INSERT INTO studentGroups (userID, groupID, post) VALUES (%s, %s, %s)"
                     try:
@@ -913,7 +910,7 @@ def to_group_professor(group):
                     except:
                         return render_template("query_error.html")
                     return redirect(url_for("group"))
-                return render_template("group.html", groupUsers=usersForGroup, groupInfo=outerList)
+                return render_template("professor_group.html", groupUsers=usersForGroup, groupInfo=outerList)
         else: 
             return redirect(url_for("failure"))
     else: 
@@ -952,7 +949,6 @@ def professor_add_group_queue():
                         userNums.append(x)
                 usersHold.append(userNums)
                 userNums = []
-            print(usersHold)
             return render_template("professor_request_add_group.html", userGroupData=htmlRender, items=items, last=lastName, first=firstName, userGroupNums=usersHold)
         else: 
             return redirect(url_for("failure"))

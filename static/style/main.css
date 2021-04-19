@@ -276,7 +276,8 @@ body {
 */
 #group-post-container {
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-top: 8vh;
 }
 
 #group-make-post {
@@ -302,3 +303,9 @@ body {
 #professorName {
     margin-left: 6vw;
 }
+
+/*
++++++++++++++++++++++++++++++++++++++++++++++++++
+    Styles for 'professor_group.html' page.
++++++++++++++++++++++++++++++++++++++++++++++++++
+*/

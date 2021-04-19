@@ -92,23 +92,7 @@
             </div>
             <div id='lessons'>
                 <p class='boldHeader'> Lessons </p>
-                <!-- <table class="table userT">
-                    <thead>
-                        <tr>
-                        <th scope="col">Lesson Number</th>
-                        <th scope="col">Multimedia Filename</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {%for i in items%} 
-                        <tr class='userName'>
-                            {%for l in i%}    
-                            <td>{{l}}</td>
-                            {%endfor%}
-                        </tr>
-                        {%endfor%}
-                    </tbody>
-                </table> -->
+                <a href="{{ url_for('static', filename='uploads/' + courseinfo[0][9]) }}">{{courseinfo[0][9]}}</a>
         </div>
 
         <div id='done'>

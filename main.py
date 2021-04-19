@@ -705,7 +705,7 @@ def to_professor_course(course):
                 for i in x:
                     htmlRender.append(i) 
                     htmlRender=htmlRender, items=items, x=lenX"""
-            getSpecificCourseData.execute("SELECT courseID, courseName, capacity, courseLoc, courseTimes, firstName, LastName, typeU FROM course JOIN enrollment USING(courseID) JOIN user ON enrollment.userID = user.userID WHERE courseID='"+ courseID + "' ORDER BY typeU ASC;")
+            getSpecificCourseData.execute("SELECT courseID, courseName, capacity, courseLoc, courseTimes, firstName, LastName, typeU, lessonNum, multimediaFile FROM course JOIN multimedia using (courseID) JOIN enrollment USING(courseID) JOIN user ON enrollment.userID = user.userID WHERE courseID='"+ courseID + "' ORDER BY typeU ASC;")
             items = getSpecificCourseData.fetchall()
             classinfo = []
             outerList = []
@@ -764,7 +764,7 @@ def professor_add_content_to_course():
 def upload_file():
     if request.method == 'POST':
         f = request.files["file"]
-        f.save("uploads/"+ f.filename)
+        f.save("static/uploads/"+ f.filename)
         insertinto = mydb.cursor(buffered=True)
         lessonNum = str(random.randint(0, 100))
         sql_lesson = "INSERT INTO lesson (lessonNum, courseID, quiz) VALUES (%s, %s, %s)"

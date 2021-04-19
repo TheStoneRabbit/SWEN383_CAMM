@@ -893,6 +893,8 @@ def to_group_professor(group):
                 outerList.append(groupInfo)
                 groupInfo = []
                 count = 0
+            print(outerList)
+            print(outerList[0])
             for l in outerList[0][3].split(","):
                 if l not in usersForGroup:
                     usersForGroup.append(l)
@@ -908,8 +910,9 @@ def to_group_professor(group):
                         values = (userCode, groupID, request.form["makePostInput"])
                         insertinto.execute(sql, values)
                         mydb.commit()
-                        return render_template("entries_added.html")
-                    except:
+                        return render_template("professor_group.html", groupUsers=usersForGroup, groupInfo=outerList)
+                    except mysql.connector.Error as err:
+                        print(err)
                         return render_template("query_error.html")
                     return redirect(url_for("group"))
                 return render_template("professor_group.html", groupUsers=usersForGroup, groupInfo=outerList)

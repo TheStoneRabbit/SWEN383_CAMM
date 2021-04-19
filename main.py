@@ -970,7 +970,7 @@ def professor_adding_add_group_request_to_queue(group):
             try:
                 insertinto = mydb.cursor(prepared=True,)
                 add = "'Add'"
-                values = (int(userID), group, add)
+                values = (userCode, group, add)
                 insertinto.execute(sql, values)
                 mydb.commit()
                 return render_template("professor_request_successfully_added_to_queue.html")

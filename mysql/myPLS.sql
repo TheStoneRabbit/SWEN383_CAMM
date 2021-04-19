@@ -139,7 +139,7 @@ CREATE TABLE groupRequestQueue (
     addOrRemove     varchar(10),
     CONSTRAINT queue_pk PRIMARY KEY (userID, groupID),
     CONSTRAINT queue_fk_user FOREIGN KEY (userID) REFERENCES user(userID),
-    CONSTRAINT queue_fk_group FOREIGN KEY (userID) REFERENCES user_group(groupID)
+    CONSTRAINT queue_fk_group FOREIGN KEY (groupID) REFERENCES user_group(groupID)
 );
 
 /* Starter Users */

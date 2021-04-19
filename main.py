@@ -770,14 +770,14 @@ def upload_file():
         sql_lesson = "INSERT INTO lesson (lessonNum, courseID, quiz) VALUES (%s, %s, %s)"
         sql_multimedia = "INSERT INTO multimedia (lessonNum, courseID, multimediaFile) VALUES (%s, %s, %s)"
         try:
-            insertinto.execute(lessonNum, courseID, "quiz")
+            values_lesson = (lessonNum, courseID, "quiz")
+            insertinto.execute(sql_lesson, values_lesson)
             mydb.commit()
             
             insertintoTwo = mydb.cursor(buffered=True)
             values_multimedia = (lessonNum, courseID, f.filename)
-            insertintoTwo.execute(lessonNum, courseID, f.filename)
+            insertintoTwo.execute(sql_multimedia, values_multimedia)
             mydb.commit()
-            print(lessonNum + ", " + courseID + ", " + "quiz")
         except mysql.connector.Error as err:
             print(err)
             return render_template("query_error_professor.html")

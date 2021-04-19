@@ -251,8 +251,5 @@ INSERT INTO studentGroups VALUES (6969, 2, "i am going to get started on my work
 INSERT INTO studentGroups VALUES (3424, 3, "this is the best group ever");
 INSERT INTO studentGroups VALUES (2130, 1, "i am doing well");
 
--- select studentGroups.groupID, group_concat(studentGroups.userID) as "Users in Group", title, group_description from user_group 
--- join studentGroups on studentGroups.groupID = user_group.groupID
--- join user on studentGroups.userID = user.userID
--- where user.userID = studentGroups.userID
--- group by user_group.groupID;
+
+INSERT INTO multimedia VALUES ('ISTE340', 1, 'placeholder.txt');

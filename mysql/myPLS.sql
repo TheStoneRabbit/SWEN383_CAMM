@@ -226,8 +226,8 @@ INSERT INTO enrollment (courseID, userID) values ('ISTE330', 0493);
 
 
 /* Starter Groups */
-INSERT INTO user_group (groupID, title, group_description) VALUES (1, "ISTE340 Class Discussion", "This is the Client Programming course discussion. Anyone currently taking the course can discuss JavaScript syntax, properties, and more.");
-INSERT INTO user_group (groupID, title, group_description) VALUES (2, "SWEN383 Class Discussion", "This is the Software Design Principles and Patterns course discussion. Anyone currently taking the course can discuss functional requirements, domain models, design patterns, and more.");
+INSERT INTO user_group (groupID, title, group_description) VALUES (1, "ISTE340 Discussion", "This is the Client Programming course discussion. Anyone currently taking the course can discuss JavaScript syntax, properties, and more.");
+INSERT INTO user_group (groupID, title, group_description) VALUES (2, "SWEN383 Discussion", "This is the Software Design Principles and Patterns course discussion. Anyone currently taking the course can discuss functional requirements, domain models, design patterns, and more.");
 INSERT INTO user_group (groupID, title, group_description) VALUES (3, "ISTE264 Group Project", "This is a private group dicussion for members of the App redesign project.");
 
 INSERT INTO studentGroups VALUES (9854, 1, "User 4263 has been added to this group");

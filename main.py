@@ -976,5 +976,4 @@ def professor_adding_add_group_request_to_queue(group):
                 mydb.commit()
                 return render_template("professor_request_successfully_added_to_queue.html")
             except:
-                traceback.print_exc()
-                return render_template("query_error_professor.html")
+                return render_template("already_queued_professor.html")

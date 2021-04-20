@@ -820,16 +820,15 @@ def upload_file():
 def professor_remove_content_from_course():
     if session["permission_level"] == "(1)":
         if session["logged_in"] != 'false':
-            if request.method == 'POST':
-                removefrom = mydb.cursor(buffered=True)
-                sql_multimedia = "DELETE FROM multimedia WHERE courseID='" + courseID + "'"
-                removefrom.execute(sql_multimedia)
-                mydb.commit()
-                return render_template("entries_removed_professor.html")
-            else: 
-                return redirect(url_for("failure"))
+            removefrom = mydb.cursor(buffered=True)
+            sql_multimedia = "DELETE FROM multimedia WHERE courseID='" + courseID + "'"
+            removefrom.execute(sql_multimedia)
+            mydb.commit()
+            return render_template("entries_removed_professor.html")
         else: 
             return redirect(url_for("failure"))
+    else: 
+        return redirect(url_for("failure"))
 
 
 

@@ -126,7 +126,8 @@ CREATE TABLE studentGroups (
     userID      int,
     groupID     int,
     post        varchar(500),
-    CONSTRAINT group_pk PRIMARY KEY (userID, groupID, post),
+    postTime    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT group_pk PRIMARY KEY (userID, groupID, post, postTime),
     CONSTRAINT group_fk_user FOREIGN KEY (userID) REFERENCES user(userID),
     CONSTRAINT group_fk_ID FOREIGN KEY (groupID) REFERENCES user_group(groupID)
 );
@@ -230,26 +231,26 @@ INSERT INTO user_group (groupID, title, group_description) VALUES (1, "ISTE340 D
 INSERT INTO user_group (groupID, title, group_description) VALUES (2, "SWEN383 Discussion", "This is the Software Design Principles and Patterns course discussion. Anyone currently taking the course can discuss functional requirements, domain models, design patterns, and more.");
 INSERT INTO user_group (groupID, title, group_description) VALUES (3, "ISTE264 Group Project", "This is a private group dicussion for members of the App redesign project.");
 
-INSERT INTO studentGroups VALUES (9854, 1, "User 9854 has been added to this group");
-INSERT INTO studentGroups VALUES (6960, 2, "User 6960 has been added to this group");
-INSERT INTO studentGroups VALUES (9854, 3, "User 9854 has been added to this group");
-INSERT INTO studentGroups VALUES (0493, 3, "User 0493 has been added to this group");
-INSERT INTO studentGroups VALUES (1001, 2, "User 1001 has been added to this group");
-INSERT INTO studentGroups VALUES (3424, 1, "User 3424 has been added to this group");
-INSERT INTO studentGroups VALUES (0493, 1, "User 0493 has been added to this group");
-INSERT INTO studentGroups VALUES (6969, 2, "User 6969 has been added to this group");
-INSERT INTO studentGroups VALUES (3424, 3, "User 3424 has been added to this group");
-INSERT INTO studentGroups VALUES (2130, 1, "User 2130 has been added to this group");
-INSERT INTO studentGroups VALUES (9854, 1, "Hey guys");
-INSERT INTO studentGroups VALUES (6960, 2, "Hello everyone. I just joined. Do we have any work due soon?");
-INSERT INTO studentGroups VALUES (9854, 3, "what's up guys");
-INSERT INTO studentGroups VALUES (0493, 3, "Hello!");
-INSERT INTO studentGroups VALUES (1001, 2, "I think we have some homework due saturday");
-INSERT INTO studentGroups VALUES (3424, 1, "I will be right back");
-INSERT INTO studentGroups VALUES (0493, 1, "how are you guys doing?");
-INSERT INTO studentGroups VALUES (6969, 2, "i am going to get started on my work right now");
-INSERT INTO studentGroups VALUES (3424, 3, "this is the best group ever");
-INSERT INTO studentGroups VALUES (2130, 1, "i am doing well");
+INSERT INTO studentGroups VALUES (9854, 1, "User 9854 has been added to this group", CURRENT_TIMESTAMP);
+INSERT INTO studentGroups VALUES (6960, 2, "User 6960 has been added to this group", CURRENT_TIMESTAMP);
+INSERT INTO studentGroups VALUES (9854, 3, "User 9854 has been added to this group", CURRENT_TIMESTAMP);
+INSERT INTO studentGroups VALUES (0493, 3, "User 0493 has been added to this group", CURRENT_TIMESTAMP);
+INSERT INTO studentGroups VALUES (1001, 2, "User 1001 has been added to this group", CURRENT_TIMESTAMP);
+INSERT INTO studentGroups VALUES (3424, 1, "User 3424 has been added to this group", CURRENT_TIMESTAMP);
+INSERT INTO studentGroups VALUES (0493, 1, "User 0493 has been added to this group", CURRENT_TIMESTAMP);
+INSERT INTO studentGroups VALUES (6969, 2, "User 6969 has been added to this group", CURRENT_TIMESTAMP);
+INSERT INTO studentGroups VALUES (3424, 3, "User 3424 has been added to this group", CURRENT_TIMESTAMP);
+INSERT INTO studentGroups VALUES (2130, 1, "User 2130 has been added to this group", CURRENT_TIMESTAMP);
+INSERT INTO studentGroups VALUES (9854, 1, "Hey guys", CURRENT_TIMESTAMP);
+INSERT INTO studentGroups VALUES (6960, 2, "Hello everyone. I just joined. Do we have any work due soon?", CURRENT_TIMESTAMP);
+INSERT INTO studentGroups VALUES (9854, 3, "what's up guys", CURRENT_TIMESTAMP);
+INSERT INTO studentGroups VALUES (0493, 3, "Hello!", CURRENT_TIMESTAMP);
+INSERT INTO studentGroups VALUES (1001, 2, "I think we have some homework due saturday", CURRENT_TIMESTAMP);
+INSERT INTO studentGroups VALUES (3424, 1, "I will be right back", CURRENT_TIMESTAMP);
+INSERT INTO studentGroups VALUES (0493, 1, "how are you guys doing?", CURRENT_TIMESTAMP);
+INSERT INTO studentGroups VALUES (6969, 2, "i am going to get started on my work right now", CURRENT_TIMESTAMP);
+INSERT INTO studentGroups VALUES (3424, 3, "this is the best group ever", CURRENT_TIMESTAMP);
+INSERT INTO studentGroups VALUES (2130, 1, "i am doing well", CURRENT_TIMESTAMP);
 
 INSERT INTO lesson VALUES ('ISTE340', 1, " ");
 INSERT INTO multimedia VALUES ('ISTE340', 1, 'placeholder.txt');

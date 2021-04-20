@@ -958,7 +958,7 @@ def to_group_professor(group):
         if session["logged_in"] != 'false':
 
             getUserPosts = mydb.cursor(buffered=True)
-            getUserPosts.execute("SELECT post FROM studentGroups")
+            getUserPosts.execute("SELECT firstname, lastname, post FROM studentGroups JOIN user USING(userID) WHERE groupid = " + str(groupID) + " ORDER BY postTime")
             getUserPostsFetch = getUserPosts.fetchall()
             
             getSpecificGroupData = mydb.cursor(buffered=True)
@@ -995,7 +995,7 @@ def to_group_professor(group):
                         mydb.commit()
 
                         getUserPostsNew = mydb.cursor(buffered=True)
-                        getUserPostsNew.execute("SELECT firstname, lastname, post FROM studentGroups JOIN user USING(userID)")
+                        getUserPostsNew.execute("SELECT firstname, lastname, post FROM studentGroups JOIN user USING(userID) WHERE groupid = " + str(groupID) + " ORDER BY postTime")
                         getUserPostsFetch = getUserPostsNew.fetchall()
 
                         return render_template("professor_group.html", groupUsers=usersForGroup, groupInfo=outerList, posts=getUserPostsFetch)
@@ -1003,7 +1003,9 @@ def to_group_professor(group):
                         print(err)
                         return render_template("query_error.html")
                     return redirect(url_for("group"))
-                return render_template("professor_group.html", groupUsers=usersForGroup, groupInfo=outerList)
+                return render_template("professor_group.html", groupUsers=usersForGroup, groupInfo=outerList, posts=getUserPostsFetch)
+
+            # return render_template("professor_group.html", groupUsers=usersForGroup, groupInfo=outerList, posts=getUserPostsFetch)
         else: 
             return redirect(url_for("failure"))
     else: 

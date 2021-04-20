@@ -132,6 +132,7 @@ body {
 #courseSpecificBtns {
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 #done {
@@ -145,6 +146,14 @@ body {
 }
 
 .hiddenFalse {
+    display: block;
+}
+
+.hiddenTrue2 {
+    display: none;
+}
+
+.hiddenFalse2 {
     display: block;
 }
 

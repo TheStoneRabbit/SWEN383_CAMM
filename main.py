@@ -834,6 +834,38 @@ def professor_remove_content_from_course():
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++
+# ADDING A QUIZ TO A SPECIFIC COURSE
+# PERMISSION LEVEL: PROFESSOR
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route('/addquiztocourse', methods=['GET', 'POST'])
+def professor_add_quiz_to_course():
+    if session["permission_level"] == "(1)":
+        if session["logged_in"] != 'false':
+            if request.method == 'POST':
+                insertinto = mydb.cursor(buffered=True)
+                sql_lesson = "INSERT INTO lesson (courseID, lessonNum, quiz) VALUES (%s, %s, %s)"
+                sql_multimedia = "INSERT INTO multimedia (courseID, lessonNum, multimediaFile, fileType) VALUES (%s, %s, %s, %s)"
+                try:
+                    values_lesson = (courseID, int(request.form["lessonNum"]), "")
+                    insertinto.execute(sql_lesson, values_lesson)
+                    mydb.commit()
+                    
+                    insertinto = mydb.cursor(buffered=True)
+                    values_multimedia = (courseID, int(request.form["lessonNum"]), request.form["fileName"], 1)
+                    insertinto.execute(sql_multimedia, values_multimedia)
+                    mydb.commit()
+                    return render_template("entries_added_professor.html")
+                except mysql.connector.Error as err:
+                    return render_template("query_error_professor.html")
+            return render_template("add_quiz_to_course.html")
+        else: 
+            return redirect(url_for("failure"))
+    else: 
+        return redirect(url_for("failure"))
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
 # SETTING THE PROFESSOR FEEDBACK DASH
 # PERMISSION LEVEL: PROFESSOR
 # +++++++++++++++++++++++++++++++++++++++++++++

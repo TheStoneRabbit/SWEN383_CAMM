@@ -915,12 +915,18 @@ def professor_group_dash():
 # SETTING UP A SPECIFIC GROUP PAGE
 # PERMISSION LEVEL: PROFESSOR
 # +++++++++++++++++++++++++++++++++++++++++++++
+postsList = []
 @app.route('/to_group_professor/<group>', methods=['GET', 'POST'])
 def to_group_professor(group):
     global groupID
     groupID = group
     if session["permission_level"] == "(1)":
         if session["logged_in"] != 'false':
+
+            getUserPosts = mydb.cursor(buffered=True)
+            getUserPosts.execute("SELECT post FROM studentGroups")
+            getUserPostsFetch = getUserPosts.fetchall()
+            
             getSpecificGroupData = mydb.cursor(buffered=True)
             getSpecificGroupData.execute("SELECT groupID, title, group_description, group_concat(studentGroups.userID) AS Users FROM user_group JOIN studentGroups USING(groupID) JOIN user USING(userID) WHERE groupID=" + groupID +";")
             items = getSpecificGroupData.fetchall()
@@ -938,8 +944,6 @@ def to_group_professor(group):
                 outerList.append(groupInfo)
                 groupInfo = []
                 count = 0
-            print(outerList)
-            print(outerList[0])
             for l in outerList[0][3].split(","):
                 if l not in usersForGroup:
                     usersForGroup.append(l)
@@ -955,7 +959,13 @@ def to_group_professor(group):
                         values = (userCode, groupID, request.form["makePostInput"])
                         insertinto.execute(sql, values)
                         mydb.commit()
-                        return render_template("professor_group.html", groupUsers=usersForGroup, groupInfo=outerList)
+
+                        getUserPostsNew = mydb.cursor(buffered=True)
+                        getUserPostsNew.execute("SELECT firstname, lastname, post FROM studentGroups JOIN user USING(userID)")
+                        getUserPostsFetch = getUserPostsNew.fetchall()
+                        print(getUserPostsFetch)
+
+                        return render_template("professor_group.html", groupUsers=usersForGroup, groupInfo=outerList, posts=getUserPostsFetch)
                     except mysql.connector.Error as err:
                         print(err)
                         return render_template("query_error.html")

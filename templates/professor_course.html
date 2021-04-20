@@ -94,7 +94,9 @@
             </div>
             <div id='lessons'>
                 <p class='boldHeader'> Mutlimedia Files </p>
-                <a href="{{ url_for('static', filename='uploads/' + courseinfo[0][9]) }}">{{courseinfo[0][9]}}</a>
+                {% for i in range(0, mediaInfo|length)%}
+                <a href="{{ url_for('static', filename='uploads/' + mediaInfo[i][2]) }}">{{mediaInfo[i][2]}}</a>
+                {%endfor%}
         </div>
 
         <div id='done'>

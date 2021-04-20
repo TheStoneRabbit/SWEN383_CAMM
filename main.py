@@ -705,23 +705,36 @@ def to_professor_course(course):
                 for i in x:
                     htmlRender.append(i) 
                     htmlRender=htmlRender, items=items, x=lenX"""
-            getSpecificCourseData.execute("SELECT courseID, courseName, capacity, courseLoc, courseTimes, firstName, LastName, typeU, lessonNum, multimediaFile FROM course JOIN multimedia using (courseID) JOIN enrollment USING(courseID) JOIN user ON enrollment.userID = user.userID WHERE courseID='"+ courseID + "' ORDER BY typeU ASC;")
+            getSpecificCourseData.execute("SELECT courseID, courseName, capacity, courseLoc, courseTimes, firstName, LastName, typeU FROM course JOIN enrollment USING(courseID) JOIN user ON enrollment.userID = user.userID WHERE courseID='"+ courseID + "' ORDER BY typeU ASC;")
             items = getSpecificCourseData.fetchall()
+            getMedia = mydb.cursor(buffered=True)
+            getMedia.execute("SELECT * from multimedia")
+            itemsMedia = getMedia.fetchall()
             classinfo = []
             outerList = []
+            mediaInfo = []
+            innerMedia = []
             count = 0
+            for y in itemsMedia:
+                for x in y:
+                    innerMedia.append(x)
+                mediaInfo.append(innerMedia)
+                innerMedia = []
+                
             for x in items:
                 for i in x:
                     if count == 4:
                         i = str(i)
                         i = i.split(", ")
+                    
                     classinfo.append(i)
                     count += 1
-                outerList.append(classinfo)
+                if classinfo not in outerList:
+                    outerList.append(classinfo)
                 classinfo = []
                 count = 0
             else:
-                return render_template("professor_course.html", courseinfo=outerList)
+                return render_template("professor_course.html", courseinfo=outerList, mediaInfo=mediaInfo)
         else: 
             return redirect(url_for("failure"))
     else: 

@@ -309,3 +309,18 @@ body {
     Styles for 'professor_group.html' page.
 +++++++++++++++++++++++++++++++++++++++++++++++++
 */
+#post-button {
+
+    margin: auto !important;
+    margin-top: 2vh !important;
+    display: block;
+    width: 8vw;
+
+}
+
+#group-make-post-title {
+
+    font-size: 20px;
+    margin-bottom: 1vh;
+
+}

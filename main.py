@@ -710,11 +710,23 @@ def to_professor_course(course):
             getMedia = mydb.cursor(buffered=True)
             getMedia.execute("SELECT * from multimedia")
             itemsMedia = getMedia.fetchall()
+
+            getGrades = mydb.cursor(buffered=True)
+            getGrades.execute("SELECT firstName, lastName, grade from enrollment join user using (userID)")
+            getUserCount = mydb.cursor(buffered=  True)
+            getUserCount.execute("SELECT count(firstName) from user join enrollment using(userID) where courseID= '" +courseID + "' group by courseID")
+            itemGrades = getGrades.fetchall()
+            print(itemGrades)
+            usersCounted = getUserCount.fetchone()
             classinfo = []
             outerList = []
             mediaInfo = []
             innerMedia = []
+            gradeInfo = []
+            innerGrade = []
+            finUserList = []
             count = 0
+            
             for y in itemsMedia:
                 for x in y:
                     innerMedia.append(x)
@@ -734,6 +746,8 @@ def to_professor_course(course):
                 classinfo = []
                 count = 0
             else:
+                print(finUserList)
+                print(gradeInfo)
                 return render_template("professor_course.html", courseinfo=outerList, mediaInfo=mediaInfo)
         else: 
             return redirect(url_for("failure"))

@@ -71,15 +71,23 @@
 
         {%for i in posts%}
 
+            <div class='post' style="margin: 3vh auto 3vh auto; background-color: white; border: 1px solid black; height: fit-content; width: 40vw; display: grid; justify-content: center; align-content: center; overflow: scroll"></div>
+
             {%for x in i%}
 
-                <div class='post' style="margin: 3vh auto 3vh auto; background-color: white; border: 1px solid black; height: fit-content; width: 40vw; display: grid; justify-content: center; align-content: center; overflow: scroll">
-                    
+                {%if loop.index == 0}
+
+                    <span>{{ x }}</span>
+
+                {%else%}
+
                     <span style="height: 10vh; line-height: 10vh">{{ x }}</span>
-                
-                </div>
+
+                {%endif%}
 
             {%endfor%}
+
+            </div>
 
         {%endfor%}
             

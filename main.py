@@ -976,7 +976,6 @@ def to_group_professor(group):
                         getUserPostsNew = mydb.cursor(buffered=True)
                         getUserPostsNew.execute("SELECT firstname, lastname, post FROM studentGroups JOIN user USING(userID)")
                         getUserPostsFetch = getUserPostsNew.fetchall()
-                        print(getUserPostsFetch)
 
                         return render_template("professor_group.html", groupUsers=usersForGroup, groupInfo=outerList, posts=getUserPostsFetch)
                     except mysql.connector.Error as err:

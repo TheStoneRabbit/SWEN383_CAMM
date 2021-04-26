@@ -138,6 +138,8 @@ def login():
                 return redirect(url_for("admin_panel_index"))
             if session["permission_level"] == "(1)":
                 return redirect(url_for("professor_panel_index"))
+            if session["permission_level"] == "(2)":
+                return redirect(url_for("learner_panel_index"))
             return redirect(url_for('login_success'))
         else:
             return redirect(url_for('failure'))
@@ -1131,3 +1133,68 @@ def professor_adding_delete_group_request_to_queue(group):
             except:
                 traceback.print_exc()
                 return render_template("already_queued_professor.html")
+
+
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ LEARNER SYSTEM ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# +++++++++++++++++++++++++++++++++++++++++++++
+# SETTING THE DEFAULT LEARNER COURSE DASH
+# PERMISSION LEVEL: LEARNER
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route('/learnerpanelindex',  methods=['GET', 'POST'])
+def learner_panel_index():
+    if session["permission_level"] == "(2)":
+        if session["logged_in"] != 'false':
+            userName = mydb.cursor(buffered=True)
+            userName.execute("SELECT firstName, lastName, userID FROM user WHERE email='"+ email+ "'")
+            names = userName.fetchall()
+            nameRender = []
+            for x in names:
+                for i in x:
+                    nameRender.append(i)
+            global firstName
+            global userCode
+            global lastName
+
+            courseData = mydb.cursor(buffered=True)
+            courseData.execute("SELECT * FROM course JOIN enrollment USING(courseID) JOIN user USING(userID) WHERE userID=" + str(userCode))
+            
+            items = courseData.fetchall()
+            htmlRender = [] 
+            piece = []
+            count  = 0
+            for x in items:
+                for i in x:
+                    if count == 5 or count == 4:
+                        i = str(i)
+                        i = i.split(", ")
+                    piece.append(i)
+                    if count == 1:
+                        global courseID
+                        courseID=i
+                    count += 1
+
+                htmlRender.append(piece)
+                piece = []
+                count = 0
+            
+            if request.method == 'POST':
+                deletefromEnrollment = mydb.cursor(buffered=True)
+                sqlTwo = "DELETE FROM enrollment WHERE courseID='" + request.form.get("course") + "'"
+
+                deletefromEnrollment.execute(sqlTwo)
+                deletefrom = mydb.cursor(buffered=True)
+                sql = "DELETE FROM course WHERE courseID='" + request.form.get("course") + "'"
+                deletefrom.execute(sql)
+                mydb.commit()
+                return redirect(url_for("learner_panel_index"))
+           
+            lastName = nameRender[1]
+            firstName = nameRender[0]
+            userCode = nameRender[2]
+            return render_template("learner_dash.html", listy=htmlRender, first=nameRender[0], last=nameRender[1])
+          
+        else: 
+            return redirect(url_for("failure"))
+    else:
+        return redirect(url_for("failure"))

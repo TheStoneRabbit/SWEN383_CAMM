@@ -143,6 +143,28 @@ CREATE TABLE groupRequestQueue (
     CONSTRAINT queue_fk_group FOREIGN KEY (groupID) REFERENCES user_group(groupID)
 );
 
+
+CREATE TABLE quiz (
+    courseID int,
+    quizID  int,
+    quizTitle varchar(50),
+    CONSTAINT quiz_fk FOREIGN KEY (courseID) REFERENCES course (courseID),
+    CONSTRAINT quiz_pk PRIMARY KEY (quizID)
+);
+
+
+CREATE TABLE quizQuestion (
+    quizID int,
+    questionNum int,
+    questionDesc varchar(100),
+    option1 varchar(20),
+    option2 varchar(20),
+    option3 varchar(20),
+    correct varchar(20),
+    CONSTRAINT quizQuestion_fk FOREIGN KEY (quizID) REFERENCES quiz (quizID),
+    CONSTRAINT quizQuestion_pk PRIMARY KEY (quizID, questionNum)
+);
+
 /* Starter Users */
 INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values ("Mason", "Lapine", 4263, "mwl4263@rit.edu", "d64dfa6e3c81910d0267c38b158690cf50722b8c4b259f1bc8ea77ea180d6451", 0);
 INSERT INTO user (firstname, lastname, userID, email, hashpassword, typeU) values ("Alexis", "Gordon", 7593, "aag7593@rit.edu", "713bfda78870bf9d1b261f565286f85e97ee614efe5f0faf7c34e7ca4f65baca", 0);

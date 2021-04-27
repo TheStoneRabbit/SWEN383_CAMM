@@ -1198,3 +1198,36 @@ def learner_panel_index():
             return redirect(url_for("failure"))
     else:
         return redirect(url_for("failure"))
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# SETTING THE DEFAULT LEARNER RATINGS DASH
+# PERMISSION LEVEL: LEARNER
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route('/learner_dash_ratings', methods=['GET', 'POST'])
+def learner_dash_ratings():
+    if session["permission_level"] == "(2)":
+        if session["logged_in"] != 'false':
+            allData = mydb.cursor(buffered=True)
+            allData.execute("SELECT courseID, courseName, courseRating FROM enrollment JOIN course USING(courseID) WHERE userID=" + str(userCode) + " ORDER BY courseID")
+            items = allData.fetchall()
+            htmlRender = []
+            numOfItems = len(items)
+            lenX = 3
+            for x in items:
+                for i in x:
+                    htmlRender.append(i)
+            allData.execute("SELECT courseID, CONCAT(firstName, ' ', lastName), professorRating FROM enrollment JOIN user USING(userID) WHERE typeU=1 AND courseID IN (SELECT courseID FROM enrollment WHERE userID=" + str(userCode) + ") ORDER BY courseID")
+            items2 = allData.fetchall()
+            htmlRender2 = []
+            numOfItems2 = len(items2)
+            lenX2 = 3
+            for x2 in items2:
+                for i in x2:
+                    htmlRender.append(i)
+            return render_template("learner_dash_ratings.html", htmlRender=htmlRender, items=items, x=lenX, htmlRender2=htmlRender2, items2=items2, x2=lenX2, first=firstName, last=lastName)
+        else:
+            return redirect(url_for("failure"))  
+    else: 
+        return redirect(url_for("failure"))

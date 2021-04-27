@@ -1231,3 +1231,47 @@ def learner_dash_ratings():
             return redirect(url_for("failure"))  
     else: 
         return redirect(url_for("failure"))
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# ADDING A COURSE RATING
+# PERMISSION LEVEL: LEARNER
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route("/addratingtocourse/<course>", methods=['GET', 'POST'])
+def add_rating_to_course(course):
+    if session["permission_level"] == "(2)":
+        if session["logged_in"] != 'false':
+            print(request.method)
+            print(course)
+            allData = mydb.cursor(buffered=True)
+            sql = "UPDATE enrollment SET courseRating=" + request.form['rating'] + " WHERE courseID='" + course + "' AND userID=" + str(userCode)
+            try:
+                allData.execute(sql)
+                mydb.commit()
+            except mysql.connector.Error as err:
+                print(err)
+                return render_template("query_error_learner.html")
+
+            allData2 = mydb.cursor(buffered=True)
+            allData2.execute("SELECT courseID, courseName, courseRating FROM enrollment JOIN course USING(courseID) WHERE userID=" + str(userCode) + " ORDER BY courseID")
+            items = allData2.fetchall()
+            htmlRender = []
+            numOfItems = len(items)
+            lenX = 3
+            for x in items:
+                for i in x:
+                    htmlRender.append(i)
+            allData2.execute("SELECT courseID, CONCAT(firstName, ' ', lastName), professorRating FROM enrollment JOIN user USING(userID) WHERE typeU=1 AND courseID IN (SELECT courseID FROM enrollment WHERE userID=" + str(userCode) + ") ORDER BY courseID")
+            items2 = allData2.fetchall()
+            htmlRender2 = []
+            numOfItems2 = len(items2)
+            lenX2 = 3
+            for x2 in items2:
+                for i in x2:
+                    htmlRender2.append(i)
+            return render_template("learner_dash_ratings.html", htmlRender=htmlRender, items=items, x=lenX, htmlRender2=htmlRender2, items2=items2, x2=lenX2, first=firstName, last=lastName)
+        else:
+            return redirect(url_for("failure"))  
+    else: 
+        return redirect(url_for("failure"))

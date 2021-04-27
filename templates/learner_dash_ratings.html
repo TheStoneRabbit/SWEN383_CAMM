@@ -33,6 +33,10 @@
 
                 document.getElementById('updateButton').style.display = 'none';
             };
+
+            function ratingValue(){
+                return document.getElementById('courseRating').value;
+            };
         </script>
 
         <div id='nav'>
@@ -65,16 +69,13 @@
 
             <h2 class='subtitle'> Course Ratings </h2>
 
-            <div id='courseSpecificBtns'>
-                <a href='/addratingtocourse'><input type="button" class="btn btn-primary m-2 hiddenTrue" value='Add Course Rating'/></a>
-            </div>
-
             <table class="table userT">
                 <thead>
                     <tr>
                     <th scope="col">Course ID</th>
                     <th scope="col">Course Name</th>
                     <th scope="col">Course Rating</th>
+                    <th scope="col" class='hiddenTrue'>Update Course Rating</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -83,6 +84,13 @@
                         {%for l in i%}    
                         <td>{{l}}</td>
                         {%endfor%}
+                        <td>
+                            <form action='{{ url_for("add_rating_to_course", course=i[0]) }}' method="post" id='addCourseRating'>
+                                <label class='hiddenTrue'>Rating (1-5): </label>
+                                <input type='text' class='hiddenTrue' name='rating' id='courseRating' value="{{ request.form.rating }}" placeholder='Rating'/>
+                                <input type="submit" class="btn btn-primary m-2 hiddenTrue" value='Update'/>
+                            </form>
+                        </td>
                     </tr>
                     {%endfor%}
                 </tbody>
@@ -90,16 +98,13 @@
 
             <h2 class='subtitle'> Professor Ratings </h2>
 
-            <div id='courseSpecificBtns'>
-                <a href='/addratingtoprofessor'><input type="button" class="btn btn-primary m-2 hiddenTrue" value='Add Professor Rating'/></a>
-            </div>
-
             <table class="table userT">
                 <thead>
                     <tr>
                     <th scope="col">Course ID</th>
                     <th scope="col">Professor Name</th>
                     <th scope="col">Professor Rating</th>
+                    <th scope="col" class='hiddenTrue'></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -108,6 +113,7 @@
                         {%for l in i%}    
                         <td>{{l}}</td>
                         {%endfor%}
+                        <td><a href='/addratingtoprofessor'><input type="button" class="btn btn-primary m-2 hiddenTrue" value='Add Professor Rating'/></a></td>
                     </tr>
                     {%endfor%}
                 </tbody>

@@ -1231,3 +1231,71 @@ def learner_dash_ratings():
             return redirect(url_for("failure"))  
     else: 
         return redirect(url_for("failure"))
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# SETTING UP A SPECIFIC COURSE PAGE
+# PERMISSION LEVEL: LEARNER
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route('/tolearnercourse/<course>', methods=['GET', 'POST'])
+def to_learner_course(course):
+    courseID = course
+    if session["permission_level"] == "(2)":
+        if session["logged_in"] != 'false':
+            getSpecificCourseData = mydb.cursor(buffered=True)
+            getSpecificCourseData.execute("SELECT lessonNum, multimediaFile FROM multimedia WHERE courseID='" + courseID + "' ORDER BY lessonNum ASC")
+            items2 = getSpecificCourseData.fetchall()
+            htmlRender = []
+            numOfItems = len(items2)
+            lenX = 2
+            # for x in items2:
+            #     for i in x:
+            #         htmlRender.append(i) 
+            #         htmlRender=htmlRender, items=items, x=lenX
+            getSpecificCourseData.execute("SELECT courseID, courseName, capacity, courseLoc, courseTimes, firstName, LastName, typeU FROM course JOIN enrollment USING(courseID) JOIN user ON enrollment.userID = user.userID WHERE courseID='"+ courseID + "' ORDER BY typeU ASC;")
+            items = getSpecificCourseData.fetchall()
+            getMedia = mydb.cursor(buffered=True)
+            getMedia.execute("SELECT * from multimedia")
+            itemsMedia = getMedia.fetchall()
+
+            getGrades = mydb.cursor(buffered=True)
+            getGrades.execute("SELECT firstName, lastName, grade from enrollment join user using (userID)")
+            getUserCount = mydb.cursor(buffered=  True)
+            getUserCount.execute("SELECT count(firstName) from user join enrollment using(userID) where courseID= '" +courseID + "' group by courseID")
+            itemGrades = getGrades.fetchall()
+            print(itemGrades)
+            usersCounted = getUserCount.fetchone()
+            classinfo = []
+            outerList = []
+            mediaInfo = []
+            innerMedia = []
+            gradeInfo = []
+            innerGrade = []
+            finUserList = []
+            count = 0
+            
+            for y in itemsMedia:
+                for x in y:
+                    innerMedia.append(x)
+                mediaInfo.append(innerMedia)
+                innerMedia = []
+                
+            for x in items:
+                for i in x:
+                    if count == 4:
+                        i = str(i)
+                        i = i.split(", ")
+                    
+                    classinfo.append(i)
+                    count += 1
+                if classinfo not in outerList:
+                    outerList.append(classinfo)
+                classinfo = []
+                count = 0
+            else:
+                print(finUserList)
+                print(gradeInfo)
+                return render_template("learner_course.html", courseinfo=outerList, mediaInfo=mediaInfo)
+        else: 
+            return redirect(url_for("failure"))
+    else: 
+        return redirect(url_for("failure"))

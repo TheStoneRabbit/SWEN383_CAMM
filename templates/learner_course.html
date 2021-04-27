@@ -8,52 +8,51 @@
     </head>
     <body>
         <script>   
-            //filtering courses
-            $(document).ready(function(){
-               jQuery.expr[':'].containi = function(a, i, m) {
-                    return jQuery(a).text().toUpperCase()
-                        .indexOf(m[3].toUpperCase()) >= 0;
-                };
+            // //filtering courses
+            // $(document).ready(function(){
+            //    jQuery.expr[':'].containi = function(a, i, m) {
+            //         return jQuery(a).text().toUpperCase()
+            //             .indexOf(m[3].toUpperCase()) >= 0;
+            //     };
 
-                $("#myInput").keyup(function() {
-                    //retrieve input target value
-                    var value = $(this).val();
+            //     $("#myInput").keyup(function() {
+            //         //retrieve input target value
+            //         var value = $(this).val();
                 
-                    //filter by course
-                    $(document.getElementsByClassName('userName')).hide().filter(':containi("' + value + '")').show();
-                });
-            });
+            //         //filter by course
+            //         $(document.getElementsByClassName('userName')).hide().filter(':containi("' + value + '")').show();
+            //     });
+            // });
 
-            function update() {
-                var elements = document.getElementsByClassName('hiddenTrue');
+            // function update() {
+            //     var elements = document.getElementsByClassName('hiddenTrue');
 
-                for (var i = 0; i < elements.length; i++){
-                    elements[i].classList.remove('hiddenTrue');
-                    elements.item(i).classList.add('hiddenFalse');
-                }  
+            //     for (var i = 0; i < elements.length; i++){
+            //         elements[i].classList.remove('hiddenTrue');
+            //         elements.item(i).classList.add('hiddenFalse');
+            //     }  
 
-                document.getElementById('updateButton').style.display = 'none';
-            };
+            //     document.getElementById('updateButton').style.display = 'none';
+            // };
 
-            function deleteTxt() {
-                var elements = document.getElementsByClassName('hiddenTrue2');
+            // function deleteTxt() {
+            //     var elements = document.getElementsByClassName('hiddenTrue2');
 
-                for (var i = 0; i < elements.length; i++){
-                    elements[i].classList.remove('hiddenTrue2');
-                    elements.item(i).classList.add('hiddenFalse2');
-                }  
-            }
+            //     for (var i = 0; i < elements.length; i++){
+            //         elements[i].classList.remove('hiddenTrue2');
+            //         elements.item(i).classList.add('hiddenFalse2');
+            //     }  
+            // }
         </script>
 
         <div id='nav'>
             <img id="logo" src="{{ url_for('static', filename='assets/logo.svg') }}"/>
 
             <a class='active' href="#"> Courses </a>
-            <a href='/professor_dash_group'> Groups </a>
-            <a href='/professor_dash_ratings'> Feedback </a>
+            <a href='/learner_dash_ratings'> Feedback </a>
         </div>
         <div class='header'>
-            <a id='backButton' href="/professorpanelindex"><img src="{{ url_for('static', filename='assets/backButton.svg') }}" /></a> 
+            <a id='backButton' href="/learnerpanelindex"><img src="{{ url_for('static', filename='assets/backButton.svg') }}" /></a> 
 
             <div id='right'>
                 <div id="filter">
@@ -66,7 +65,7 @@
 
         <h1 id='title'> {{courseinfo[0][1]}} </h1>
 
-        <div id='update'>
+        <!-- <div id='update'>
             <a onclick='update()'><input type="button" class="btn btn-primary m-2" value='Update Content'/></a>
         </div>
 
@@ -86,7 +85,7 @@
                 <input type='text' class='hiddenTrue2' name='filename' value="{{ request.form.filename }}" placeholder='Filename'/>
                 <a href='/removequizfromcourse'><input type="button" class="btn btn-primary m-2 hiddenTrue2" value='Remove'/></a>
             </div>
-        </form>
+        </form> -->
 
         <div id='courseSpecific'>
             <div id='stats'>
@@ -119,9 +118,9 @@
                 {%endfor%}
         </div>
 
-        <div id='done'>
+        <!-- <div id='done'>
             <a href="{{ url_for('to_professor_course', course=courseinfo[0][0]) }}"><input type="button" class="btn btn-primary m-2 hiddenTrue hiddenTrue2" value='Done'/></a>
-        </div>
+        </div> -->
             
     </body>
 </html>

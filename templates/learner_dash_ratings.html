@@ -22,6 +22,17 @@
                     $(document.getElementsByClassName('userName')).hide().filter(':containi("' + value + '")').show();
                 });
             });
+
+            function update() {
+                var elements = document.getElementsByClassName('hiddenTrue');
+
+                for (var i = 0; i < elements.length; i++){
+                    elements[i].classList.remove('hiddenTrue');
+                    elements.item(i).classList.add('hiddenFalse');
+                }  
+
+                document.getElementById('updateButton').style.display = 'none';
+            };
         </script>
 
         <div id='nav'>
@@ -45,9 +56,19 @@
 
         <h1 id='title'> Feedback Management </h1>
         <br/>
+
+        <div id='update'>
+            <a onclick='update()'><input type="button" class="btn btn-primary m-2" value='Add a Rating'/></a>
+        </div>
+
         <div class="Buttons text-center">
 
             <h2 class='subtitle'> Course Ratings </h2>
+
+            <div id='courseSpecificBtns'>
+                <a href='/addratingtocourse'><input type="button" class="btn btn-primary m-2 hiddenTrue" value='Add Course Rating'/></a>
+            </div>
+
             <table class="table userT">
                 <thead>
                     <tr>
@@ -68,6 +89,11 @@
             </table>
 
             <h2 class='subtitle'> Professor Ratings </h2>
+
+            <div id='courseSpecificBtns'>
+                <a href='/addratingtoprofessor'><input type="button" class="btn btn-primary m-2 hiddenTrue" value='Add Professor Rating'/></a>
+            </div>
+
             <table class="table userT">
                 <thead>
                     <tr>
@@ -86,6 +112,10 @@
                     {%endfor%}
                 </tbody>
             </table>
+
+            <div id='done'>
+                <a href="/learner_dash_ratings"><input type="button" class="btn btn-primary m-2 hiddenTrue" value='Done'/></a>
+            </div>
         </div> 
     </body>
 </html>

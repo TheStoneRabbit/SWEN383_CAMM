@@ -1431,10 +1431,10 @@ def to_learner_quiz(course):
 
             htmlRender = []
             
-            print(items)
+            print(str(items) + " " + str(courseID))
 
             return render_template("learner_quiz.html")
-            
+
         else: 
             return redirect(url_for("failure"))
     else: 

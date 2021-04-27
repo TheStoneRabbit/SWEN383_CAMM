@@ -36,6 +36,7 @@ firstName = ""
 lastName = ""
 courseID = ""
 userCode = ""
+quizTitle = ""
 
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ LOGIN PROCESS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1409,6 +1410,31 @@ def to_learner_course(course):
                 print(finUserList)
                 print(gradeInfo)
                 return render_template("learner_course.html", courseinfo=outerList, mediaInfo=mediaInfo)
+        else: 
+            return redirect(url_for("failure"))
+    else: 
+        return redirect(url_for("failure"))
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# SETTING UP A SPECIFIC QUIZ PAGE
+# PERMISSION LEVEL: LEARNER
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route('/tolearnerquiz/<course>', methods=['GET', 'POST'])
+def to_learner_quiz(course):
+    courseID = course
+    if session["permission_level"] == "(2)":
+        if session["logged_in"] != 'false':
+
+            getSpecificQuizData = mydb.cursor(buffered=True)
+            getSpecificQuizData.execute("SELECT quizTitle, questionNum, questionDesc, option1, option2, option3, correct FROM quiz JOIN quizQuestion USING (quizID) WHERE courseID='" + courseID + "'")
+            items = getSpecificQuizData.fetchall()
+
+            htmlRender = []
+            
+            print(items)
+
+            return render_template("learner_quiz.html")
+            
         else: 
             return redirect(url_for("failure"))
     else: 

@@ -145,10 +145,10 @@ CREATE TABLE groupRequestQueue (
 
 
 CREATE TABLE quiz (
-    courseID int,
+    courseID varchar(7),
     quizID  int,
     quizTitle varchar(50),
-    CONSTAINT quiz_fk FOREIGN KEY (courseID) REFERENCES course (courseID),
+    CONSTRAINT quiz_fk FOREIGN KEY (courseID) REFERENCES course (courseID),
     CONSTRAINT quiz_pk PRIMARY KEY (quizID)
 );
 

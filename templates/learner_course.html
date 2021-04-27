@@ -61,7 +61,7 @@
         </div>
 
         <div id='courseSpecificBtns'>
-            <a href='/takequiz'><input type="button" class="btn btn-primary m-2 hiddenTrue" value='Take Quiz'/></a>
+            <a href='{{ url_for("to_learner_quiz", course=courseinfo[0][0]) }}'><input type="button" class="btn btn-primary m-2 hiddenTrue" value='Take Quiz'/></a>
         </div>
 
         <div id='courseSpecific'>

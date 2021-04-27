@@ -27,8 +27,8 @@
         <div id='nav'>
             <img id="logo" src="{{ url_for('static', filename='assets/logo.svg') }}" />
 
-            <a class='active' href="#"> Courses </a>
-            <a href='/learner_dash_ratings'> Feedback </a>
+            <a href="/learnerpanelindex"> Courses </a>
+            <a class='active' href="#"> Feedback </a>
         </div>
 
         <div class='header'>
@@ -36,7 +36,7 @@
 
             <div id='right'>
                 <div id="filter">
-                    <input id="myInput" type="text" placeholder="Find a Professor to Rate...">
+                    <input id="myInput" type="text" placeholder="Find a Rating...">
                 </div>
     
                 <a href='/logout'><img src="{{ url_for('static', filename='assets/profileIcon.svg') }}"/></a>
@@ -47,19 +47,37 @@
         <br/>
         <div class="Buttons text-center">
 
-            <h2 class='subtitle'> Learner Ratings for {{courseID}} </h2>
+            <h2 class='subtitle'> Course Ratings </h2>
             <table class="table userT">
                 <thead>
                     <tr>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">User ID</th>
-                    <th scope="col">Professor Rating</th>
+                    <th scope="col">Course ID</th>
+                    <th scope="col">Course Name</th>
                     <th scope="col">Course Rating</th>
                     </tr>
                 </thead>
                 <tbody>
                     {%for i in items%} 
+                    <tr class='userName'>
+                        {%for l in i%}    
+                        <td>{{l}}</td>
+                        {%endfor%}
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+
+            <h2 class='subtitle'> Professor Ratings </h2>
+            <table class="table userT">
+                <thead>
+                    <tr>
+                    <th scope="col">Course ID</th>
+                    <th scope="col">Professor Name</th>
+                    <th scope="col">Professor Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for i in items2%} 
                     <tr class='userName'>
                         {%for l in i%}    
                         <td>{{l}}</td>

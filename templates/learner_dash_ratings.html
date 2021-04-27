@@ -104,7 +104,7 @@
                     <th scope="col">Course ID</th>
                     <th scope="col">Professor Name</th>
                     <th scope="col">Professor Rating</th>
-                    <th scope="col" class='hiddenTrue'></th>
+                    <th scope="col" class='hiddenTrue'>Update Professor Rating</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -113,7 +113,15 @@
                         {%for l in i%}    
                         <td>{{l}}</td>
                         {%endfor%}
-                        <td><a href='/addratingtoprofessor'><input type="button" class="btn btn-primary m-2 hiddenTrue" value='Add Professor Rating'/></a></td>
+                        
+                        <td>{{ items3[loop.index0] }}</td>
+                        <td>
+                            <form action='{{ url_for("add_rating_to_professor", course=i[0]) }}' method="post" id='addProfessorRating'>
+                                <label class='hiddenTrue'>Rating (1-5): </label>
+                                <input type='text' class='hiddenTrue' name='rating' id='Rating' value="{{ request.form.rating }}" placeholder='Rating'/>
+                                <input type="submit" class="btn btn-primary m-2 hiddenTrue" value='Update'/>
+                            </form>
+                        </td>
                     </tr>
                     {%endfor%}
                 </tbody>

@@ -1218,15 +1218,23 @@ def learner_dash_ratings():
             for x in items:
                 for i in x:
                     htmlRender.append(i)
-            allData.execute("SELECT courseID, CONCAT(firstName, ' ', lastName), professorRating FROM enrollment JOIN user USING(userID) WHERE typeU=1 AND courseID IN (SELECT courseID FROM enrollment WHERE userID=" + str(userCode) + ") ORDER BY courseID")
+            allData.execute("SELECT courseID, CONCAT(firstName, ' ', lastName) FROM enrollment JOIN user USING(userID) WHERE typeU=1 AND courseID IN (SELECT courseID FROM enrollment WHERE userID=" + str(userCode) + ") ORDER BY courseID")
             items2 = allData.fetchall()
-            htmlRender2 = []
             numOfItems2 = len(items2)
             lenX2 = 3
             for x2 in items2:
                 for i in x2:
                     htmlRender.append(i)
-            return render_template("learner_dash_ratings.html", htmlRender=htmlRender, items=items, x=lenX, htmlRender2=htmlRender2, items2=items2, x2=lenX2, first=firstName, last=lastName)
+            allData.execute("SELECT professorRating FROM enrollment WHERE userID=" + str(userCode))
+            items3 = allData.fetchall()
+            items3render = []
+            numOfItems3 = len(items3)
+            lenX3 = 1
+            for x3 in items3:
+                for i in x3:
+                    htmlRender.append(i)
+                    items3render.append(i)
+            return render_template("learner_dash_ratings.html", htmlRender=htmlRender, items=items, x=lenX, items2=items2, x2=lenX2, items3=items3render, x3=lenX3, first=firstName, last=lastName)
         else:
             return redirect(url_for("failure"))  
     else: 
@@ -1262,19 +1270,80 @@ def add_rating_to_course(course):
             for x in items:
                 for i in x:
                     htmlRender.append(i)
-            allData2.execute("SELECT courseID, CONCAT(firstName, ' ', lastName), professorRating FROM enrollment JOIN user USING(userID) WHERE typeU=1 AND courseID IN (SELECT courseID FROM enrollment WHERE userID=" + str(userCode) + ") ORDER BY courseID")
+            allData2.execute("SELECT courseID, CONCAT(firstName, ' ', lastName) FROM enrollment JOIN user USING(userID) WHERE typeU=1 AND courseID IN (SELECT courseID FROM enrollment WHERE userID=" + str(userCode) + ") ORDER BY courseID")
             items2 = allData2.fetchall()
-            htmlRender2 = []
             numOfItems2 = len(items2)
             lenX2 = 3
             for x2 in items2:
                 for i in x2:
-                    htmlRender2.append(i)
-            return render_template("learner_dash_ratings.html", htmlRender=htmlRender, items=items, x=lenX, htmlRender2=htmlRender2, items2=items2, x2=lenX2, first=firstName, last=lastName)
+                    htmlRender.append(i)
+            allData2.execute("SELECT professorRating FROM enrollment WHERE userID=" + str(userCode))
+            items3 = allData2.fetchall()
+            items3render = []
+            numOfItems3 = len(items3)
+            lenX3 = 1
+            for x3 in items3:
+                for i in x3:
+                    htmlRender.append(i)
+                    items3render.append(i)
+            return render_template("learner_dash_ratings.html", htmlRender=htmlRender, items=items, x=lenX, items2=items2, x2=lenX2, items3=items3render, x3=lenX3, first=firstName, last=lastName)
         else:
             return redirect(url_for("failure")) 
     else: 
         return redirect(url_for("failure"))
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# ADDING A PROFESSOR RATING
+# PERMISSION LEVEL: LEARNER
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route("/addratingtoprofessor/<course>", methods=['GET', 'POST'])
+def add_rating_to_professor(course):
+    if session["permission_level"] == "(2)":
+        if session["logged_in"] != 'false':
+            print(request.method)
+            print(course)
+            allData = mydb.cursor(buffered=True)
+            sql = "UPDATE enrollment SET professorRating=" + request.form['rating'] + " WHERE courseID='" + course + "' AND userID=" + str(userCode)
+            try:
+                allData.execute(sql)
+                mydb.commit()
+            except mysql.connector.Error as err:
+                print(err)
+                return render_template("query_error_learner.html")
+
+            allData2 = mydb.cursor(buffered=True)
+            allData2.execute("SELECT courseID, courseName, courseRating FROM enrollment JOIN course USING(courseID) WHERE userID=" + str(userCode) + " ORDER BY courseID")
+            items = allData2.fetchall()
+            htmlRender = []
+            numOfItems = len(items)
+            lenX = 3
+            for x in items:
+                for i in x:
+                    htmlRender.append(i)
+            allData2.execute("SELECT courseID, CONCAT(firstName, ' ', lastName) FROM enrollment JOIN user USING(userID) WHERE typeU=1 AND courseID IN (SELECT courseID FROM enrollment WHERE userID=" + str(userCode) + ") ORDER BY courseID")
+            items2 = allData2.fetchall()
+            numOfItems2 = len(items2)
+            lenX2 = 3
+            for x2 in items2:
+                for i in x2:
+                    htmlRender.append(i)
+            allData2.execute("SELECT professorRating FROM enrollment WHERE userID=" + str(userCode))
+            items3 = allData2.fetchall()
+            items3render = []
+            numOfItems3 = len(items3)
+            lenX3 = 1
+            for x3 in items3:
+                for i in x3:
+                    htmlRender.append(i)
+                    items3render.append(i)
+            return render_template("learner_dash_ratings.html", htmlRender=htmlRender, items=items, x=lenX, items2=items2, x2=lenX2, items3=items3render, x3=lenX3, first=firstName, last=lastName)
+        else:
+            return redirect(url_for("failure")) 
+    else: 
+        return redirect(url_for("failure"))
+
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++

@@ -1428,12 +1428,10 @@ def to_learner_quiz(course):
             getSpecificQuizData = mydb.cursor(buffered=True)
             getSpecificQuizData.execute("SELECT quizTitle, questionNum, questionDesc, option1, option2, option3, correct FROM quiz JOIN quizQuestion USING (quizID) WHERE courseID='" + courseID + "'")
             items = getSpecificQuizData.fetchall()
-
-            htmlRender = []
             
             print(str(items) + " " + str(courseID))
 
-            return render_template("learner_quiz.html")
+            return render_template("learner_quiz.html", quizInfo=items)
 
         else: 
             return redirect(url_for("failure"))

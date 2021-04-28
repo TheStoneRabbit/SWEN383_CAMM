@@ -10,6 +10,7 @@ from flask_table import Table, Col
 from localStoragePy import localStoragePy
 from werkzeug import *
 import traceback
+import random
 
 # Below is MySQL code once database is created
 UPLOAD_FOLDER = 'uploads/'
@@ -1429,9 +1430,30 @@ def to_learner_quiz(course):
             getSpecificQuizData.execute("SELECT quizTitle, questionNum, questionDesc, option1, option2, option3, correct FROM quiz JOIN quizQuestion USING (quizID) WHERE courseID='" + courseID + "'")
             items = getSpecificQuizData.fetchall()
             
-            print(str(items) + " " + str(courseID))
+            quizInfo = []
+            quizAnswers = []
 
-            return render_template("learner_quiz.html", quizInfo=items)
+            for i in items:
+
+                tempInfo = []
+                tempAnswers = []
+
+                for x in range(3):
+                    tempInfo.append(i[x])
+
+                for x in range(3, (len(i))):
+                    tempAnswers.append(i[x])
+
+                quizInfo.append(tempInfo)
+                quizAnswers.append(tempAnswers)
+
+            for i in quizAnswers:
+
+                random.shuffle(i)
+
+            print(str(quizInfo) + " hello " + str(quizAnswers))
+
+            return render_template("learner_quiz.html", quizInfo=quizInfo, quizAnswers=quizAnswers)
 
         else: 
             return redirect(url_for("failure"))

@@ -77,9 +77,21 @@
         <img id="logo" src="{{ url_for('static', filename='assets/logo.svg') }}" />
     </div>
 
+    <div id='nav'>
+        <img id="logo" src="{{ url_for('static', filename='assets/logo.svg') }}"/>
+
+        <a class='active' href="#"> Courses </a>
+        <a href='/learner_dash_ratings'> Feedback </a>
+    </div>
     <div class='header'>
-        <div id='right' style="margin-left: 94vw">
-            <a href='/logout'><img src="{{ url_for('static', filename='assets/profileIcon.svg') }}" /></a>
+        <a id='backButton' href="/learnerpanelindex"><img src="{{ url_for('static', filename='assets/backButton.svg') }}" /></a> 
+
+        <div id='right'>
+            <div id="filter">
+                <input id="myInput" type="text" placeholder="Find a User...">
+            </div>
+
+            <a href='/logout'><img src="{{ url_for('static', filename='assets/profileIcon.svg') }}"/></a>
         </div>
     </div>
 

@@ -10,6 +10,7 @@ from flask_table import Table, Col
 from localStoragePy import localStoragePy
 from werkzeug import *
 import traceback
+import random
 
 from flask_debugtoolbar import DebugToolbarExtension
 
@@ -51,6 +52,7 @@ firstName = ""
 lastName = ""
 courseID = ""
 userCode = ""
+quizTitle = ""
 
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ LOGIN PROCESS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -966,7 +968,7 @@ def to_group_professor(group):
         if session["logged_in"] != 'false':
 
             getUserPosts = mydb.cursor(buffered=True)
-            getUserPosts.execute("SELECT firstname, lastname, post FROM studentGroups JOIN user USING(userID) WHERE groupid = " + str(groupID) + " ORDER BY postTime")
+            getUserPosts.execute("SELECT firstname, lastname, post FROM studentGroups JOIN user USING(userID) WHERE groupid = " + str(groupID) + " ORDER BY postTime DESC")
             getUserPostsFetch = getUserPosts.fetchall()
             
             getSpecificGroupData = mydb.cursor(buffered=True)
@@ -1003,7 +1005,7 @@ def to_group_professor(group):
                         mydb.commit()
 
                         getUserPostsNew = mydb.cursor(buffered=True)
-                        getUserPostsNew.execute("SELECT firstname, lastname, post FROM studentGroups JOIN user USING(userID) WHERE groupid = " + str(groupID) + " ORDER BY postTime")
+                        getUserPostsNew.execute("SELECT firstname, lastname, post FROM studentGroups JOIN user USING(userID) WHERE groupid = " + str(groupID) + " ORDER BY postTime DESC")
                         getUserPostsFetch = getUserPostsNew.fetchall()
 
                         return render_template("professor_group.html", groupUsers=usersForGroup, groupInfo=outerList, posts=getUserPostsFetch)
@@ -1206,6 +1208,7 @@ def learner_panel_index():
         return redirect(url_for("failure"))
 
 
+<<<<<<< HEAD
 # @app.route('/tolearnercourse',  methods=['GET', 'POST'])
 # def to_learner_course():
 #     if session["permission_level"] == "(2)":
@@ -1214,3 +1217,262 @@ def learner_panel_index():
 
 if __name__ == "__main__":
     app.run()
+=======
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# SETTING THE DEFAULT LEARNER RATINGS DASH
+# PERMISSION LEVEL: LEARNER
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route('/learner_dash_ratings', methods=['GET', 'POST'])
+def learner_dash_ratings():
+    if session["permission_level"] == "(2)":
+        if session["logged_in"] != 'false':
+            allData = mydb.cursor(buffered=True)
+            allData.execute("SELECT courseID, courseName, courseRating FROM enrollment JOIN course USING(courseID) WHERE userID=" + str(userCode) + " ORDER BY courseID")
+            items = allData.fetchall()
+            htmlRender = []
+            numOfItems = len(items)
+            lenX = 3
+            for x in items:
+                for i in x:
+                    htmlRender.append(i)
+            allData.execute("SELECT courseID, CONCAT(firstName, ' ', lastName) FROM enrollment JOIN user USING(userID) WHERE typeU=1 AND courseID IN (SELECT courseID FROM enrollment WHERE userID=" + str(userCode) + ") ORDER BY courseID")
+            items2 = allData.fetchall()
+            numOfItems2 = len(items2)
+            lenX2 = 3
+            for x2 in items2:
+                for i in x2:
+                    htmlRender.append(i)
+            allData.execute("SELECT professorRating FROM enrollment WHERE userID=" + str(userCode))
+            items3 = allData.fetchall()
+            items3render = []
+            numOfItems3 = len(items3)
+            lenX3 = 1
+            for x3 in items3:
+                for i in x3:
+                    htmlRender.append(i)
+                    items3render.append(i)
+            return render_template("learner_dash_ratings.html", htmlRender=htmlRender, items=items, x=lenX, items2=items2, x2=lenX2, items3=items3render, x3=lenX3, first=firstName, last=lastName)
+        else:
+            return redirect(url_for("failure"))  
+    else: 
+        return redirect(url_for("failure"))
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# ADDING A COURSE RATING
+# PERMISSION LEVEL: LEARNER
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route("/addratingtocourse/<course>", methods=['GET', 'POST'])
+def add_rating_to_course(course):
+    if session["permission_level"] == "(2)":
+        if session["logged_in"] != 'false':
+            print(request.method)
+            print(course)
+            allData = mydb.cursor(buffered=True)
+            sql = "UPDATE enrollment SET courseRating=" + request.form['rating'] + " WHERE courseID='" + course + "' AND userID=" + str(userCode)
+            try:
+                allData.execute(sql)
+                mydb.commit()
+            except mysql.connector.Error as err:
+                print(err)
+                return render_template("query_error_learner.html")
+
+            allData2 = mydb.cursor(buffered=True)
+            allData2.execute("SELECT courseID, courseName, courseRating FROM enrollment JOIN course USING(courseID) WHERE userID=" + str(userCode) + " ORDER BY courseID")
+            items = allData2.fetchall()
+            htmlRender = []
+            numOfItems = len(items)
+            lenX = 3
+            for x in items:
+                for i in x:
+                    htmlRender.append(i)
+            allData2.execute("SELECT courseID, CONCAT(firstName, ' ', lastName) FROM enrollment JOIN user USING(userID) WHERE typeU=1 AND courseID IN (SELECT courseID FROM enrollment WHERE userID=" + str(userCode) + ") ORDER BY courseID")
+            items2 = allData2.fetchall()
+            numOfItems2 = len(items2)
+            lenX2 = 3
+            for x2 in items2:
+                for i in x2:
+                    htmlRender.append(i)
+            allData2.execute("SELECT professorRating FROM enrollment WHERE userID=" + str(userCode))
+            items3 = allData2.fetchall()
+            items3render = []
+            numOfItems3 = len(items3)
+            lenX3 = 1
+            for x3 in items3:
+                for i in x3:
+                    htmlRender.append(i)
+                    items3render.append(i)
+            return render_template("learner_dash_ratings.html", htmlRender=htmlRender, items=items, x=lenX, items2=items2, x2=lenX2, items3=items3render, x3=lenX3, first=firstName, last=lastName)
+        else:
+            return redirect(url_for("failure")) 
+    else: 
+        return redirect(url_for("failure"))
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# ADDING A PROFESSOR RATING
+# PERMISSION LEVEL: LEARNER
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route("/addratingtoprofessor/<course>", methods=['GET', 'POST'])
+def add_rating_to_professor(course):
+    if session["permission_level"] == "(2)":
+        if session["logged_in"] != 'false':
+            print(request.method)
+            print(course)
+            allData = mydb.cursor(buffered=True)
+            sql = "UPDATE enrollment SET professorRating=" + request.form['rating'] + " WHERE courseID='" + course + "' AND userID=" + str(userCode)
+            try:
+                allData.execute(sql)
+                mydb.commit()
+            except mysql.connector.Error as err:
+                print(err)
+                return render_template("query_error_learner.html")
+
+            allData2 = mydb.cursor(buffered=True)
+            allData2.execute("SELECT courseID, courseName, courseRating FROM enrollment JOIN course USING(courseID) WHERE userID=" + str(userCode) + " ORDER BY courseID")
+            items = allData2.fetchall()
+            htmlRender = []
+            numOfItems = len(items)
+            lenX = 3
+            for x in items:
+                for i in x:
+                    htmlRender.append(i)
+            allData2.execute("SELECT courseID, CONCAT(firstName, ' ', lastName) FROM enrollment JOIN user USING(userID) WHERE typeU=1 AND courseID IN (SELECT courseID FROM enrollment WHERE userID=" + str(userCode) + ") ORDER BY courseID")
+            items2 = allData2.fetchall()
+            numOfItems2 = len(items2)
+            lenX2 = 3
+            for x2 in items2:
+                for i in x2:
+                    htmlRender.append(i)
+            allData2.execute("SELECT professorRating FROM enrollment WHERE userID=" + str(userCode))
+            items3 = allData2.fetchall()
+            items3render = []
+            numOfItems3 = len(items3)
+            lenX3 = 1
+            for x3 in items3:
+                for i in x3:
+                    htmlRender.append(i)
+                    items3render.append(i)
+            return render_template("learner_dash_ratings.html", htmlRender=htmlRender, items=items, x=lenX, items2=items2, x2=lenX2, items3=items3render, x3=lenX3, first=firstName, last=lastName)
+        else:
+            return redirect(url_for("failure")) 
+    else: 
+        return redirect(url_for("failure"))
+
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# SETTING UP A SPECIFIC COURSE PAGE
+# PERMISSION LEVEL: LEARNER
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route('/tolearnercourse/<course>', methods=['GET', 'POST'])
+def to_learner_course(course):
+    courseID = course
+    if session["permission_level"] == "(2)":
+        if session["logged_in"] != 'false':
+            getSpecificCourseData = mydb.cursor(buffered=True)
+            getSpecificCourseData.execute("SELECT lessonNum, multimediaFile FROM multimedia WHERE courseID='" + courseID + "' ORDER BY lessonNum ASC")
+            items2 = getSpecificCourseData.fetchall()
+            htmlRender = []
+            numOfItems = len(items2)
+            lenX = 2
+            # for x in items2:
+            #     for i in x:
+            #         htmlRender.append(i) 
+            #         htmlRender=htmlRender, items=items, x=lenX
+            getSpecificCourseData.execute("SELECT courseID, courseName, capacity, courseLoc, courseTimes, firstName, LastName, typeU FROM course JOIN enrollment USING(courseID) JOIN user ON enrollment.userID = user.userID WHERE courseID='"+ courseID + "' ORDER BY typeU ASC;")
+            items = getSpecificCourseData.fetchall()
+            getMedia = mydb.cursor(buffered=True)
+            getMedia.execute("SELECT * from multimedia")
+            itemsMedia = getMedia.fetchall()
+
+            getGrades = mydb.cursor(buffered=True)
+            getGrades.execute("SELECT firstName, lastName, grade from enrollment join user using (userID)")
+            getUserCount = mydb.cursor(buffered=  True)
+            getUserCount.execute("SELECT count(firstName) from user join enrollment using(userID) where courseID= '" +courseID + "' group by courseID")
+            itemGrades = getGrades.fetchall()
+            print(itemGrades)
+            usersCounted = getUserCount.fetchone()
+            classinfo = []
+            outerList = []
+            mediaInfo = []
+            innerMedia = []
+            gradeInfo = []
+            innerGrade = []
+            finUserList = []
+            count = 0
+            
+            for y in itemsMedia:
+                for x in y:
+                    innerMedia.append(x)
+                mediaInfo.append(innerMedia)
+                innerMedia = []
+                
+            for x in items:
+                for i in x:
+                    if count == 4:
+                        i = str(i)
+                        i = i.split(", ")
+                    
+                    classinfo.append(i)
+                    count += 1
+                if classinfo not in outerList:
+                    outerList.append(classinfo)
+                classinfo = []
+                count = 0
+            else:
+                print(finUserList)
+                print(gradeInfo)
+                return render_template("learner_course.html", courseinfo=outerList, mediaInfo=mediaInfo)
+        else: 
+            return redirect(url_for("failure"))
+    else: 
+        return redirect(url_for("failure"))
+
+# +++++++++++++++++++++++++++++++++++++++++++++
+# SETTING UP A SPECIFIC QUIZ PAGE
+# PERMISSION LEVEL: LEARNER
+# +++++++++++++++++++++++++++++++++++++++++++++
+@app.route('/tolearnerquiz/<course>', methods=['GET', 'POST'])
+def to_learner_quiz(course):
+    courseID = course
+    if session["permission_level"] == "(2)":
+        if session["logged_in"] != 'false':
+
+            getSpecificQuizData = mydb.cursor(buffered=True)
+            getSpecificQuizData.execute("SELECT quizTitle, questionNum, questionDesc, option1, option2, option3, correct FROM quiz JOIN quizQuestion USING (quizID) WHERE courseID='" + courseID + "'")
+            items = getSpecificQuizData.fetchall()
+            
+            quizInfo = []
+            quizAnswers = []
+
+            for i in items:
+
+                tempInfo = []
+                tempAnswers = []
+
+                for x in range(3):
+                    tempInfo.append(i[x])
+
+                for x in range(3, (len(i))):
+                    tempAnswers.append(i[x])
+
+                quizInfo.append(tempInfo)
+                quizAnswers.append(tempAnswers)
+
+            for i in quizAnswers:
+
+                random.shuffle(i)
+
+            print(str(quizInfo) + " hello " + str(quizAnswers))
+
+            return render_template("learner_quiz.html", quizInfo=quizInfo, quizAnswers=quizAnswers)
+
+        else: 
+            return redirect(url_for("failure"))
+    else: 
+        return redirect(url_for("failure"))
+>>>>>>> 97668cdfd467abb6ffef878988d337df125c312e

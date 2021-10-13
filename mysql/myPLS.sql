@@ -145,10 +145,10 @@ CREATE TABLE groupRequestQueue (
 
 
 CREATE TABLE quiz (
-    courseID int,
+    courseID varchar(7),
     quizID  int,
     quizTitle varchar(50),
-    CONSTAINT quiz_fk FOREIGN KEY (courseID) REFERENCES course (courseID),
+    CONSTRAINT quiz_fk FOREIGN KEY (courseID) REFERENCES course (courseID),
     CONSTRAINT quiz_pk PRIMARY KEY (quizID)
 );
 
@@ -278,3 +278,16 @@ INSERT INTO lesson VALUES ('ISTE340', 1, " ");
 INSERT INTO multimedia VALUES ('ISTE340', 1, 'placeholder.txt');
 INSERT INTO multimedia VALUES ('ISTE340', 1, 'Lesson1.pptx');
 INSERT INTO multimedia VALUES ('ISTE340', 1, 'Lesson1.txt');
+
+INSERT INTO quiz (courseID, quizID, quizTitle) VALUES ("ISTE264", 1, "ISTE-264 Quiz");
+INSERT INTO quiz (courseID, quizID, quizTitle) VALUES ("ISTE330", 2, "ISTE-330 Quiz");
+
+INSERT INTO quizQuestion (quizID, questionNum, questionDesc, option1, option2, option3, correct) VALUES (1, 1, "Which is a mobile deivce?", "Laptop", "Desktop", "T.V.", "iPhone");
+INSERT INTO quizQuestion (quizID, questionNum, questionDesc, option1, option2, option3, correct) VALUES (1, 2, "What sound does a dog make?", "Meow", "Moo", "Quack", "Woof");
+INSERT INTO quizQuestion (quizID, questionNum, questionDesc, option1, option2, option3, correct) VALUES (1, 3, "What is 3 + 3?", "2", "5", "3", "6");
+INSERT INTO quizQuestion (quizID, questionNum, questionDesc, option1, option2, option3, correct) VALUES (1, 4, "What color is the sky?", "Green", "Red", "Orange", "Blue");
+
+INSERT INTO quizQuestion (quizID, questionNum, questionDesc, option1, option2, option3, correct) VALUES (2, 1, "Whhich language is used for database queries?", "C++", "Java", "Python", "MySQL");
+INSERT INTO quizQuestion (quizID, questionNum, questionDesc, option1, option2, option3, correct) VALUES (2, 2, "What is the name of your local server?", "MyServer", "Server", "personalServer", "localhost");
+INSERT INTO quizQuestion (quizID, questionNum, questionDesc, option1, option2, option3, correct) VALUES (2, 3, "Which database statement is used to view information?", "DELETE", "UPDATE", "DROP", "SELECT");
+INSERT INTO quizQuestion (quizID, questionNum, questionDesc, option1, option2, option3, correct) VALUES (2, 4, "How do you drop a database?", "SELECT statement", "DELETE statement", "UPDATE statement", "DROP statement");

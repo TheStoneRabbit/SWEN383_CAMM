@@ -11,6 +11,21 @@ from localStoragePy import localStoragePy
 from werkzeug import *
 import traceback
 
+from flask_debugtoolbar import DebugToolbarExtension
+
+app = Flask(__name__)
+
+# the toolbar is only enabled in debug mode:
+app.debug = True
+
+# set a 'SECRET_KEY' to enable the Flask session cookies
+app.config['SECRET_KEY'] = '<replace with a secret key>'
+
+toolbar = DebugToolbarExtension(app)
+
+
+
+
 # Below is MySQL code once database is created
 UPLOAD_FOLDER = 'uploads/'
 
@@ -698,15 +713,6 @@ def to_professor_course(course):
     if session["permission_level"] == "(1)":
         if session["logged_in"] != 'false':
             getSpecificCourseData = mydb.cursor(buffered=True)
-            """ getSpecificCourseData.execute("SELECT lessonNum, multimediaFile FROM multimedia WHERE courseID='" + courseID + "' ORDER BY lessonNum ASC")
-            items2 = getSpecificCourseData.fetchall()
-            htmlRender = []
-            numOfItems = len(items2)
-            lenX = 2
-            for x in items2:
-                for i in x:
-                    htmlRender.append(i) 
-                    htmlRender=htmlRender, items=items, x=lenX"""
             getSpecificCourseData.execute("SELECT courseID, courseName, capacity, courseLoc, courseTimes, firstName, LastName, typeU FROM course JOIN enrollment USING(courseID) JOIN user ON enrollment.userID = user.userID WHERE courseID='"+ courseID + "' ORDER BY typeU ASC;")
             items = getSpecificCourseData.fetchall()
             getMedia = mydb.cursor(buffered=True)
@@ -1198,3 +1204,13 @@ def learner_panel_index():
             return redirect(url_for("failure"))
     else:
         return redirect(url_for("failure"))
+
+
+# @app.route('/tolearnercourse',  methods=['GET', 'POST'])
+# def to_learner_course():
+#     if session["permission_level"] == "(2)":
+#         if session["logged_in"] != 'false':
+
+
+if __name__ == "__main__":
+    app.run()

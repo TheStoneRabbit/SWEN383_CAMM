@@ -1,0 +1,275 @@
+Messages
+========
+
+main.py
+  Line: 2
+    pylint: unused-import / Unused import time
+  Line: 8
+    pylint: unused-import / Unused MySQLCursor imported from mysql.connector.cursor
+  Line: 9
+    pylint: unused-import / Unused Table imported from flask_table
+  Line: 10
+    pylint: unused-import / Unused localStoragePy imported from localStoragePy
+  Line: 11
+    pylint: unused-wildcard-import / Unused imports from wildcard import: run_simple, Client, Request, Response
+    pyflakes: F401 / 'werkzeug.*' imported but unused (col 1)
+  Line: 31
+    pep8: N816 / variable 'userID' in global scope should not be mixedCase (col 2)
+  Line: 35
+    pep8: N816 / variable 'firstName' in global scope should not be mixedCase (col 2)
+  Line: 36
+    pep8: N816 / variable 'lastName' in global scope should not be mixedCase (col 2)
+  Line: 37
+    pep8: N816 / variable 'courseID' in global scope should not be mixedCase (col 2)
+  Line: 38
+    pep8: N816 / variable 'userCode' in global scope should not be mixedCase (col 2)
+  Line: 63
+    pylint: no-else-return / Unnecessary "else" after "return" (col 4)
+  Line: 74
+    pylint: too-many-locals / Too many local variables (19/15)
+  Line: 76
+    pylint: unused-variable / Unused variable 'numRows' (col 4)
+  Line: 78
+    pylint: unused-variable / Unused variable 'bad_chars' (col 4)
+  Line: 95
+    pylint: no-else-break / Unnecessary "else" after "break" (col 12)
+  Line: 115
+    pylint: no-else-break / Unnecessary "else" after "break" (col 12)
+  Line: 122
+    pep8: E712 / comparison to True should be 'if cond is True:' or 'if cond:' (col 26)
+    pylint: no-else-return / Unnecessary "else" after "return" (col 8)
+    pylint: singleton-comparison / Comparison 'cred_pass_one == True' should be 'cred_pass_one is True' if checking for the singleton value True, or 'bool(cred_pass_one)' if testing for truthiness (col 11)
+  Line: 156
+    pylint: no-else-return / Unnecessary "else" after "return" (col 4)
+  Line: 191
+    pylint: no-else-return / Unnecessary "else" after "return" (col 8)
+  Line: 200
+    pylint: consider-using-in / Consider merging these comparisons with "in" to 'count in (4, 3)' (col 23)
+  Line: 247
+    pylint: no-else-return / Unnecessary "else" after "return" (col 8)
+  Line: 254
+    pep8: E501 / line too long (185 > 159 characters) (col 160)
+  Line: 258
+    pylint: bare-except / No exception type(s) specified (col 16)
+  Line: 275
+    pylint: no-else-return / Unnecessary "else" after "return" (col 8)
+  Line: 302
+    pylint: too-many-locals / Too many local variables (19/15)
+  Line: 304
+    pylint: no-else-return / Unnecessary "else" after "return" (col 8)
+  Line: 309
+    pylint: unused-variable / Unused variable 'numOfItems' (col 12)
+  Line: 316
+    pylint: unused-variable / Unused variable 'numOfItems1' (col 12)
+  Line: 323
+    pylint: unused-variable / Unused variable 'numOfItems2' (col 12)
+  Line: 340
+    pep8: E501 / line too long (184 > 159 characters) (col 160)
+  Line: 355
+    pylint: no-else-return / Unnecessary "else" after "return" (col 8)
+  Line: 360
+    pep8: E501 / line too long (162 > 159 characters) (col 160)
+  Line: 364
+    pylint: bare-except / No exception type(s) specified (col 16)
+  Line: 381
+    pylint: no-else-return / Unnecessary "else" after "return" (col 8)
+  Line: 402
+    pep8: E501 / line too long (273 > 159 characters) (col 160)
+  Line: 417
+    pylint: no-else-return / Unnecessary "else" after "return" (col 12)
+  Line: 435
+    pylint: no-else-return / Unnecessary "else" after "return" (col 8)
+  Line: 444
+    pylint: bare-except / No exception type(s) specified (col 16)
+  Line: 461
+    pylint: no-else-return / Unnecessary "else" after "return" (col 8)
+  Line: 481
+    pylint: too-many-locals / Too many local variables (17/15)
+  Line: 483
+    pylint: no-else-return / Unnecessary "else" after "return" (col 8)
+  Line: 485
+    pep8: E501 / line too long (328 > 159 characters) (col 160)
+  Line: 489
+    pylint: unused-variable / Unused variable 'numOfItems' (col 12)
+  Line: 490
+    pylint: unused-variable / Unused variable 'piece' (col 12)
+  Line: 491
+    pylint: unused-variable / Unused variable 'existing_groups' (col 12)
+  Line: 494
+    pylint: unused-variable / Unused variable 'count' (col 12)
+  Line: 495
+    pylint: unused-variable / Unused variable 'appendItems' (col 12)
+  Line: 496
+    pylint: unused-variable / Unused variable 'mySplit' (col 12)
+  Line: 498
+    pylint: unused-variable / Unused variable 'j' (col 12)
+  Line: 501
+    pylint: consider-using-enumerate / Consider using enumerate instead of iterating with range and len (col 12)
+  Line: 526
+    pep8: E501 / line too long (290 > 159 characters) (col 160)
+  Line: 542
+    pep8: E741 / ambiguous variable name 'l' (col 17)
+  Line: 545
+    pylint: no-else-return / Unnecessary "else" after "return" (col 12)
+  Line: 549
+    pylint: unused-variable / Unused variable 'deletefrom' (col 20)
+  Line: 557
+    pylint: bare-except / No exception type(s) specified (col 20)
+  Line: 572
+    pylint: no-else-return / Unnecessary "else" after "return" (col 8)
+  Line: 581
+    pylint: consider-using-in / Consider merging these comparisons with "in" to 'count in (4, 3)' (col 23)
+  Line: 608
+    pylint: bare-except / No exception type(s) specified (col 16)
+  Line: 615
+    pylint: bare-except / No exception type(s) specified (col 12)
+  Line: 634
+    pylint: no-else-return / Unnecessary "else" after "return" (col 8)
+  Line: 655
+    pylint: consider-using-in / Consider merging these comparisons with "in" to 'count in (5, 4)' (col 23)
+  Line: 696
+    pylint: too-many-locals / Too many local variables (21/15)
+  Line: 701
+    pep8: E501 / line too long (276 > 159 characters) (col 160)
+  Line: 713
+    pylint: unused-variable / Unused variable 'usersCounted' (col 12)
+  Line: 719
+    pylint: unused-variable / Unused variable 'innerGrade' (col 12)
+  Line: 741
+    pylint: useless-else-on-loop / Else clause on loop without a break statement (col 12)
+  Line: 759
+    pylint: no-else-return / Unnecessary "else" after "return" (col 8)
+  Line: 774
+    pylint: unused-variable / Unused variable 'err' (col 16)
+  Line: 813
+    pylint: inconsistent-return-statements / Either all return statements in a function should return an expression, or none of them should.
+  Line: 836
+    pylint: no-else-return / Unnecessary "else" after "return" (col 8)
+  Line: 851
+    pylint: unused-variable / Unused variable 'err' (col 16)
+  Line: 868
+    pylint: no-else-return / Unnecessary "else" after "return" (col 8)
+  Line: 888
+    pylint: no-else-return / Unnecessary "else" after "return" (col 8)
+  Line: 890
+    pep8: E501 / line too long (182 > 159 characters) (col 160)
+  Line: 893
+    pylint: unused-variable / Unused variable 'numOfItems' (col 12)
+  Line: 898
+    pep8: E501 / line too long (160 > 159 characters) (col 160)
+  Line: 909
+    pylint: too-many-locals / Too many local variables (17/15)
+  Line: 911
+    pylint: no-else-return / Unnecessary "else" after "return" (col 8)
+  Line: 913
+    pep8: E501 / line too long (272 > 159 characters) (col 160)
+  Line: 917
+    pylint: unused-variable / Unused variable 'numOfItems' (col 12)
+  Line: 918
+    pylint: unused-variable / Unused variable 'piece' (col 12)
+  Line: 919
+    pylint: unused-variable / Unused variable 'existing_groups' (col 12)
+  Line: 922
+    pylint: unused-variable / Unused variable 'count' (col 12)
+  Line: 923
+    pylint: unused-variable / Unused variable 'appendItems' (col 12)
+  Line: 924
+    pylint: unused-variable / Unused variable 'mySplit' (col 12)
+  Line: 926
+    pylint: unused-variable / Unused variable 'j' (col 12)
+  Line: 929
+    pylint: consider-using-enumerate / Consider using enumerate instead of iterating with range and len (col 12)
+  Line: 945
+    pep8: N816 / variable 'postsList' in global scope should not be mixedCase (col 2)
+    pep8: E305 / expected 2 blank lines after class or function definition, found 1 (col 1)
+  Line: 947
+    pylint: too-many-locals / Too many local variables (18/15)
+  Line: 954
+    pep8: E501 / line too long (166 > 159 characters) (col 160)
+  Line: 958
+    pep8: E501 / line too long (233 > 159 characters) (col 160)
+  Line: 974
+    pep8: E741 / ambiguous variable name 'l' (col 17)
+  Line: 977
+    pylint: no-else-return / Unnecessary "else" after "return" (col 12)
+  Line: 982
+    pylint: unused-variable / Unused variable 'deletefrom' (col 20)
+  Line: 991
+    pep8: E501 / line too long (181 > 159 characters) (col 160)
+  Line: 1014
+    pylint: too-many-locals / Too many local variables (17/15)
+  Line: 1016
+    pylint: no-else-return / Unnecessary "else" after "return" (col 8)
+  Line: 1018
+    pep8: E501 / line too long (342 > 159 characters) (col 160)
+  Line: 1022
+    pylint: unused-variable / Unused variable 'numOfItems' (col 12)
+  Line: 1023
+    pylint: unused-variable / Unused variable 'piece' (col 12)
+  Line: 1024
+    pylint: unused-variable / Unused variable 'existing_groups' (col 12)
+  Line: 1027
+    pylint: unused-variable / Unused variable 'count' (col 12)
+  Line: 1028
+    pylint: unused-variable / Unused variable 'appendItems' (col 12)
+  Line: 1029
+    pylint: unused-variable / Unused variable 'mySplit' (col 12)
+  Line: 1031
+    pylint: unused-variable / Unused variable 'j' (col 12)
+  Line: 1034
+    pylint: consider-using-enumerate / Consider using enumerate instead of iterating with range and len (col 12)
+  Line: 1040
+    pep8: E501 / line too long (166 > 159 characters) (col 160)
+  Line: 1053
+    pylint: inconsistent-return-statements / Either all return statements in a function should return an expression, or none of them should.
+  Line: 1064
+    pylint: bare-except / No exception type(s) specified (col 12)
+  Line: 1074
+    pylint: too-many-locals / Too many local variables (17/15)
+  Line: 1076
+    pylint: no-else-return / Unnecessary "else" after "return" (col 8)
+  Line: 1078
+    pep8: E501 / line too long (272 > 159 characters) (col 160)
+  Line: 1082
+    pylint: unused-variable / Unused variable 'numOfItems' (col 12)
+  Line: 1083
+    pylint: unused-variable / Unused variable 'piece' (col 12)
+  Line: 1084
+    pylint: unused-variable / Unused variable 'existing_groups' (col 12)
+  Line: 1087
+    pylint: unused-variable / Unused variable 'count' (col 12)
+  Line: 1088
+    pylint: unused-variable / Unused variable 'appendItems' (col 12)
+  Line: 1089
+    pylint: unused-variable / Unused variable 'mySplit' (col 12)
+  Line: 1091
+    pylint: unused-variable / Unused variable 'j' (col 12)
+  Line: 1094
+    pylint: consider-using-enumerate / Consider using enumerate instead of iterating with range and len (col 12)
+  Line: 1100
+    pep8: E501 / line too long (169 > 159 characters) (col 160)
+  Line: 1113
+    pylint: inconsistent-return-statements / Either all return statements in a function should return an expression, or none of them should.
+  Line: 1124
+    pylint: bare-except / No exception type(s) specified (col 12)
+  Line: 1138
+    pylint: no-else-return / Unnecessary "else" after "return" (col 8)
+  Line: 1159
+    pylint: consider-using-in / Consider merging these comparisons with "in" to 'count in (5, 4)' (col 23)
+  Line: 1199
+    pylint: trailing-newlines / Trailing newlines
+
+
+
+Check Information
+=================
+         Started: 2021-10-12 18:40:22.756117
+        Finished: 2021-10-12 18:40:28.524076
+      Time Taken: 5.77 seconds
+       Formatter: grouped
+        Profiles: default, no_doc_warnings, no_test_warnings, strictness_medium, strictness_high, strictness_veryhigh, no_member_warnings
+      Strictness: None
+  Libraries Used: flask
+       Tools Run: dodgy, mccabe, pep8, profile-validator, pyflakes, pylint
+  Messages Found: 130
+
